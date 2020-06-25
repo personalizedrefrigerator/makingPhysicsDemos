@@ -1,3 +1,5 @@
+"use strict";
+
 /*
  A simple implementation of matricies in JavaScript.
  Just after construction, any such matrix is the zero

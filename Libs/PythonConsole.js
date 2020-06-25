@@ -1,3 +1,5 @@
+"use strict";
+
 // Do not use this file unless the project is licensed under the MPL!
 // This file may be licenced to you under a licence different from that
 // of its source distribution. I suggest against using it.

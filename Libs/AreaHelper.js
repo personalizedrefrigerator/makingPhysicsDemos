@@ -1,3 +1,5 @@
+"use strict";
+
 var AreaHelper = {};
 
 // SAT stands for the "Separating Axis Theorem".

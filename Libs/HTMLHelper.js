@@ -1,3 +1,5 @@
+"use strict";
+
 // Supplies useful HTML helper-functions.
 var HTMLHelper = {};
 

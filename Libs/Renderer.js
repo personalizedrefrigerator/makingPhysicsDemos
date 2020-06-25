@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  *  A simple WebGL-based rendering object. Danger! At present, 
  * each construction of a render creates a new WebGL context. Most browsers

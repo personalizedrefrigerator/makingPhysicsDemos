@@ -1,3 +1,5 @@
+"use strict";
+
 function Key(name, x, y, w, h, command)
 {
     this.command = command || function () {};

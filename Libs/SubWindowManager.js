@@ -1,3 +1,5 @@
+"use strict";
+
 function SubWindowGlobals(parent, windowsList)
 {
     this.parent = parent;

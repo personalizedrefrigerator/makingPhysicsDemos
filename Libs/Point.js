@@ -1,3 +1,5 @@
+"use strict";
+
 // A simple Point class.
 function Point(x, y, z)
 {

@@ -1,3 +1,5 @@
+"use strict";
+
 // Allows THREADED code to execute using eval and workers.
 //Note: After adding functions to the thread. Call prepare 
 //(or compile, both are the same) before running functions.

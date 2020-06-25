@@ -1,3 +1,5 @@
+"use strict";
+
 // An object that inherits from Point.
 //Is a Vector3 a Point? NO! TODO Refactor
 //this. Inheritance should fulfill an IS-A

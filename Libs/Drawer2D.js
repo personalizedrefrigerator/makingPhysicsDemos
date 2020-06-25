@@ -1,3 +1,5 @@
+"use strict";
+
 // A simple 2D drawing program, created with the goal of
 //allowing users to create and edit textures.
 

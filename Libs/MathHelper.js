@@ -1,3 +1,5 @@
+"use strict";
+
 var MathHelper = {};
 
 MathHelper.distance2D = function(point1, point2)

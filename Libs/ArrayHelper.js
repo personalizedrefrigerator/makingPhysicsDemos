@@ -1,3 +1,5 @@
+"use strict";
+
 var ArrayHelper = {};
 
 // Whether array a and array b are equivalent.

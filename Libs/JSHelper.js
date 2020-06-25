@@ -1,3 +1,5 @@
+"use strict";
+
 var JSHelper = {};
 
 // Get a random array that represents a color.

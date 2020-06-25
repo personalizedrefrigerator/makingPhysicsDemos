@@ -1,3 +1,5 @@
+"use strict";
+
 /*
     Something that can be moved through pointer-interaction.
     The parameter, content, is the HTML Element on which a

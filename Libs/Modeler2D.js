@@ -1,3 +1,5 @@
+"use strict";
+
 // A simple object to allow the configuration of
 //ModelerPoint2Ds.
 function ConfigurationHandler(type)

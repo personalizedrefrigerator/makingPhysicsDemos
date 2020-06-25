@@ -1,3 +1,5 @@
+"use strict";
+
 function Modeler3D(verticies, onSubmit)
 {
     const IN_WEBGL_2 = false;

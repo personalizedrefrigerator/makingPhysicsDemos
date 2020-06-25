@@ -1,3 +1,5 @@
+"use strict";
+
 function IntroScreen(options)
 {
     var me = this;

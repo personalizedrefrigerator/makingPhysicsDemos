@@ -1,3 +1,5 @@
+"use strict";
+
 var SerializationHelper = {};
 
 // Note: This returns a JavaScript dictionary
