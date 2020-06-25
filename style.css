@@ -1,0 +1,61 @@
+
+.content
+{
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+    background-color: white;
+
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+
+    padding: 15px 30px 30px 30px;
+}
+
+.content p
+{
+    text-indent: 5px;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    border-bottom: 1px solid black;
+}
+
+a.buttonLink
+{
+    display: block;
+    border: 1px solid grey;
+
+    background-image: radial-gradient(rgba(100, 250, 200, 0.9),
+            rgba(255, 255, 255, 0.7));
+    background-size: 4px 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+
+    border-radius: 4px;
+    padding: 4px 30px 4px 10px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+
+    color: black;
+    text-decoration: none;
+
+    transform: matrix(1, 0, 0, 1, 0, 0);
+
+    transition: 0.5s ease all;
+}
+
+a.buttonLink:hover
+{
+    transform: matrix(1.1, 0.01, 0, 1, 0, 0);
+    cursor: pointer;
+}
+
+ul.toc li
+{
+    font-weight: bold;
+    cursor: pointer;
+}
+
+ul.toc li:hover
+{
+    text-decoration: underline;
+}
