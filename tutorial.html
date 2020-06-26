@@ -84,20 +84,90 @@
 <p><i>Un-italicize this text!</i></p>
 <p><u>Un-underline this text!</u></p>
 <!-- This is a comment! The browser does not display its contents.
-     You can use comments to leave yourself (and others) notes. -->
-                </textarea>
+     You can use comments to leave yourself (and others) notes. --> </textarea>
                 <p>
                     Notice the text surrounded by <code>&lt;!--</code> and <code>--&gt;</code>
                     above. That text is in a <b>comment</b>! It will not be displayed as a part
                     of the website.
                 </p>
-
             </div>
 
 
             <div id = "settingUpTheDocument">
                 <h3>Setting up the Document</h3>
-                <p>...</p>
+                <p>
+                    <code>&lt;!DOCTYPE html&gt;</code> starts
+                    our documents — it tells the web browser that 
+                    we are, in fact, using HTML. Notice that, unlike
+                    the other tags, we aren't including a closing 
+                    tag! 
+                </p>
+                <p>
+                    The <code>&lt;html&gt; &lt;/html&gt;</code> tag
+                    surrounds the contents of the document -- it surrounds
+                    all of our HTML. The <code>&lt;body&gt; &lt;/body&gt;</code>
+                    tag is used to mark the website's content.
+                </p>
+                <p>
+                    The <code>&lt;head&gt; &lt;/head&gt;</code> tag 
+                    surrounds information related to parts of the website
+                    outside the page. For example, 
+                    <code>&lt;title&gt; &lt;/title&gt;</code>, when included
+                    in the header, sets the page's title!
+                </p>
+                <p>
+                    This is an example:
+                </p>
+                <textarea class = "code" autocomplete="off">
+<!DOCTYPE html> <!-- Tell the browser we're using HTML. -->
+<html>
+    <head>
+        <title>This is the title of the website!</title>
+    </head>
+    <body> <!-- The content to be displayed will go here. -->
+        <p> The website&amp;rsquo;s content will go here! </p>
+        <!-- Note: &amp;rsquo; renders a right-curved apostrophe, &rsquo;.
+             &amp;rsquo; stands for a Right Single QUOte. We could
+             have used a ' here, but it can confuse the text-editor's
+             highlighter. -->
+    </body>
+</html></textarea>
+            </div>
+            <div id = "moreElements">
+                <h3>More HTML Tags</h3>
+                <p>
+                     Before continuing, let's look at several
+                    additional elements!
+                </p>
+                <ul>
+                    <li>
+                        <code>&lt;div&gt;</code>
+                            <div>
+                                This text is is in a divider! A &ldquo;div&rdquo; 
+                                is useful for grouping content. It puts the content
+                                on a new line. It is useful for grouping things that
+                                are conceptually different from paragraphs.
+                            </div>
+                        <code>&lt;/div&gt;</code>
+                    </li>
+                    <li>
+                        <code>&lt;span&gt;</code>
+                            <span>
+                                This text is is in a different type of divider! 
+                                A &ldquo;span&rdquo; acts like a &ldquo;div&rdquo;,
+                                but does not put its contents on a new line!
+                            </span>
+                        <code>&lt;/span&gt;</code>
+                    </li>
+                </ul>
+            </div>
+            <div id = "introToJS">
+                <h3>Introduction to JavaScript</h3>
+                <p>
+                    We will be using JavaScript to make our simulations
+                    act as they should. To run JavaScript, we can put it
+                    inside a <code>&lt;script&gt;&lt;/script&gt;</code> tag!
+                </p>
             </div>
         </div>
     </body>
