@@ -655,6 +655,34 @@ span.tabContentShown > input, span.tabContentShown > button
     width: 100%;
 }
 
+
+.codeEditor
+{
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-y: hidden;
+    flex-direction: column;
+}
+
+.codeEditor canvas
+{
+    flex-shrink: 1;
+    flex-grow: 1;
+    min-height: 0;
+    min-width: 0;
+}
+
+code
+{
+    background-color: #dddddd;
+    color: black;
+    border-radius: 8px;
+    padding: 1px 5px 1px 5px;
+    font-family: 'Courier New', Courier, monospace;
+
+    background-image: radial-gradient(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.0));
+    background-size: 3px 3px;
+}
+
 input, button
 {
     background-color: rgba(155, 100, 255, 0.6);

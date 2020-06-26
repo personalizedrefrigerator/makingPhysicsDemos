@@ -2976,10 +2976,11 @@ EditorHelper.replaceWithEditor = (elem, options) =>
         height: 400
     };
 
-    const KEY_BUTTON_SHIFT_AMOUNT = 25;
+    const KEYBOARD_BUTTON_MARGIN = 4;
 
     // Textbox and its parent...
     const container = document.createElement("div");
+    const editorParent = document.createElement("div");
     const editorElem = document.createElement("div");
     const textboxParent = document.createElement("div");
     const textboxGrowzone = document.createElement("div");
@@ -2988,6 +2989,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     elem.replaceWith(container);
     textboxParent.appendChild(elem);
     textboxGrowzone.appendChild(textboxParent);
+    editorParent.appendChild(editorElem);
 
     elem.style.height = options.height + "px";
     editorElem.style.height = options.height + "px";
@@ -2995,12 +2997,39 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     textboxParent.style.display = "flex";
     elem.style.flexGrow = 1;
     editorElem.classList.add("codeEditor");
+    editorElem.style.display = "flex";
+    editorParent.style.paddingTop = "2px";
 
     // Keyboard...
     const keyboardParent = document.createElement("div");
-
     let oldKeyboardWindow = undefined;
+    
+    let currentTabName = undefined;
 
+    const tabView = HTMLHelper.addTabGroup(
+    {
+        "Textbox": textboxGrowzone,
+        "Editor": editorParent,
+        "Preview": previewElem
+    }, container, "Editor");
+    
+    const editor = new Editor(editorElem, keyboardParent, elem, previewElem, () =>
+    {
+        if (currentTabName !== "Preview")
+        {
+            tabView.selectTab("Preview");
+        }
+
+        editor.runFrame.style.display = "block";
+        editor.runFrame.height = options.height;
+        editor.runFrame.style.height = options.height + "px";
+    });
+
+    editor.clear();
+    editor.displayContent(elem.value);
+    editor.render();
+
+    // Show & hide keyboard
     let showKeyboardButton = HTMLHelper.addButton("⌨", editorElem, () =>
     {
         if (oldKeyboardWindow)
@@ -3020,36 +3049,11 @@ EditorHelper.replaceWithEditor = (elem, options) =>
         oldKeyboardWindow = keyboardWindow;
     });
 
-    showKeyboardButton.style.position = "relative";
-    showKeyboardButton.style.bottom = (-options.height + KEY_BUTTON_SHIFT_AMOUNT) + "px";
-    showKeyboardButton.style.left = "4px";
+    showKeyboardButton.style.flexShrink = 1;
+    showKeyboardButton.style.flexGrow = 0;
     showKeyboardButton.style.color = "white";
     showKeyboardButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-    
-    let currentTabName = undefined;
-
-    const tabView = HTMLHelper.addTabGroup(
-    {
-        "Textbox": textboxGrowzone,
-        "Editor": editorElem,
-        "Preview": previewElem
-    }, container, "Editor");
-    
-    const editor = new Editor(editorElem, keyboardParent, elem, previewElem, () =>
-    {
-        if (currentTabName !== "Preview")
-        {
-            tabView.selectTab("Preview");
-        }
-
-        editor.runFrame.style.display = "block";
-        editor.runFrame.height = options.height;
-        editor.runFrame.style.height = options.height + "px";
-    });
-
-    editor.clear();
-    editor.displayContent(elem.value);
-    editor.render();
+    showKeyboardButton.style.maxWidth = "3em";
 
     // Handle tab switching.
     const handleTabSwitching = async () =>
