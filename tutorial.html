@@ -30,22 +30,70 @@
             <p>
                 Making physics demos can be fun! Let's learn how to do this.
                 You may already be familliar with much of the content of this
-                document. If so, feel free to skip portions of the introduction!
+                document. If so, feel free to skip portions of it!
             </p>
             
             <div id = "toc">
                 <ul class = "toc">
-                    <li name = "settingUpTheDocument">Setting up the document.</li>
+                    <li name = "introToHTML">An Introduction to HTML</li>
+                    <!-- <li name = "settingUpTheDocument">Setting up the document.</li>
                     <li name = "settingUpTheScripts">Setting up the scripts.</li>
                     <li name = "HTML5Canvas">The HTML5 Canvas</li>
                     <li name = "addingAnimation">Animation!</li>
                     <li name = "finishingTouches">Finishing Touches</li>
                     <li name = "hosting">Hosting</li>
-                    <li name = "discussionPosting">Including in a Discussion Post</li>
+                    <li name = "discussionPosting">Including in a Discussion Post</li> -->
                 </ul>
             </div>
 
             <hr/>
+
+            <div id = "whatIsHTML">
+                <h3>What is HTML?</h3>
+                <p>
+                    Hypertext Markup Language (HTML) is a powerful tool and is 
+                    used by practically every site on the internet.
+                    Because of its ubiquity and power, we will be building our demos
+                    with it!
+                </p>
+                <h3>Tags in HTML</h3>
+                <p>
+                    HTML uses <b>tags</b> to format text.
+                    For example, 
+                        <code>&lt;b&gt;</code><b>this text is in bold,</b><code>&lt;/b&gt;</code>
+                        but the surrounding text is not.
+                </p>
+                <p>
+                    Tags tell browsers what to do with the text inside of them.
+                    <code>&lt;tag_name_here&gt;</code> starts a tag named "tag_name_here"
+                    and <code>&lt;/tag_name_here&gt;</code> ends the tag! Let's see 
+                    some examples!
+                </p>
+                <ul>
+                    <li><code>&lt;b&gt;</code><b>This text is in bold!</b><code>&lt;/b&gt;</code></li>
+                    <li><code>&lt;i&gt;</code><i>This text is in italics!</i><code>&lt;/i&gt;</code></li>
+                    <li><code>&lt;u&gt;</code><u>This text has been underlined!</u><code>&lt;/u&gt;</code></li>
+                    <li><code>&lt;p&gt;</code><p>This text is considered a separate 
+                        paragraph! It gets its own line!</p><code>&lt;/p&gt;</code></li>
+                </ul>
+                <p>
+                    Try using them in the editor below!
+                </p>
+                <textarea class = "code" autocomplete = "off">
+<p>Bold this text!</p>
+<p><i>Un-italicize this text!</i></p>
+<p><u>Un-underline this text!</u></p>
+<!-- This is a comment! The browser does not display its contents.
+     You can use comments to leave yourself (and others) notes. -->
+                </textarea>
+                <p>
+                    Notice the text surrounded by <code>&lt;!--</code> and <code>--&gt;</code>
+                    above. That text is in a <b>comment</b>! It will not be displayed as a part
+                    of the website.
+                </p>
+
+            </div>
+
 
             <div id = "settingUpTheDocument">
                 <h3>Setting up the Document</h3>

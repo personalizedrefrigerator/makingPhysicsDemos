@@ -65,6 +65,18 @@ ul.toc li:hover
     background-color: rgba(0, 0, 0, 0.9);
 }
 
+code
+{
+    background-color: #dddddd;
+    color: black;
+    border-radius: 8px;
+    padding: 1px 5px 1px 5px;
+    font-family: 'Courier New', Courier, monospace;
+
+    background-image: radial-gradient(rgba(255, 255, 255, 0.5), rgba(0, 0, 0, 0.0));
+    background-size: 3px 3px;
+}
+
 @media screen and (max-width: 600px)
 {
     .content
