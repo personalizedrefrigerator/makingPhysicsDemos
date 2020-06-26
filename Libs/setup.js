@@ -92,6 +92,8 @@ div[class^=window]
     text-shadow: 0px 0px 3px rgba(255, 0, 0, 0.95);
     color: #bbbbbb;
     
+    cursor: pointer;
+
     filter: blur(1px);
     
     animation: fadeIn 0.5s ease;
@@ -385,7 +387,7 @@ input:hover, button:hover, input:active, button:active
     
     user-select: none !important;
     
-    cursor: pointer;
+    cursor: initial;
     
     box-shadow: 0px 2px 2px rgba(0, 255, 255, 0.4);
 }
@@ -445,6 +447,8 @@ input:hover, button:hover, input:active, button:active
     
     border-color: #dddddd;
     border-style: ridge;
+
+    cursor: pointer;
     
     filter: blur(1px);
     
