@@ -2992,7 +2992,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
 
     textboxParent.style.display = "flex";
     elem.style.flexGrow = 1;
-    editorElem.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+    editorElem.classList.add("codeEditor");
 
     // Keyboard...
     const keyboardParent = document.createElement("div");
@@ -3023,6 +3023,8 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     showKeyboardButton.style.color = "white";
     showKeyboardButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
     
+    let currentTabName = undefined;
+
     const tabView = HTMLHelper.addTabGroup(
     {
         "Textbox": textboxGrowzone,
@@ -3032,7 +3034,11 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     
     const editor = new Editor(editorElem, keyboardParent, elem, previewElem, () =>
     {
-        tabView.selectTab("Preview");
+        if (currentTabName !== "Preview")
+        {
+            tabView.selectTab("Preview");
+        }
+
         editor.runFrame.style.display = "block";
         editor.runFrame.height = options.height;
         editor.runFrame.style.height = options.height + "px";
@@ -3045,17 +3051,15 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     // Handle tab switching.
     const handleTabSwitching = async () =>
     {
-        let lastTab = undefined;
-
         while (true)
         {
             const tabName = await tabView.tabChanged.waitFor(HTMLHelper.TAB_CHANGED);
 
-            if (tabName === "Textbox" && lastTab === "Editor")
+            if (tabName === "Textbox" && currentTabName === "Editor")
             {
                 elem.value = editor.getText();
             }
-            else if ((tabName === "Editor" || tabName === "Preview") && lastTab === "Textbox")
+            else if ((tabName === "Editor" || tabName === "Preview") && currentTabName === "Textbox")
             {
                 editor.clear();
                 editor.displayContent(elem.value);
@@ -3067,7 +3071,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
                 editor.updateRunFrame();
             }
 
-            lastTab = tabName;
+            currentTabName = tabName;
         }
     };
 

@@ -3,7 +3,7 @@
 {
     margin-left: auto;
     margin-right: auto;
-    max-width: 500px;
+    max-width: 600px;
     background-color: white;
 
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
@@ -58,4 +58,38 @@ ul.toc li
 ul.toc li:hover
 {
     text-decoration: underline;
+}
+
+.codeEditor
+{
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+@media screen and (max-width: 600px)
+{
+    .content
+    {
+        box-shadow: none;
+    }
+}
+
+@media print
+{
+    .content
+    {
+        box-shadow: none;
+        max-width: none;
+        margin-left: 0;
+    }
+
+    .tabDisplay .tabLabel
+    {
+        display: none;
+    }
+
+    .codeEditor
+    {
+        filter: invert(100%);
+        background-color: rgba(0, 0, 0, 0.0);
+    }
 }
