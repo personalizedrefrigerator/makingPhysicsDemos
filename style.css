@@ -63,6 +63,7 @@ ul.toc li:hover
 .codeEditor
 {
     background-color: rgba(0, 0, 0, 0.9);
+    overflow-y: hidden;
 }
 
 code
