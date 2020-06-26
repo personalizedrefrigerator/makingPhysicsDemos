@@ -12,7 +12,7 @@ function loadEditors()
 
     for (const textarea of editables)
     {
-        EditorHelper.replaceWithEditor(textarea);
+        EditorHelper.replaceWithEditor(textarea, { height: 250 });
     }
 }
 

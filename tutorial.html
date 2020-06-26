@@ -168,6 +168,67 @@
                     act as they should. To run JavaScript, we can put it
                     inside a <code>&lt;script&gt;&lt;/script&gt;</code> tag!
                 </p>
+
+                <b>Some Quick Information</b>
+                <ul>
+                    <li><b>Math!</b> JavaScript can evaluate expressions like <code>5*43 + 2.6</code>.</li>
+                    <li><b>Variables!</b> We can make new variables using 
+                        <code>let varname = initialValue</code> and change 
+                        the value of an existing variable like this: 
+                        <code>
+                            varname = newValue
+                        </code>. For example, <code>varname = (varname + 1) / 2</code>
+                        sets a variable named <code>varname</code> to the average
+                        of its old value and <code>1</code>. It is important to note
+                        that we are <b>setting</b> <code>varname</code> to the result
+                        of an expression on <b>the old value of varname</b>.
+                    </li>
+                    <li>
+                        <b>IDs in HTML!</b> We can give HTML tags identifies so that we
+                            can access their contents through JavaScript. For example,
+                            we could associate &ldquo;anId&rdquo; with a paragraph like 
+                            this: 
+                            <code>
+                                &lt;p id="anId"&gt;Contents of the paragraph... 
+                                &lt;/p&gt;
+                            </code>
+                            Note that anId is in quotation marks. This keeps the 
+                            contents of <code>id</code> separate from any other 
+                            properties we might want to give the paragraph (we'll
+                            see more of these later). 
+                            We can use single (') or
+                            double (") quotes. 
+                    </li>
+                </ul>
+
+                <b>Examples with HTML!</b>
+                <ul>
+                    <li>
+                        <b>JavaScript Comments!</b>
+                        <textarea class = "code" autocomplete = "off">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>An Example</title>
+    </head>
+    <body>
+        <!-- Associate an id with this div so we can
+             use it if we want to... -->
+        <div id = "testDiv"></div>
+        <!-- This is an HTML comment. It looks somewhat
+             different from JavaScript comments. -->
+        <script>
+            // This is a JavaScript comment! All
+            // text on each line that comes
+            // after a double-forward-slash 
+            // is not run as JavaScript. Use this
+            // like an HTML comment (except this
+            // type of comment is single-line).
+        </script>
+    </body>
+</html></textarea>
+                    </li>
+                </ul>
             </div>
         </div>
     </body>
