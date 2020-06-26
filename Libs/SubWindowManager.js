@@ -498,6 +498,7 @@ function SubWindow(globals, options)
 
         me.snapped = true;
     };
+    
     this.snapLeft = function()
     {
         me.snap(0, (window.innerWidth || parent.clientWidth) / 2);
@@ -927,7 +928,10 @@ SubWindowHelper.create = function(options)
     
     var newWindow = new SubWindow(SubWindowHelper.globals, options);
     
-    newWindow.show();
+    if (!options || !options.doNotShow)
+    {
+        newWindow.show();
+    }
     
     return newWindow;
 };

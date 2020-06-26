@@ -1451,7 +1451,7 @@ Path: ${ me.saveDir }
         return true;
     });
 
-    JSHelper.Events.registerPointerEvent("stop", this.editCanvas, function(e)
+    JSHelper.Events.registerPointerEvent("up", this.editCanvas, function(e)
     {
         editPointerDown = false;
         
@@ -1467,6 +1467,12 @@ Path: ${ me.saveDir }
             me.editControl.render();
         }
 
+        e.preventDefault();
+    });
+
+    JSHelper.Events.registerPointerEvent("leave", this.editCanvas, function(e)
+    {
+        editPointerDown = false;
         e.preventDefault();
     });
 
@@ -1745,33 +1751,38 @@ Path: ${ me.saveDir }
         }
         else
         {
-            var contentToRun = me.editControl.getText();
+            me.updateRunFrame();
+        }
+    };
 
-            runFrameParentElement.removeChild(me.runFrame);
+    this.updateRunFrame = function()
+    {
+        var contentToRun = me.editControl.getText();
 
-            me.runFrame = document.createElement("iframe");
-            me.runFrame.style.backgroundColor = "white";
-            me.runFrame.style.display = "block";
+        runFrameParentElement.removeChild(me.runFrame);
 
-            runFrameParentElement.appendChild(me.runFrame);
+        me.runFrame = document.createElement("iframe");
+        me.runFrame.style.backgroundColor = "white";
+        me.runFrame.style.display = "block";
 
-            if (!onRun(contentToRun, me.runFrame))
-            {
-                me.runFrame.contentWindow.document.open();
-                me.runFrame.contentWindow.document.write(contentToRun);
-                me.runFrame.contentWindow.document.close();
-            }
+        runFrameParentElement.appendChild(me.runFrame);
 
-            if (runFrameParentElement === textViewerParentElement)
-            {
-                me.runFrame.width = me.editCanvas.width;
-                me.runFrame.height = me.editCanvas.height;
-            }
-            else
-            {
-                me.runFrame.style.width = "calc(100% - 10px)";
-                me.runFrame.style.height = "auto";
-            }
+        if (runFrameParentElement === textViewerParentElement)
+        {
+            me.runFrame.width = me.editCanvas.width;
+            me.runFrame.height = me.editCanvas.height;
+        }
+        else
+        {
+            me.runFrame.style.width = "calc(100% - 10px)";
+            me.runFrame.style.height = "auto";
+        }
+
+        if (!onRun(contentToRun, me.runFrame))
+        {
+            me.runFrame.contentWindow.document.open();
+            me.runFrame.contentWindow.document.write(contentToRun);
+            me.runFrame.contentWindow.document.close();
         }
     };
 
@@ -2864,6 +2875,7 @@ Path: ${ me.saveDir }
 
     me.clear = me.editControl.clear;
     me.displayContent = me.editControl.displayContent;
+    me.getText = me.editControl.getText;
     me.render = me.editControl.render;
     me.scrollToFocus = () =>
     {
@@ -2955,3 +2967,109 @@ EditorHelper.openWindowedEditor = (initialText, onComplete, options) =>
     
     return editor;
 }
+
+// Replace a textarea with a tabbed editor.
+EditorHelper.replaceWithEditor = (elem, options) =>
+{
+    options = options || 
+    {
+        height: 500
+    };
+
+    // Textbox and its parent...
+    const container = document.createElement("div");
+    const editorElem = document.createElement("div");
+    const textboxParent = document.createElement("div");
+    const textboxGrowzone = document.createElement("div");
+    const previewElem = document.createElement("div");
+
+    elem.replaceWith(container);
+    textboxParent.appendChild(elem);
+    textboxGrowzone.appendChild(textboxParent);
+
+    elem.style.height = options.height + "px";
+    editorElem.style.height = options.height + "px";
+
+    textboxParent.style.display = "flex";
+    elem.style.flexGrow = 1;
+    editorElem.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+
+    // Keyboard...
+    const keyboardParent = document.createElement("div");
+
+    let oldKeyboardWindow = undefined;
+
+    let showKeyboardButton = HTMLHelper.addButton("⌨", editorElem, () =>
+    {
+        if (oldKeyboardWindow)
+        {
+            oldKeyboardWindow.destroy();
+        }
+
+        let keyboardWindow = SubWindowHelper.create(
+        { 
+            title: "Keyboard", 
+            alwaysOnTop: true, 
+            noResize: true
+        });
+
+        keyboardWindow.appendChild(keyboardParent);
+
+        oldKeyboardWindow = keyboardWindow;
+    });
+
+    showKeyboardButton.style.position = "relative";
+    showKeyboardButton.style.bottom = (-options.height) + "px";
+    showKeyboardButton.style.color = "white";
+    showKeyboardButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
+    
+    const tabView = HTMLHelper.addTabGroup(
+    {
+        "Textbox": textboxGrowzone,
+        "Editor": editorElem,
+        "Preview": previewElem
+    }, container, "Editor");
+    
+    const editor = new Editor(editorElem, keyboardParent, elem, previewElem, () =>
+    {
+        tabView.selectTab("Preview");
+        editor.runFrame.style.display = "block";
+        editor.runFrame.height = options.height;
+        editor.runFrame.style.height = options.height + "px";
+    });
+
+    editor.clear();
+    editor.displayContent(elem.value);
+    editor.render();
+
+    // Handle tab switching.
+    const handleTabSwitching = async () =>
+    {
+        let lastTab = undefined;
+
+        while (true)
+        {
+            const tabName = await tabView.tabChanged.waitFor(HTMLHelper.TAB_CHANGED);
+
+            if (tabName === "Textbox" && lastTab === "Editor")
+            {
+                elem.value = editor.getText();
+            }
+            else if ((tabName === "Editor" || tabName === "Preview") && lastTab === "Textbox")
+            {
+                editor.clear();
+                editor.displayContent(elem.value);
+                editor.render();
+            }
+            
+            if (tabName === "Preview")
+            {
+                editor.updateRunFrame();
+            }
+
+            lastTab = tabName;
+        }
+    };
+
+    handleTabSwitching();
+};

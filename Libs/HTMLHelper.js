@@ -231,15 +231,20 @@ HTMLHelper.addProgressBar = function(initialProgress, parent)
     return result;
 };
 
+HTMLHelper.TAB_CHANGED = "TAB_CHANGED";
+
 /*
         Create a tabbed view. The argument, tabDescriptors, 
     should be formatted such that each tab label is paired with
     a function of the container or an HTML Element to display.
     
         An object containing methods addTab, removeTab, hideTab,
-    showTab, and selectTab is returned. The argument, reRunTabActions
+    showTab, tabChanged, and selectTab is returned. The argument, reRunTabActions
     is included to permit a re-run of provided tab actions on tab switching,
     rather than re-using a previously generated content.
+
+    tabChanged is a notifier that currently can signal one event, HTMLHelper.TAB_CHANGED,
+    which returns the name of the new tab.
 */
 HTMLHelper.addTabGroup = function(tabDescriptors, parent, defaultTab, reRunTabActions)
 {
@@ -247,6 +252,9 @@ HTMLHelper.addTabGroup = function(tabDescriptors, parent, defaultTab, reRunTabAc
     let tabActiveFunctions = {};
     let tabLabels = {}; // The selectable labels.
     let selectedTab = null;
+
+    // Notify clients when the tab changes to another...
+    const tabChangedNotifier = new JSHelper.UniqueNotifier();
     
     // Create containers.
     let groupContainer = document.createElement("div"); // Contains everything in this display.
@@ -390,6 +398,9 @@ HTMLHelper.addTabGroup = function(tabDescriptors, parent, defaultTab, reRunTabAc
         {
             tabActiveFunctions[selectedTab].call(this, tabContents[selectedTab]);
         }
+
+        // Notify any clients.
+        tabChangedNotifier.notify(HTMLHelper.TAB_CHANGED, selectedTab);
     };
     
     for (var i in tabDescriptors)
@@ -408,7 +419,8 @@ HTMLHelper.addTabGroup = function(tabDescriptors, parent, defaultTab, reRunTabAc
         showTab: showTab,
         hideTab: hideTab,
         addTab: addTab,
-        removeTab: removeTab
+        removeTab: removeTab,
+        tabChanged: tabChangedNotifier
     };
     
     return result;

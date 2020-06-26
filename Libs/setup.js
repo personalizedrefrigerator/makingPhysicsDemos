@@ -1,13 +1,8 @@
 "use strict";
 
-
-if (!document.body)
-{
-    const body = document.createElement("body");
-    document.appendChild(body);
-    document.body = body;
- 
-}
+/**
+ * Injects stylesheets necessary for other librarys' proper functioning.
+ */
 
 const styleSheets = `@keyframes fadeIn
 {
@@ -690,8 +685,13 @@ canvas
 }`;
 
 const styleSheetElement = document.createElement("style");
-document.body.appendChild(styleSheetElement);
-styleSheetElement.outerHTML = "<style>" + styleSheets + "</style>";
+
+// Allow the browser to defer this code.
+requestAnimationFrame(function()
+{
+    document.body.appendChild(styleSheetElement);
+    styleSheetElement.outerHTML = "<style>" + styleSheets + "</style>";
+});
 
 const ABOUT_PROGRAM = 
 `
