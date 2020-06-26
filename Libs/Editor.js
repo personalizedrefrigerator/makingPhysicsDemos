@@ -2973,7 +2973,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
 {
     options = options || 
     {
-        height: 500
+        height: 400
     };
 
     // Textbox and its parent...
