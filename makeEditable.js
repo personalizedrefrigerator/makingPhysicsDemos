@@ -6,6 +6,8 @@
  * into tabbed editors.
  */
 
+console.log("Test...");
+
 function loadEditors()
 {
     const editables = document.querySelectorAll("textarea.code");
