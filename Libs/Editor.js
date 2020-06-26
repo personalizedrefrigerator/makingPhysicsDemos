@@ -2976,7 +2976,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
         height: 400
     };
 
-    const KEY_BUTTON_SHIFT_AMOUNT = 15;
+    const KEY_BUTTON_SHIFT_AMOUNT = 25;
 
     // Textbox and its parent...
     const container = document.createElement("div");
@@ -3022,6 +3022,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
 
     showKeyboardButton.style.position = "relative";
     showKeyboardButton.style.bottom = (-options.height + KEY_BUTTON_SHIFT_AMOUNT) + "px";
+    showKeyboardButton.style.left = "4px";
     showKeyboardButton.style.color = "white";
     showKeyboardButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
     
