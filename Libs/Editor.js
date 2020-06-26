@@ -3053,7 +3053,7 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     showKeyboardButton.style.flexGrow = 0;
     showKeyboardButton.style.color = "white";
     showKeyboardButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-    showKeyboardButton.style.maxWidth = "3em";
+    showKeyboardButton.style.width = "min-content";
 
     // Handle tab switching.
     const handleTabSwitching = async () =>
