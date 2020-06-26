@@ -228,6 +228,35 @@
     </body>
 </html></textarea>
                     </li>
+                    <li>
+                        <b>Changing Text!</b>
+                        <p>
+                            In JavaScript, we write <code>let aParagraph = document.querySelector("p")</code> to 
+                            get the first <code>&lt;p&gt; &lt;/p&gt;</code> paragraph and store it
+                            in the new variable <code>aParagraph.</code>
+                        </p>
+                        <p>
+                            More generally, <code>document.querySelector("p")</code> gets the paragraph
+                            and <code>let aParagraph = </code> makes the new variable called <code>aParagraph</code>
+                            and sets it.
+                        </p>
+                        <textarea class = "code" autocomplete = "off">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Another Example</title>
+    </head>
+    <body>
+        <p>I will be changed!</p>
+
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.textContent = 1 + 1; // Set its text (its textContent)
+                                            // to the result of computing 1 + 1!
+        </script>
+    </body>
+</html></textarea>
+                    </li>
                 </ul>
             </div>
         </div>
