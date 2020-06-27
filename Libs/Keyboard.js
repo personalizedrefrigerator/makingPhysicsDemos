@@ -30,7 +30,7 @@ function Key(name, x, y, w, h, command)
 
     this.getAndUpdateWidth = function(ctx)
     {
-        var width = ctx.measureText(me.name).width + 23;
+        var width = ctx.measureText(me.name).width + 20;
         me.w = width;
 
         return width;
