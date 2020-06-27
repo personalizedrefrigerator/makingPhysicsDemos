@@ -212,9 +212,8 @@
                     <li><b>Variables!</b> We can make new variables using 
                         <code>let varname = initialValue</code> and change 
                         the value of an existing variable like this: 
-                        <code>
-                            varname = newValue
-                        </code>. For example, <code>varname = (varname + 1) / 2</code>
+                        <code>varname = newValue</code>. 
+                        For example, <code>varname = (varname + 1) / 2</code>
                         sets a variable named <code>varname</code> to the average
                         of its old value and <code>1</code>. It is important to note
                         that we are <b>setting</b> <code>varname</code> to the result
@@ -227,8 +226,7 @@
                             this: 
                             <code>
                                 &lt;p id="anId"&gt;Contents of the paragraph... 
-                                &lt;/p&gt;
-                            </code>
+                                &lt;/p&gt;</code>
                             Note that anId is in quotation marks. This keeps the 
                             contents of <code>id</code> separate from any other 
                             properties we might want to give the paragraph (we'll
@@ -237,12 +235,10 @@
                             double (") quotes. 
                     </li>
                 </ul>
-
-                <b>Examples with HTML!</b>
-                <ul>
-                    <li>
-                        <b>JavaScript Comments!</b>
-                        <textarea class = "code" autocomplete = "off">
+                        
+                <b>JavaScript Comments!</b>
+                <p>Read about them in the comments below!</p>
+                <textarea class = "code" autocomplete = "off">
 <!DOCTYPE html>
 <html>
     <head>
@@ -264,21 +260,37 @@
         </script>
     </body>
 </html></textarea>
-                    </li>
-                    <hr/>
-                    <li>
-                        <b>Changing Text!</b>
-                        <p>
-                            In JavaScript, we write <code>let aParagraph = document.querySelector("p")</code> to 
-                            get the first <code>&lt;p&gt; &lt;/p&gt;</code> paragraph and store it
-                            in the new variable <code>aParagraph.</code>
-                        </p>
-                        <p>
-                            More generally, <code>document.querySelector("p")</code> gets the paragraph
-                            and <code>let aParagraph = </code> makes the new variable called <code>aParagraph</code>
-                            and sets it.
-                        </p>
-                        <textarea class = "code" autocomplete = "off">
+
+                    <b>Changing Text!</b>
+                    <p>
+                        To change text, we need to be able to let JavaScript know 
+                        what we want to change. To do this, we give JavaScript a 
+                        <b>selector</b>. This might be the name of a tag (like the
+                        "p" in a <code>&lt;p&gt; &lt;/p&gt;</code>).
+                    </p>
+                    <p>
+                        Things we can change are part of the HTML <code>document</code>. 
+                        To query and use them, we give JavaScript a selector. We can specify it
+                        like this: <code>document.querySelector("p")</code> 
+                        queries a <code>&lt;p&gt; &lt;/p&gt;</code>
+                        from the document.
+                    </p>
+                    <p>
+                        Notice that we put "p" in quotation marks in the selector --
+                        this tells JavaScript that "p" isn't the name of a variable, it
+                        represents the text, <code>p</code>.
+                    </p>
+                    <p>
+                        We write <code>let aParagraph = document.querySelector("p")</code> to 
+                        get the first <code>&lt;p&gt; &lt;/p&gt;</code> paragraph and store it
+                        in the new variable <code>aParagraph.</code>
+                    </p>
+                    <p>
+                        More generally, <code>document.querySelector("p")</code> gets the paragraph
+                        and <code>let aParagraph = </code> makes the new variable, <code>aParagraph</code>,
+                        and sets it.
+                    </p>
+                    <textarea class = "code" autocomplete = "off">
 <!DOCTYPE html>
 <html>
     <head>
@@ -294,8 +306,64 @@
         </script>
     </body>
 </html></textarea>
-                    </li>
-                </ul>
+
+            <p>Notice that we set the <code>textContent</code> of
+               the paragraph just like we set a variable! We can 
+               use <code>textContent</code> just like other variables!</p>
+            </div>
+
+            <div id = "stringsInJS">
+                <h3>Text in JavaScript</h3>
+                <p>
+                    Put text in quotation marks to mark text as text! If
+                    we don't do this, JavaScript assumes we are are refering to
+                    a variable.
+                </p>
+                <p>
+                    For example, to set the text of <code>aParagraph</code>
+                    to the text "some text", we can do this:
+                </p>
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Setting Text</title>
+    </head>
+    <body>
+        <p>A paragraph...</p>
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.textContent = "This is the new content!";
+        </script>
+    </body>
+</html></textarea>
+
+            <p>
+                We can join two strings together with the <code>+</code>
+                operator. For example, <code>"some text" + " joined with even more"</code>
+                is equivalent to <code>"some text joined with even more"</code>.
+            </p>
+            <p>
+                From here, I will call HTML tags and their contents "elements" -- "tag"
+                is specific to the text between <code>&lt;these brackets&gt;</code>.
+            </p>
+            <p>
+                As such, we can add additional text to an element by setting 
+                adding text to its <code>textContent</code>. For example,
+                <code>aParagraph.textContent = aParagraph.textContent 
+                                + " with new text";</code>
+                adds the text " with new text" to the end of the contents of
+                <code>aParagraph</code>.
+            </p>
+            <p>
+                Adding text on to the end of existing text (appending it)
+                is so common that JavaScript lets us write
+                <code>aParagraph.textContent += " with new text"</code>.
+            </p>
+            <p>
+                This shorthand is equivalent to writing out <code>aParagraph.textContent = aParagraph.textContent 
+                    + " with new text"</code>, but it is easier to read and type.
+            </p>
             </div>
         </div>
     </body>

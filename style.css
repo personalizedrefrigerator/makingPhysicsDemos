@@ -93,9 +93,20 @@ ul.toc li:hover
         display: none;
     }
 
+    .codeEditor canvas
+    {
+        filter: invert(100%) !important;
+        background: rgba(0, 0, 0, 0.0) !important;
+    }
+
     .codeEditor
     {
-        filter: invert(100%);
-        background-color: rgba(0, 0, 0, 0.0);
+        filter: invert(0%) !important;
+        background-color: rgba(0, 0, 0, 0.0) !important;
+    }
+
+    .codeEditor button
+    {
+        display: none;
     }
 }

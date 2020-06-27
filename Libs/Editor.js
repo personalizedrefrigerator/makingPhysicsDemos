@@ -967,6 +967,8 @@ function EditControl(ctx)
     firstLine.select();
 }
 
+// Note: textExportParentElement can also be a textarea. If so, 
+//       then it is used as the import/export zone.
 function Editor(textViewerParentElement, keyboardParentElement, 
     textExportParentElement, runFrameParentElement, onRun)
 {
@@ -1012,25 +1014,35 @@ function Editor(textViewerParentElement, keyboardParentElement,
 
     this.saveDir = undefined;
 
-    this.copyPasteControl = document.createElement("textarea");
     this.runFrame = document.createElement("iframe");
     this.runFrame.style.display = "none";
     var canUseLocalStorage = true;
 
-    try
+    if (textExportParentElement.tagName.toLowerCase() !== "textarea")
     {
-        if (window.localStorage)
+        this.copyPasteControl = document.createElement("textarea");
+        textExportParentElement.appendChild(me.copyPasteControl);
+
+        try
         {
-            this.copyPasteControl.value = window.localStorage.getItem("save") || "N/A";
+            if (window.localStorage)
+            {
+                this.copyPasteControl.value = window.localStorage.getItem("save") || "N/A";
+            }
+            else
+            {
+                canUseLocalStorage = false;
+            }
         }
-        else
+        catch(e)
         {
             canUseLocalStorage = false;
         }
     }
-    catch(e)
+    else
     {
-        canUseLocalStorage = false;
+        this.copyPasteControl = textExportParentElement;
+        canUseLocalStorage = window.localStorage ? true : false;
     }
 
     this.editCanvas = document.createElement("canvas");
@@ -1498,6 +1510,8 @@ Path: ${ me.saveDir }
         event.preventDefault();
 
         updateRestoreString();
+
+        return true;
     }, true);
 
     this.editCanvas.addEventListener("wheel", function(event)
@@ -1676,6 +1690,8 @@ Path: ${ me.saveDir }
         }
 
         updateRestoreString();
+
+        return true;
     }, true);
 
     this.editCanvas.setAttribute('tabindex', 1);
@@ -2914,7 +2930,6 @@ Path: ${ me.saveDir }
 
     textViewerParentElement.appendChild(me.editCanvas);
     keyboardParentElement.appendChild(me.keyCanvas);
-    textExportParentElement.appendChild(me.copyPasteControl);
     runFrameParentElement.appendChild(me.runFrame);
 }
 
