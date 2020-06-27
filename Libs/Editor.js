@@ -1684,6 +1684,10 @@ Path: ${ me.saveDir }
             {
                 me.toggleRun(true);
             }
+            else if (event.key === "p")
+            {
+                me.editControl.codeEditing = !me.editControl.codeEditing;
+            }
 
             me.editControl.render();
             event.preventDefault();
