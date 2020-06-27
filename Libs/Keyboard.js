@@ -2,7 +2,7 @@
 
 function Key(name, x, y, w, h, command)
 {
-    const MIN_SIZE = 17; // No widths smaller than this.
+    const MIN_SIZE = 22; // No widths smaller than this.
 
     this.command = command || function () {};
     this.x = x;

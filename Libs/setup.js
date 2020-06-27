@@ -19,7 +19,7 @@ const styleSheets = `
 
 .windowContainer
 {
-    box-shadow: 2px 1px 24px rgba(255, 0, 0, 0.6);
+    box-shadow: 2px 1px 24px rgba(100, 100, 100, 0.6);
     position: fixed;
     background-color: rgba(200, 200, 200, 0.8);
     
@@ -33,12 +33,12 @@ const styleSheets = `
 
 .windowContainerTitleBar
 {
-    background-image: radial-gradient(rgba(0, 0, 0, 0.8), rgba(100, 50, 100, 0.9));
-    background-size: 6px 5px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.9));
+    background-size: 4px 3px;
     
     font: 12pt Sans;
-    text-shadow: 0px 0px 3px rgba(255, 255, 255, 1);
-    color: white;
+    text-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    color: black;
     
     padding: 4px;
     border-bottom-left-radius: 0px;
@@ -48,7 +48,7 @@ const styleSheets = `
     
     cursor: initial;
     
-    box-shadow: 0px 2px 2px rgba(0, 255, 255, 0.4);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
 }
 
 .windowContainerTabZone
