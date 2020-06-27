@@ -792,7 +792,7 @@ function HTMLSyntaxHighlightScheme()
     };
 
     this.labelMap[SyntaxHelper.COMMENT_HTML] = "gray";
-    this.labelMap[SyntaxHelper.STRING] = "yellow";
+    //this.labelMap[SyntaxHelper.STRING] = "white";
     this.labelMap[SyntaxHelper.SCRIPT_BLOCK] = "#44ffff";
     this.labelMap[SyntaxHelper.STYLE_BLOCK] = "#44ffff";
     this.labelMap["ELEMENT"] = "#ffcc00";
@@ -801,7 +801,7 @@ function HTMLSyntaxHighlightScheme()
     {
     };
 
-    this.labelSearchSeparators[SyntaxHelper.STRING] = SyntaxHelper.SEARCH_ALL;
+    //this.labelSearchSeparators[SyntaxHelper.STRING] = SyntaxHelper.SEARCH_ALL;
     this.labelSearchSeparators[SyntaxHelper.SCRIPT_BLOCK] = SyntaxHelper.SEARCH_ALL;
     this.labelSearchSeparators[SyntaxHelper.STYLE_BLOCK] = SyntaxHelper.SEARCH_ALL;
     this.labelSearchSeparators[SyntaxHelper.COMMENT_HTML] = SyntaxHelper.SEARCH_ALL;
@@ -820,14 +820,14 @@ function HTMLSyntaxHighlightScheme()
     };
 
     this.labelSearchRegexes.start[SyntaxHelper.COMMENT_HTML] = new RegExp("\\<\\!\\-\\-", "g");
-    this.labelSearchRegexes.start[SyntaxHelper.STRING] = new RegExp("[\\\"\\\']", "g");
+    //this.labelSearchRegexes.start[SyntaxHelper.STRING] = new RegExp("[\\\"\\\']", "g");
     this.labelSearchRegexes.start[SyntaxHelper.SCRIPT_BLOCK] = new RegExp("\\<\\s*script\\s*(?:[type\\=text\\\ \\\/JavaScript\\\"\\']+)?\\s*\\>", "ig");
     this.labelSearchRegexes.start[SyntaxHelper.STYLE_BLOCK] = new RegExp("\\<\\s*style\\s*(?:[type\\=text\\\ \\\/css\\\"\\']+)?\\s*\\>", "ig");
     this.labelSearchRegexes.start["ELEMENT"] = new RegExp("[<]", "g");
 
     this.labelSearchRegexes.end[SyntaxHelper.SCRIPT_BLOCK] = new RegExp("\\<\\s*\\/\\s*script\\s*\\>", "ig");
     this.labelSearchRegexes.end[SyntaxHelper.STYLE_BLOCK] = new RegExp("\\<\\s*\\/\\s*style\\s*\\>", "ig");
-    this.labelSearchRegexes.end[SyntaxHelper.STRING] = new RegExp("[\\\"\\\']", "g");
+    //this.labelSearchRegexes.end[SyntaxHelper.STRING] = new RegExp("[\\\"\\\']", "g");
     this.labelSearchRegexes.end[SyntaxHelper.COMMENT_HTML] = new RegExp("\\-\\-\\>", "g");
     this.labelSearchRegexes.end["ELEMENT"] = new RegExp("[>]", "g");
 
@@ -858,7 +858,7 @@ function HTMLSyntaxHighlightScheme()
 
     var addedLabels = {};
     this.labelPrecedence =
-    [[SyntaxHelper.SCRIPT_BLOCK, SyntaxHelper.STYLE_BLOCK, SyntaxHelper.COMMENT_HTML, SyntaxHelper.STRING], "ELEMENT"];
+    [[SyntaxHelper.SCRIPT_BLOCK, SyntaxHelper.STYLE_BLOCK, SyntaxHelper.COMMENT_HTML], "ELEMENT"];
 
     // Add any un-recorded labels to the precedence list.
     for (var i = 0; i < this.labelPrecedence.length; i++)
