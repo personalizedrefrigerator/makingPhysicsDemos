@@ -503,13 +503,26 @@ function Line(ctx, parentEditor, x, y, h, myIndex)
 
                 me.cursorPosition += toInsert.length;
                 me.maxCursorPosition = 0;
+
+                let oldUndo = undoResult;
                 
                 undoResult = () =>
                 {
                     me.text = priorText;
                     me.cursorPosition -= toInsert.length;
+
+                    let redoOther = () => {};
+
+                    if (oldUndo)
+                    {
+                        redoOther = oldUndo();
+                    }
                     
-                    return generalRedo;
+                    return () =>
+                    {
+                        redoOther();
+                        generalRedo();
+                    };
                 };
             }
         }
