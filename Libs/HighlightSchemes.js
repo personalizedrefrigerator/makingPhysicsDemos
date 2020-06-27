@@ -371,7 +371,7 @@ function JavaScriptHighlightScheme(originalHighlighter)
 
     this.labelMap =
     {
-        "LONG_QUOTE": "red",
+        "LONG_QUOTE": "#ff8877",
         "if": "#ca53ca",
         "else": "#ca53ca",
         "function": "#ca60cc",
