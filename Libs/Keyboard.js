@@ -30,7 +30,7 @@ function Key(name, x, y, w, h, command)
 
     this.getAndUpdateWidth = function(ctx)
     {
-        var width = ctx.measureText(me.name).width + 20;
+        var width = ctx.measureText(me.name).width + 22;
         me.w = width;
 
         return width;
@@ -43,6 +43,10 @@ function Key(name, x, y, w, h, command)
         if (lastClickPoint && me.checkCollision(lastClickPoint))
         {
             ctx.fillStyle = "#0055ee";
+            ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+            ctx.shadowBlur = 3;
+            ctx.shadowOffsetX = -2;
+            ctx.shadowOffsetY = -2;
         }
         else
         {
@@ -92,11 +96,11 @@ function Keyboard(ctx, keyPressed)
     this.keys = [];
     this.shiftKeys = [];
 
-    var font = "11pt Serif";
+    var font = "11pt courier, monospace, sans-serif";
 
     me.ctx.font = font;
 
-    var keyH = this.ctx.measureText("W....").width;
+    var keyH = this.ctx.measureText("W..").width;
 
     this.shiftPressed = false;
     this.capsLock = false;
