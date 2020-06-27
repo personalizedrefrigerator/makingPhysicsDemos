@@ -12,7 +12,11 @@ function loadEditors()
 
     for (const textarea of editables)
     {
-        EditorHelper.replaceWithEditor(textarea, { height: 250 });
+        EditorHelper.replaceWithEditor(textarea, 
+        { 
+            height: 300, 
+            font: "11pt courier, calibri, monospace" 
+        });
     }
 }
 

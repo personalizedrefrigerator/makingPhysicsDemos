@@ -1049,6 +1049,11 @@ function Editor(textViewerParentElement, keyboardParentElement,
 
     this.clipboard = "";
 
+    this.setFont = (newFont) =>
+    {
+        me.editControl.font = newFont;
+    };
+
     this.getPreUnloadSaveString = function()
     {
         var result =
@@ -2973,7 +2978,8 @@ EditorHelper.replaceWithEditor = (elem, options) =>
 {
     options = options || 
     {
-        height: 400
+        height: 400,
+        font: undefined // use the default...
     };
 
     const KEYBOARD_BUTTON_MARGIN = 4;
@@ -3024,6 +3030,11 @@ EditorHelper.replaceWithEditor = (elem, options) =>
         editor.runFrame.height = options.height;
         editor.runFrame.style.height = options.height + "px";
     });
+
+    if (options.font)
+    {
+        editor.setFont(options.font);
+    }
 
     editor.clear();
     editor.displayContent(elem.value);
