@@ -81,7 +81,7 @@ function Key(name, x, y, w, h, command)
         ctx.fill();
         ctx.stroke();
 
-        ctx.textBaseline = "center";
+        ctx.textBaseline = "middle";
         ctx.textAlign = "center";
 
         ctx.fillStyle = "white";
@@ -118,7 +118,7 @@ function Keyboard(ctx, keyPressed)
     this.keys = [];
     this.shiftKeys = [];
 
-    var font = "11pt serif";
+    var font = "11pt sans-serif, serif";
 
     me.ctx.font = font;
 
