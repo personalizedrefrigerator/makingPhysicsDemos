@@ -118,7 +118,7 @@ function Keyboard(ctx, keyPressed)
     this.keys = [];
     this.shiftKeys = [];
 
-    var font = "11pt sans-serif, serif";
+    var font = "11pt serif";
 
     me.ctx.font = font;
 
