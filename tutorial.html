@@ -61,7 +61,7 @@
                     HTML uses <b>tags</b> to format text.
                     For example, 
                         <code>&lt;b&gt;</code><b>this text is in bold,</b><code>&lt;/b&gt;</code>
-                        but the surrounding text is not.
+                        but the following text is not.
                 </p>
                 <p>
                     Tags tell browsers what to do with the text inside of them.
@@ -83,11 +83,18 @@
 <p>Bold this text!</p>
 <p><i>Un-italicize this text!</i></p>
 <p><u>Un-underline this text!</u></p>
+<p>
+    Paragraphs can be put on their own 
+    line in the HTML, but they don't have
+    to be. Regardless, the browser will
+    show the contents of the paragraph
+    on a separate line.
+</p>
 <!-- This is a comment! The browser does not display its contents.
      You can use comments to leave yourself (and others) notes. --> </textarea>
                 <p>
                     Notice the text surrounded by <code>&lt;!--</code> and <code>--&gt;</code>
-                    above. That text is in a <b>comment</b>! It will not be displayed as a part
+                    above, when in the Editor tab. That text is in a <b>comment</b>! It will not be displayed as a part
                     of the website.
                 </p>
             </div>
@@ -98,9 +105,14 @@
                 <p>
                     <code>&lt;!DOCTYPE html&gt;</code> starts
                     our documents — it tells the web browser that 
-                    we are, in fact, using HTML. Notice that, unlike
-                    the other tags, we aren't including a closing 
-                    tag! 
+                    we are, in fact, using HTML (instead of something like XHTML).
+                </p>
+                <p>
+                    Even though we tell web browsers that we intend to use 
+                    HTML by starting our documents with 
+                    <code>&lt;!DOCTYPE html&gt;</code>, we can put things that 
+                    are not HTML in an HTML document (like JavaScript). As such,
+                    we need the <code>&lt;html&gt; &lt;/html&gt;</code> tag.
                 </p>
                 <p>
                     The <code>&lt;html&gt; &lt;/html&gt;</code> tag
@@ -112,8 +124,14 @@
                     The <code>&lt;head&gt; &lt;/head&gt;</code> tag 
                     surrounds information related to parts of the website
                     outside the page. For example, 
-                    <code>&lt;title&gt; &lt;/title&gt;</code>, when included
-                    in the header, sets the page's title!
+                    <code>&lt;title&gt; sets the page's title
+                         to this text! &lt;/title&gt;</code>
+                </p>
+                <p>
+                    Browsers use the <code>&lt;title&gt; &lt;/title&gt;</code>
+                    to show people using the website which page is which by,
+                    for example, putting this text at the top of the screen,
+                    in a tab label.
                 </p>
                 <p>
                     This is an example:
@@ -124,12 +142,15 @@
     <head>
         <title>This is the title of the website!</title>
     </head>
-    <body> <!-- The content to be displayed will go here. -->
+    <body> <!-- The content to be displayed 
+                will go here. -->
         <p> The website&amp;rsquo;s content will go here! </p>
-        <!-- Note: &amp;rsquo; renders a right-curved apostrophe, &rsquo;.
-             &amp;rsquo; stands for a Right Single QUOte. We could
-             have used a ' here, but it can confuse the text-editor's
-             highlighter. -->
+        <!-- Note: &amp;rsquo; renders a right-curved 
+             apostrophe, &rsquo;. &amp;rsquo; stands
+             for a Right Single QUOte. We could
+             have used a ' here, but it can confuse
+            the text-editor's highlighter. 
+            See what happens when we change it above! -->
     </body>
 </html></textarea>
             </div>
@@ -143,10 +164,13 @@
                     <li>
                         <code>&lt;div&gt;</code>
                             <div>
-                                This text is is in a divider! A &ldquo;div&rdquo; 
-                                is useful for grouping content. It puts the content
-                                on a new line. It is useful for grouping things that
-                                are conceptually different from paragraphs.
+                                <p>This text is in a <b>div</b>ider! Think of it like a paragraph
+                                for things that aren't actually paragraphs! It puts
+                                its content in a group, but you don't have to think of it
+                                as a paragraph.</p> 
+                                
+                                <p>For example, I might want a picture of a dog
+                                to have its own line. I could do this by putting it in a div.</p>
                             </div>
                         <code>&lt;/div&gt;</code>
                     </li>
@@ -184,7 +208,7 @@
                         of an expression on <b>the old value of varname</b>.
                     </li>
                     <li>
-                        <b>IDs in HTML!</b> We can give HTML tags identifies so that we
+                        <b>IDs in HTML!</b> We can give HTML tags <b>id</b>entifires so that we
                             can access their contents through JavaScript. For example,
                             we could associate &ldquo;anId&rdquo; with a paragraph like 
                             this: 
@@ -228,6 +252,7 @@
     </body>
 </html></textarea>
                     </li>
+                    <hr/>
                     <li>
                         <b>Changing Text!</b>
                         <p>

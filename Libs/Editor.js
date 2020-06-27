@@ -3060,25 +3060,46 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     {
         while (true)
         {
-            const tabName = await tabView.tabChanged.waitFor(HTMLHelper.TAB_CHANGED);
+            const newTabName = await tabView.tabChanged.waitFor(HTMLHelper.TAB_CHANGED);
 
-            if (tabName === "Textbox" && currentTabName === "Editor")
+            if (newTabName === "Textbox" && currentTabName === "Editor")
             {
                 elem.value = editor.getText();
             }
-            else if ((tabName === "Editor" || tabName === "Preview") && currentTabName === "Textbox")
+            else if ((newTabName === "Editor" || newTabName === "Preview") 
+                    && currentTabName === "Textbox")
             {
                 editor.clear();
                 editor.displayContent(elem.value);
+            }
+
+            // Adjust the editor to the canvas' size and render
+            // any updates.
+            if (newTabName === "Editor")
+            {
                 editor.render();
             }
-            
-            if (tabName === "Preview")
+
+            // Handle preview-related management.
+            if (newTabName === "Preview")
             {
+                if (currentTabName === "Editor")
+                {
+                    elem.value = editor.getText();
+                }
+                else if (currentTabName === "Textbox")
+                {
+                    if (elem.value !== editor.getText())
+                    {
+                        editor.clear();
+                        editor.displayContent(elem.value);
+                    }
+                }
+                
                 editor.updateRunFrame();
             }
 
-            currentTabName = tabName;
+            currentTabName = newTabName;
         }
     };
 

@@ -60,6 +60,17 @@ ul.toc li:hover
     text-decoration: underline;
 }
 
+.codeEditor
+{
+    background-color: white;
+    filter: invert(100%);
+}
+
+.codeEditor button
+{
+    filter: invert(100%);
+}
+
 @media screen and (max-width: 600px)
 {
     .content
