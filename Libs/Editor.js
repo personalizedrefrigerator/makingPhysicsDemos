@@ -1472,6 +1472,7 @@ Path: ${ me.saveDir }
             me.editControl.render();
         }
 
+        me.editCanvas.focus();
         e.preventDefault();
     });
 
@@ -1518,7 +1519,8 @@ Path: ${ me.saveDir }
         if (!event.shiftKey)
         {
             if (event.key === "ArrowDown" || event.key === "ArrowUp" || event.key === "ArrowLeft"
-                    || event.key === "ArrowRight" || event.key === "Backspace" || event.key === "Tab")
+                    || event.key === "ArrowRight" || event.key === "Backspace" || event.key === "Tab"
+                    || event.key === "Escape")
             {
                 requestAnimationFrame(() =>
                 {
@@ -1534,7 +1536,7 @@ Path: ${ me.saveDir }
                         me.editControl.deselect();
                     }
                     
-                    if (indentCount === 0)
+                    if (indentCount === 0 && event.key !== "Escape")
                     {
                         me.editControl.handleKey(event.key);
                     }
@@ -1676,7 +1678,7 @@ Path: ${ me.saveDir }
         updateRestoreString();
     }, true);
 
-    this.editCanvas.setAttribute('tabindex', 0);
+    this.editCanvas.setAttribute('tabindex', 1);
 
     this.toggleRun = function(inCurrentPage)
     {
