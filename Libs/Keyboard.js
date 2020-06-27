@@ -2,6 +2,8 @@
 
 function Key(name, x, y, w, h, command)
 {
+    const MIN_SIZE = 17; // No widths smaller than this.
+
     this.command = command || function () {};
     this.x = x;
     this.y = y;
@@ -36,6 +38,8 @@ function Key(name, x, y, w, h, command)
     this.getContentWidth = function(ctx)
     {
         var width = ctx.measureText(me.name).width;
+
+        width = Math.max(MIN_SIZE, width);
 
         return width;
     };
