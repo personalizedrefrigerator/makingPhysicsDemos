@@ -28,12 +28,34 @@ function Key(name, x, y, w, h, command)
         }
     };
 
-    this.getAndUpdateWidth = function(ctx)
+    this.getWidth = function()
     {
-        var width = ctx.measureText(me.name).width + 22;
+        return me.w;
+    };
+
+    this.getContentWidth = function(ctx)
+    {
+        var width = ctx.measureText(me.name).width;
+
+        return width;
+    };
+
+    this.updateWidthWithPadding = function(ctx, allocatedPadding)
+    {
+        var width = me.getContentWidth(ctx) + allocatedPadding;
         me.w = width;
 
         return width;
+    };
+
+    this.setX = function(newX)
+    {
+        me.x = newX;
+    };
+
+    this.setY = function(newX)
+    {
+        me.y = newX;
     };
 
     this.render = function(ctx)
@@ -96,11 +118,11 @@ function Keyboard(ctx, keyPressed)
     this.keys = [];
     this.shiftKeys = [];
 
-    var font = "11pt courier, monospace, sans-serif";
+    var font = "11pt sans-serif, serif";
 
     me.ctx.font = font;
 
-    var keyH = this.ctx.measureText("W..").width;
+    var keyH = this.ctx.measureText("W....").width;
 
     this.shiftPressed = false;
     this.capsLock = false;
@@ -143,9 +165,30 @@ function Keyboard(ctx, keyPressed)
                 }
             });
 
-            x += key.getAndUpdateWidth(me.ctx);
+            x += key.getContentWidth(me.ctx);
 
             keys.push(key);
+        };
+
+        var distributePadding = (keyCount) =>
+        {
+            const extraSpace = ctx.canvas.width - x;
+            const padding = extraSpace / keyCount; 
+
+            // Nothing to distribute
+            if (extraSpace <= 0)
+            {
+                return;
+            }
+
+            x = me.x;
+
+            for (let i = keys.length - keyCount; i < keys.length; i++)
+            {
+                keys[i].updateWidthWithPadding(ctx, padding);
+                keys[i].setX(x);
+                x += keys[i].getWidth();
+            }
         };
 
         var row;
@@ -164,6 +207,8 @@ function Keyboard(ctx, keyPressed)
                 addKey(currentChar);
 
             }
+
+            distributePadding(row.length);
 
             if (x > me.maxX + 1)
             {
