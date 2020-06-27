@@ -3000,7 +3000,8 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     options = options || 
     {
         height: 400,
-        font: undefined // use the default...
+        font: undefined, // use the default...
+        highlightScheme: undefined
     };
 
     const KEYBOARD_BUTTON_MARGIN = 4;
@@ -3055,6 +3056,11 @@ EditorHelper.replaceWithEditor = (elem, options) =>
     if (options.font)
     {
         editor.setFont(options.font);
+    }
+
+    if (options.highlightScheme)
+    {
+        editor.setDefaultHighlightScheme(options.highlightScheme)
     }
 
     editor.clear();
