@@ -6,15 +6,49 @@
     listener is placed that shows the dragElement, and calls
     onDrag(delta x, delta y, client x, client y) while the
     content is dragged.
+    The trackWindowScroll parameter is a boolean. If true, 
+    dx includes changes in window.scrollX and dy includes
+    changes in window.scrollY.
 */
-function DraggableElement(content, dragElement, onDrag)
+function DraggableElement(content, dragElement, onDrag, trackWindowScroll)
 {
     var pointerDown = false;
-    var lastX, lastY;
+    var lastX, lastY, lastClientX, lastClientY;
     this.onDrag = onDrag;
     this.onBeforeDrag = function() {};
     
     var me = this;
+
+    var eventToPosition = (event) =>
+    {
+        let x, y;
+        
+        // If we don't have clientX, clientY (we don't know
+        // the type of the given event), re-use the previous.
+        // It might be that the mouse has not moved but the 
+        // viewport has.
+        if (event.clientX !== undefined && event.clientY !== undefined)
+        {
+            x = event.clientX;
+            y = event.clientY;
+
+            lastClientX = x;
+            lastClientY = y;
+        }
+        else
+        {
+            x = lastClientX;
+            y = lastClientY;
+        }
+
+        if (trackWindowScroll)
+        {
+            x += window.scrollX;
+            y += window.scrollY;
+        }
+
+        return { x: x, y: y };
+    };
     
     var eventStart = function(event)
     {
@@ -22,8 +56,11 @@ function DraggableElement(content, dragElement, onDrag)
     
         pointerDown = true;
         dragElement.style.display = "block";
-        lastX = event.clientX;
-        lastY = event.clientY;
+
+        const position = eventToPosition(event);
+
+        lastX = position.x;
+        lastY = position.y;
         
         me.onBeforeDrag(lastX, lastY);
     };
@@ -34,8 +71,9 @@ function DraggableElement(content, dragElement, onDrag)
         {
             event.preventDefault();
             
-            var x = event.clientX;
-            var y = event.clientY;
+            const position = eventToPosition(event);
+            var x = position.x;
+            var y = position.y;
         
             var dx = x - lastX;
             var dy = y - lastY;
@@ -93,6 +131,15 @@ function DraggableElement(content, dragElement, onDrag)
         
         return true;
     });
+
+    if (trackWindowScroll)
+    {
+        document.addEventListener("scroll", function(e)
+        {
+            // Allow the browser to defer eventMoves.
+            requestAnimationFrame(() => eventMove(e));
+        });
+    }
 }
 
 

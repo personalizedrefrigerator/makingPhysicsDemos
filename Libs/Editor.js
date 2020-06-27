@@ -3073,7 +3073,8 @@ EditorHelper.replaceWithEditor = (elem, options) =>
         { 
             title: "Keyboard", 
             alwaysOnTop: true, 
-            noResize: true
+            noResize: true,
+            withPage: true
         });
 
         keyboardWindow.appendChild(keyboardParent);

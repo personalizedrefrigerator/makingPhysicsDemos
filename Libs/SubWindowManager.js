@@ -245,7 +245,7 @@ function SubWindow(globals, options)
     
     this.container.style.display = "flex";
     this.container.style.flexDirection = "column";
-    this.container.style.position = "fixed";
+    this.container.style.position = options.withPage ? "absolute" : "fixed";
     
     this.titleBar = document.createElement("div");
     this.titleBar.setAttribute("class", styleClassName + "TitleBar");
@@ -483,8 +483,17 @@ function SubWindow(globals, options)
             heightPreSnap = me.container.clientHeight;
         }
 
-        me.container.style.top = 0;
-        me.container.style.left = windowX + "px";
+        let top = 0;
+        let left = windowX;
+
+        if (me.container.style.position === "absolute")
+        {
+            top = window.scrollY;
+            left += window.scrollX;
+        }
+
+        me.container.style.top = top;
+        me.container.style.left = left + "px";
 
         toWidth = (window.innerWidth || parent.clientWidth) - divideX;
         toHeight = window.innerHeight || parent.clientHeight;
@@ -562,19 +571,34 @@ function SubWindow(globals, options)
         }
         
         var bbox = me.container.getBoundingClientRect();
+
+        var left = bbox.left;
+        var top = bbox.top;
+
+        var moveToLeft = 0,
+            moveToTop  = 0;
+
+        if (me.container.style.position === "absolute")
+        {
+            left += window.scrollX;
+            top += window.scrollY;
+
+            moveToLeft = window.scrollX;
+            moveToTop = window.scrollY;
+        }
         
         var windowWidth = window.innerWidth || globals.dragElement.clientWidth;
         var windowHeight =  window.innerHeight || globals.dragElement.clientHeight;
         
-        if (me.container.clientWidth + bbox.left > windowWidth)
+        if (me.container.clientWidth + left > windowWidth)
         {
-            me.container.style.left = 0;
+            me.container.style.left = moveToLeft;
             me.container.style.width = windowWidth + "px";
         }
         
-        if (me.container.clientHeight + bbox.top > windowHeight)
+        if (me.container.clientHeight + top > windowHeight)
         {
-            me.container.style.top = 0;
+            me.container.style.top = moveToTop;
             me.container.style.maxHeight = windowHeight + "px";
         }
         
@@ -801,13 +825,21 @@ function SubWindow(globals, options)
         var bbox = me.container.getBoundingClientRect();
         var left = bbox.left;
         var top = bbox.top;
+
+        // If using absolute positioning, position relative to the document.
+        if (me.container.style.position === "absolute")
+        {
+            left += window.scrollX;
+            top += window.scrollY;
+        }
         
         me.container.style.left = left + "px";
         me.container.style.top = top + "px";
-        
+
         me.draggable = true;
         
-        var draggableWrapper = new DraggableElement(me.titleContent, globals.dragElement);
+        var draggableWrapper = new DraggableElement(me.titleContent, globals.dragElement,
+                undefined, me.container.style.position === "absolute");
         draggableWrapper.onDrag = function(dx, dy, x, y)
         {
             me.toTheFore();
@@ -854,6 +886,13 @@ function SubWindow(globals, options)
             bbox = me.container.getBoundingClientRect();
             left = bbox.left;
             top = bbox.top;
+
+            // If using absolute positioning, position relative to the document.
+            if (me.container.style.position === "absolute")
+            {
+                left += window.scrollX;
+                top += window.scrollY;
+            }
         };
     };
     
@@ -905,6 +944,12 @@ function SubWindow(globals, options)
         { 
             var initialX = options.x !== undefined ? options.x : Math.max(0, window.innerWidth - me.container.clientWidth) / 2;
             var initialY = options.y !== undefined ? options.y : Math.max(5, window.innerHeight / 4 - me.container.clientHeight) / 2;
+
+            if (me.container.style.position === "absolute")
+            {
+                initialX += window.scrollX;
+                initialY += window.scrollY;
+            }
             
             me.locationTransition.start(initialX, initialY);
             me.scaleToParentWindow();
