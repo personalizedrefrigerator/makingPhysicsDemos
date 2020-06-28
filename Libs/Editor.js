@@ -335,6 +335,13 @@ function EditControl(ctx)
         }
 
         me.lines = newLines;
+
+        // Maintain that we always have at least one line,
+        // even if empty.
+        if (me.lines.length === 0)
+        {
+            me.appendLine(""); // 
+        }
     };
 
     this.handleClick = function(point)
