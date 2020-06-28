@@ -14,7 +14,7 @@ const EDITOR_SOURCE = "<!DOCTYPE " + "html>\n"
                      + 
                      document.documentElement.outerHTML;
 
-const VERSION_CODE = "1.08 (Main)";
+const VERSION_CODE = "1.09 (Main)";
 let noteError = self.noteError || console.error; // Error logging...
 
 function EditControl(ctx)
@@ -1514,15 +1514,30 @@ Path: ${ me.saveDir }
         return true;
     }, true);
 
+    const WHEEL_PIXEL_MODE = 0;
+    const WHEEL_LINE_MODE = 1;
+    const WHEEL_PAGE_MODE = 2;
+
     this.editCanvas.addEventListener("wheel", function(event)
     {
         var dy = event.deltaY;
+        var lineHeight = me.editControl.lineH; 
 
         event.preventDefault();
 
         if (dy !== 0)
         {
-            me.editControl.moveView(0, dy * 10);
+            console.log(event.deltaMode);
+            if (event.deltaMode === WHEEL_LINE_MODE)
+            {
+                dy *= lineHeight;
+            }
+            else if (event.deltaMode === WHEEL_PAGE_MODE)
+            {
+                dy *= lineHeight * 25;
+            }
+
+            me.editControl.moveView(0, dy);
         }
 
         me.editControl.render();
