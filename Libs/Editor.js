@@ -1544,6 +1544,9 @@ Path: ${ me.saveDir }
                 dy *= lineHeight * 25;
             }
 
+            // Scroll the view, not the page.
+            dy *= -1;
+
             me.editControl.moveView(0, dy);
         }
 
