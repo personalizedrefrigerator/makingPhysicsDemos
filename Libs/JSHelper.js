@@ -221,7 +221,33 @@ JSHelper.Environs.makeNew = () =>
                     {
                         log: (...output) =>
                         {
-                            env_consoleResult += "" + (output || []).join("") + "\n";
+                            for (const elem of output)
+                            {
+                                env_consoleResult += "" + elem;
+
+                                if (typeof (elem) === "object") // More detailed object logging.
+                                {
+                                    env_consoleResult += "\n";
+
+                                    for (const key in elem)
+                                    {
+                                        env_consoleResult += "  " + key + ": ";
+
+                                        if (typeof (elem[key]) === "function")
+                                        {
+                                            env_consoleResult += "[FUNCTION]";
+                                        }
+                                        else
+                                        {
+                                            env_consoleResult += elem[key];
+                                        }
+                                        
+                                        env_consoleResult += "\n";
+                                    }
+                                }
+                            }
+
+                            env_consoleResult += "\n";
                             
                             env_console_log.apply(self, output);
                         },
