@@ -1631,7 +1631,14 @@ Path: ${ me.saveDir }
 
             me.editControl.render();
             event.preventDefault();
-        } // Mobile Safari sends " ", rather than "Space"
+        } 
+        else if (event.key === "Delete")
+        {
+            me.editControl.handleKey("ArrowRight")
+            me.editControl.handleKey("Backspace");
+
+            me.editControl.render();
+        }// Mobile Safari sends " ", rather than "Space"
         else if (event.key === " " || event.key === "Space")
         {
             me.editControl.handleKey(" ");
