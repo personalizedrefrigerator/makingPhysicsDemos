@@ -1915,7 +1915,7 @@ Path: ${ me.saveDir }
 
             cancelLine.onentercommand = function()
             {
-                exitAdvancedOptions();
+                requestAnimationFrame(() => exitAdvancedOptions());
             };
 
             requestAnimationFrame(function()
@@ -2117,8 +2117,11 @@ Path: ${ me.saveDir }
             // Logic
             cancelLine.onentercommand = function()
             {
-                me.editControl.restoreState();
-                showingWrapDialog = false;
+                requestAnimationFrame(() =>
+                {
+                    me.editControl.restoreState();
+                    showingWrapDialog = false;
+                });
             };
             
             maximumLengthEnabledInput.onentercommand = function()
