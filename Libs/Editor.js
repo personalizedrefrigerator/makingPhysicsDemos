@@ -1638,6 +1638,8 @@ Path: ${ me.saveDir }
             me.editControl.handleKey("Backspace");
 
             me.editControl.render();
+
+            event.preventDefault();
         }// Mobile Safari sends " ", rather than "Space"
         else if (event.key === " " || event.key === "Space")
         {
