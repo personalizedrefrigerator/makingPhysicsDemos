@@ -566,7 +566,11 @@ function Line(ctx, parentEditor, x, y, h, myIndex)
         {
             try
             {
-                me.onentercommand(me, myIndex);
+                requestAnimationFrame(() => 
+                {
+                    me.onentercommand(me, myIndex)
+                    me.parentEditor.render();
+                });
             }
             catch(e)
             {
