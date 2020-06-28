@@ -1609,14 +1609,21 @@ Path: ${ me.saveDir }
             event.preventDefault();
         }
 
-        // Handle control-key commands.
+        
         if (event.key === "Enter")
         {
             me.editControl.handleKey(event.key);
 
             me.editControl.render();
             event.preventDefault();
-        }
+        } // Mobile Safari sends " ", rather than "Space"
+        else if (event.key === " " || event.key === "Space")
+        {
+            me.editControl.handleKey(" ");
+            me.editControl.render();
+
+            event.preventDefault();
+        } // Handle control-key commands.
         else if (event.ctrlKey)
         {
             if (event.key === "c" || event.key === "x")
