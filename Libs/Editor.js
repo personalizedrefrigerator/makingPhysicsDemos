@@ -341,6 +341,7 @@ function EditControl(ctx)
         if (me.lines.length === 0)
         {
             me.appendLine(""); // 
+            me.focusFirstLine(); // Focus the only line.
         }
     };
 
@@ -880,8 +881,10 @@ function EditControl(ctx)
     }
 
     var currentRefreshLine = -1, currentEndLine;
-    this.refreshPassedLines = function(oldViewOffset)
+    this.refreshPassedLines = function(oldViewOffset, forceEach)
     {
+        forceEach = forceEach || false;
+
         if (me.viewOffset < oldViewOffset)
         {
             let refreshRate = 20;
@@ -899,7 +902,7 @@ function EditControl(ctx)
                     
                     if (me.lines[currentRefreshLine])
                     {
-                        me.lines[currentRefreshLine].refreshHighlitingIfNeeded(currentRefreshLine, false, true); // Don't force, but ignore timeouts.
+                        me.lines[currentRefreshLine].refreshHighlitingIfNeeded(currentRefreshLine, forceEach, true); // Ignore timeouts.
                     }
 
                     currentRefreshLine++;
@@ -1916,10 +1919,11 @@ Path: ${ me.saveDir }
             me.saveDir = undefined;
 
             me.editControl.clear();
+            me.editControl.setDefaultHighlightScheme("html");
 
             me.editControl.displayContent(EDITOR_SOURCE);
 
-            me.editControl.setDefaultHighlightScheme("html");
+            me.editControl.focusFirstLine();
         };
 
         selectHighlightScheme.onentercommand = function()
@@ -1935,6 +1939,7 @@ Path: ${ me.saveDir }
                     exitAdvancedOptions();
 
                     me.editControl.setDefaultHighlightScheme(SyntaxHelper.highlighters[schemeLabel]);
+                    me.editControl.refreshPassedLines(0, true); // Refresh highlighting.
                 };
             };
 
