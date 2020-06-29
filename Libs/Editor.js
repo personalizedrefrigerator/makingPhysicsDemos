@@ -935,6 +935,14 @@ function EditControl(ctx)
         }
     };
 
+    this.noteAllLinesNeedRefresh = () =>
+    {
+        for (var i = me.lines.length - 1; i >= 0; i--)
+        {
+            me.lines[i].requestRefresh();
+        }
+    };
+
     this.moveView = function(dx, dy)
     {
         var oldViewOffset = me.viewOffset;
@@ -1939,7 +1947,9 @@ Path: ${ me.saveDir }
                     exitAdvancedOptions();
 
                     me.editControl.setDefaultHighlightScheme(SyntaxHelper.highlighters[schemeLabel]);
-                    me.editControl.refreshPassedLines(0, true); // Refresh highlighting.
+                    me.editControl.noteAllLinesNeedRefresh();
+
+                    me.editControl.render();
                 };
             };
 

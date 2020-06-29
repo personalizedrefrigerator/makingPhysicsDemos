@@ -166,6 +166,27 @@ JSHelper.vec3ToRGBString = (inputVector,
     return result;
 };
 
+// Wait delay seconds...
+JSHelper.waitFor = (delay) =>
+{
+    let doResolve = false;
+    let resolveFn = () => { doResolve = true; };
+
+    setTimeout(delay / 1000, () => resolveFn());
+
+    return new Promise((resolve, reject) =>
+    {
+        if (doResolve)
+        {
+            resolve();
+        }
+        else
+        {
+            resolveFn = resolve;
+        }
+    });
+};
+
 // Create a JavaScript environment where code can be pushed as desired...
 JSHelper.Environs = {}; // All environments.
 JSHelper.Environs.__map = {};
