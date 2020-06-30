@@ -1557,7 +1557,6 @@ Path: ${ me.saveDir }
 
         if (dy !== 0)
         {
-            console.log(event.deltaMode);
             if (event.deltaMode === WHEEL_LINE_MODE)
             {
                 dy *= lineHeight;
