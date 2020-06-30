@@ -1416,6 +1416,9 @@ Path: ${ me.saveDir }
         };
 
         clickLoop();
+
+        me.keyCanvas.onclick(e, true);
+        me.keyboard.render();
     });
     
     JSHelper.Events.registerPointerEvent("move", me.keyCanvas, function(e)
