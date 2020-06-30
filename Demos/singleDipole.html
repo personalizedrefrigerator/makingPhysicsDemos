@@ -2,7 +2,11 @@
 <html>
     <head>
         <meta name = "viewport" content = "width=device-width,initial-scale=1.0,user-scalable=no"/>
+        <meta charset = "utf-8"/>
         <title>Electric Dipoles</title>
+        
+        <!-- This is going to be somewhat sloppy -- it was
+             made under time constraints for a Canvas discussion post. -->
         
         <style>
             #mainCanvas
@@ -44,17 +48,133 @@ function Vec2(x, y)
     {
         return new Vec2(this.x + other.x, this.y + other.y);
     };
+
+    this.sub = (other) =>
+    {
+        return new Vec2(this.x - other.x, this.y - other.y);
+    };
+
+    this.lenSquared = () =>
+    {
+        return Math.pow(this.x, 2) + Math.pow(this.y, 2);
+    };
+
+    this.len = () =>
+    {
+        return Math.sqrt(this.lenSquared());
+    };
+
+    this.perp = () =>
+    {
+        return new Vec2(this.y, -this.x);
+    };
+
+    this.normalized = () =>
+    {
+        const len = this.len();
+
+        if (len === 0)
+        {
+            return null; // No normalization possible.
+        }
+
+        return new Vec2(this.x / len, this.y / len);
+    };
 }
 
 function Charge(value, position)
 {
-    this.value = value;
+    this.value = value; // Value in proton charge units...
     this.position = position;
     
     this.render = (ctx) =>
     {
+        ctx.save();
         
+        if (this.value > 0) // Positive
+        {
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        }
+        else if (this.value < 0) // Negative.
+        {
+            ctx.fillStyle = "rgba(0, 200, 255, 0.5)";
+        }
+        else // Uncharged.
+        {
+            ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
+        }
+        
+        ctx.beginPath();
+        ctx.arc(this.position.x, this.position.y, CHARGE_RENDERING_RADIUS, 0, Math.PI * 2, true);
+        ctx.fill();
+        
+        ctx.fillStyle = "rgba(0, 0, 0, 1.0)";
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.fillText(this.value, this.position.x, this.position.y);
+        
+        ctx.restore();
     };
+}
+
+function EField(world)
+{
+    this.scale = 3; // Distance between arrows.
+    this.position = new Vec2(0, 0);
+
+    const mDrawArrow = (position, direction, ctx) =>
+    {
+        let len = direction.len();
+        direction = direction.normalized();
+
+        len = Math.atan(len); // Smoothly bound length between pi/2 and -pi/2
+        len *= 0.5 * this.scale / Math.PI; // Convert scale from PI/2 to scale/2.
+
+        direction = direction.mul(len);
+
+        let arrowEnd1 = direction.sub(direction.perp());
+        let arrowEnd2 = direction.add(direction.perp());
+
+        ctx.save();
+
+        ctx.beginPath();
+        ctx.translate(position.x, position.y);
+        ctx.moveTo(0, 0);
+        ctx.lineTo(direction.x, direction.y);
+        ctx.lineTo(arrowEnd1.x, arrowEnd1.y);
+        ctx.lineTo(arrowEnd2.x, arrowEnd2.y);
+        ctx.stroke();
+
+        ctx.restore();
+    };
+
+    // Uses the world to get the electric field at a point.
+    this.render = (ctx) =>
+    {
+        ctx.save();
+
+        const mX = this.position.x % this.scale;
+        const mY = this.position.y % this.scale;
+
+        for (let x = mX; x < ctx.canvas.width; x++)
+        {
+            for (let y = mY; y < ctx.canvas.height; y++)
+            {
+                const position = new Vec2(x, y);
+                const eFieldAt = world.fieldAt(position);
+                mDrawArrow(position, eFieldAt, ctx);
+            }
+        }
+
+        ctx.restore();
+    };
+}
+
+function Dipole(position)
+{
+    this.rotation = 0;
+    this.torque = 0;
+    this.w = 0;
 }
 
 function World()
@@ -87,7 +207,8 @@ function World()
     
     this.fieldAt = (position) =>
     {
-        
+        // For now, a weak field in the +x direction...
+        return new Vec2(12, 0); // 12 N / C
     };
     
     this.createCharge = (amount, position) =>

@@ -516,11 +516,3 @@ license.MAXLINES = 1000 # As of the time of this writing, input() displays
     });
 }
 
-
-function openEditor()
-{
-    EditorHelper.openWindowedEditor();
-}
-
-openEditor();
-
