@@ -2,12 +2,12 @@
 
 function Key(name, x, y, w, h, command)
 {
-    const MIN_SIZE = 22; // No widths smaller than this.
+    const MIN_SIZE = 30; // No widths smaller than this.
 
     this.command = command || function () {};
     this.x = x;
     this.y = y;
-    this.w = w;
+    this.w = Math.max(w, MIN_SIZE);
     this.h = h;
     this.name = name;
 
@@ -99,6 +99,8 @@ var RIGHT_ARROW = "▶️";
 
 function Keyboard(ctx, keyPressed)
 {
+    const DEFAULT_KEY_WIDTH = 30;
+
     var me = this;
     this.onkeypress = keyPressed;
     this.ctx = ctx;
@@ -144,7 +146,7 @@ function Keyboard(ctx, keyPressed)
 
         var addKey = function(name)
         {
-            var key = new Key(name, x, y, 20, keyH, function()
+            var key = new Key(name, x, y, DEFAULT_KEY_WIDTH, keyH, function()
             {
                 if (name == "⬆️")
                 {
@@ -176,7 +178,7 @@ function Keyboard(ctx, keyPressed)
 
         var distributePadding = (keyCount) =>
         {
-            const extraSpace = ctx.canvas.width - x;
+            const extraSpace = Math.max(me.maxX, ctx.canvas.width) - x;
             const padding = extraSpace / keyCount; 
 
             // Nothing to distribute
@@ -206,10 +208,7 @@ function Keyboard(ctx, keyPressed)
             {
                 currentChar = row[j];
 
-
-
                 addKey(currentChar);
-
             }
 
             distributePadding(row.length);
