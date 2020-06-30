@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name = "viewport" content = "width=device-width,initial-scale=1.0,user-scalable=no"/>
+        <title>Electric Dipoles</title>
+        
+        <style>
+            #mainCanvas
+            {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id = "mainCanvas">
+            Your browser seems to lack support for the 
+            HTML5 Canvas.
+        </canvas>
+        <noscript>This demo requires JavaScript!</noscript>
+        <script>"use strict";
+const K = 9.0e9; // This demo, unlike the two made before it
+               // uses the actual value of K! (Not K factorial)
+
+function Vec2(x, y)
+{
+    this.x = x;
+    this.y = y;
+    
+    this.dot = (other) =>
+    {
+        return other.x * this.x + other.y * this.y;
+    };
+    
+    this.mul = (scalar) =>
+    {
+        return new Vec2(this.x * scalar, this.y * scalar);
+    };
+    
+    this.add = (other) =>
+    {
+        return new Vec2(this.x + other.x, this.y + other.y);
+    };
+}
+
+function Charge(value, position)
+{
+    this.value = value;
+    this.position = position;
+    
+    this.render = (ctx) =>
+    {
+        
+    };
+}
+
+function World()
+{
+    this.charges = [];
+    this.entities = [];
+    
+    this.render = (ctx) =>
+    {
+        for (const entity of this.entities)
+        {
+            entity.render(ctx);
+        }
+    };
+    
+    let lastTime = (new Date()).getTime();
+    
+    this.animate = () =>
+    {
+        const nowTime = (new Date()).getTime();
+        const dt = nowTime - lastTime;
+        
+        for (const entity of this.entities)
+        {
+            entity.animate(dt, nowTime);
+        }
+        
+        lastTime = noewTime;
+    };
+    
+    this.fieldAt = (position) =>
+    {
+        
+    };
+    
+    this.createCharge = (amount, position) =>
+    {
+        const newCharge = new Charge(amount, position);
+        
+        this.charges.push(newCharge);
+        
+        return newCharge;
+    };
+}
+
+function main()
+{
+    const canvas = document.querySelector("#mainCanvas");
+    const ctx = canvas.getContext("2d");
+    
+    let worldEntities = []; // All things in the world.
+    
+    // Match canvas.width, .height with its CSS-specified
+    // width & height.
+    const updateCanvasScale = () =>
+    {
+        if (canvas.clientWidth !== canvas.width || canvas.clientHeight !== canvas.height)
+        {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+    };
+    
+    // Main loop.
+    const loop = () =>
+    {
+        updateCanvasScale();
+        
+        
+        
+        requestAnimationFrame(loop);
+    };
+}
+
+main();
+        </script>
+    </body>
+</html>
