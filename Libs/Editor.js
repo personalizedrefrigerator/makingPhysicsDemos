@@ -1029,7 +1029,7 @@ function Editor(textViewerParentElement, keyboardParentElement,
         me.hiddenControls.push(runFrameParentElement);
     }
 
-    this.timeToRepeatKey = 500;
+    this.timeToRepeatKey = 600;
     this.dtRepeatKey = 150;
 
     this.saveDir = undefined;
@@ -1351,7 +1351,7 @@ Path: ${ me.saveDir }
         updateRestoreString();
     });
 
-    this.keyCanvas.onclick = function(e, noReRender)
+    this.clickKeyCanvas = function(e, noReRender)
     {
       if (e.preventDefault)
       {
@@ -1383,8 +1383,8 @@ Path: ${ me.saveDir }
     {
         pointerDownTime = (new Date()).getTime();
         pointerDown = true;
-        
-        e.preventDefault();
+
+        me.clickKeyCanvas(e);
 
         var dt = me.dtRepeatKey;
 
@@ -1402,7 +1402,7 @@ Path: ${ me.saveDir }
             {
                 for (var i = 0; i < (nowTime - lastTime) / dt && i < 10; i++)
                 {
-                    me.keyCanvas.onclick(e, true);
+                    me.clickKeyCanvas(e, true);
                 }
 
                 me.keyboard.render();
@@ -1416,9 +1416,6 @@ Path: ${ me.saveDir }
         };
 
         clickLoop();
-
-        me.keyCanvas.onclick(e, true);
-        me.keyboard.render();
     });
     
     JSHelper.Events.registerPointerEvent("move", me.keyCanvas, function(e)
