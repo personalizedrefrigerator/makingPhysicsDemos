@@ -953,7 +953,7 @@ function EditControl(ctx)
 
         if (dy === 0 || me.lineH === 0)
         {
-            return;
+            return true;
         }
 
         dy = Math.abs(dy);
@@ -976,6 +976,8 @@ function EditControl(ctx)
         me.x = Math.min(me.x, me.ctx.canvas.width/2);
 
         me.refreshPassedLines(oldViewOffset);
+        
+        return me.viewOffset === oldViewOffset;
     };
 
     var firstLine = this.addLine(0, "[[ JSEdit v. " + VERSION_CODE + " ]]");
@@ -1381,6 +1383,8 @@ Path: ${ me.saveDir }
     {
         pointerDownTime = (new Date()).getTime();
         pointerDown = true;
+        
+        e.preventDefault();
 
         var dt = me.dtRepeatKey;
 
@@ -1413,10 +1417,20 @@ Path: ${ me.saveDir }
 
         clickLoop();
     });
+    
+    JSHelper.Events.registerPointerEvent("move", me.keyCanvas, function(e)
+    {
+        if (pointerDown)
+        {
+            e.preventDefault();
+        }
+    });
 
-    JSHelper.Events.registerPointerEvent("stop", me.keyCanvas, function()
+    JSHelper.Events.registerPointerEvent("stop", me.keyCanvas, function(e)
     {
         pointerDown = false;
+        
+        e.preventDefault();
 
         me.editCanvas.focus();
     });
@@ -1541,8 +1555,6 @@ Path: ${ me.saveDir }
         var dy = event.deltaY;
         var lineHeight = me.editControl.lineH; 
 
-        event.preventDefault();
-
         if (dy !== 0)
         {
             console.log(event.deltaMode);
@@ -1558,7 +1570,12 @@ Path: ${ me.saveDir }
             // Scroll the view, not the page.
             dy *= -1;
 
-            me.editControl.moveView(0, dy);
+            var didNotMove = me.editControl.moveView(0, dy);
+            
+            if (!didNotMove)
+            {
+            	event.preventDefault();
+            }
         }
 
         me.editControl.render();

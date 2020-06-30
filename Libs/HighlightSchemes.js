@@ -7,7 +7,9 @@ function BashHighlightScheme(originalHighlighter)
     this.labelMap =
     {
         "if": "#cc33cc",
-        "else": "#cc33cc"
+        "else": "#cc33cc",
+        "test": "#cc33cc",
+        "fi": "#cc33cc"
     };
 
     this.labelMap[SyntaxHelper.COMMENT] = "green";
@@ -199,6 +201,7 @@ function JavaHighlightScheme(originalHighlighter)
         "out": "#aaaaff",
         "err": "#aaaaff",
         "in": "#aaaaff",
+        "of": "#aaaaff",
         "ArrayList": "#ccaaff",
         "HashMap": "#ccaaff",
         "TreeMap": "#ccaaff",
