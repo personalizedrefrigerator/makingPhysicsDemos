@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Made under time pressure. Please excuse style. -->
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0"/>
+    <title>Superposition</title>
+    <style>
+        #mainCanvas
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 98vw;
+            height: 98vh;
+        }
+    </style>
+</head>
+<body>
+    <noscript>Please enable JavaScript</noscript>
+    <canvas id = "mainCanvas">Your browser does not support the HTML5 Canvas</canvas>
+    <script>"use strict";
+
+const Q_MARK_INDEX = location.href.lastIndexOf("?");
+const PAGE_REQUEST_DATA = Q_MARK_INDEX == -1 ? "" : location.href.substring(Q_MARK_INDEX + 1).toUpperCase();
+
+function main()
+{
+    const canvas = document.querySelector("#mainCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let leftWaveMultiplier = 0.25;
+    let rightWaveMultiplier = 0.25;
+
+    // Show only requested wave if applicable.
+    if (PAGE_REQUEST_DATA == "RIGHT")
+    {
+        leftWaveMultiplier = 0;
+    }
+    else if (PAGE_REQUEST_DATA == "LEFT")
+    {
+        rightWaveMultiplier = 0;
+    }
+    else if (PAGE_REQUEST_DATA.lastIndexOf(",") !== -1)
+    {
+        const commaIndex = PAGE_REQUEST_DATA.lastIndexOf(",");
+        const strVal1 = PAGE_REQUEST_DATA.substring(0, commaIndex);
+        const strVal2 = PAGE_REQUEST_DATA.substring(commaIndex + 1);
+
+        if (!isNaN(strVal1))
+        {
+            leftWaveMultiplier = parseFloat(strVal1);
+        }
+
+        if (!isNaN(strVal2))
+        {
+            rightWaveMultiplier = parseFloat(strVal2);
+        }
+    }
+
+    const resize = function()
+    {
+        if (canvas.width != canvas.clientWidth || canvas.height != canvas.clientHeight)
+        {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+    };
+
+    const putCtxInWorldView = () =>
+    {
+        ctx.scale(ctx.canvas.width, ctx.canvas.height);
+        ctx.translate(0.5, 0.5);
+
+        ctx.lineWidth = 0.01;
+    };
+
+    const drawAxes = () =>
+    {
+        ctx.save();
+
+        putCtxInWorldView();
+
+        ctx.beginPath();
+        ctx.moveTo(-0.5, 0);
+        ctx.lineTo(0.5, 0);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, -0.5);
+        ctx.lineTo(0, 0.5);
+        ctx.stroke();
+
+        ctx.restore();
+    };
+
+    const drawPulse = () =>
+    {
+        const time = (new Date()).getTime();
+
+        const pulseAt = (x) =>
+        {
+            let timeDisplacement = (time % 5000) / 1700 - (5000 / 1700) / 2;
+            
+            let x1 = x + timeDisplacement;
+            let x2 = x - timeDisplacement;
+
+            x1 *= 5;
+            x2 *= 5;
+
+            const wave1 = -Math.exp(-x1*x1) * leftWaveMultiplier;
+            const wave2 = -Math.exp(-x2*x2) * rightWaveMultiplier;
+
+            return wave1 + wave2;
+        };
+
+        ctx.save();
+
+        putCtxInWorldView();
+
+        ctx.beginPath();
+
+        for (let x = -0.5; x < 0.5; x += 0.01)
+        {
+            ctx.lineTo(x, pulseAt(x));
+        }
+
+        ctx.stroke();
+
+        ctx.restore();
+    };
+
+    var animate = () =>
+    {
+        resize();
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        drawAxes();
+        drawPulse();
+
+        requestAnimationFrame(animate);
+    };
+
+    animate();
+}
+
+main();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Like the superposition demo, this
+         was wrtten with tight-ish time constraints.
+         Please excuse the light commenting.-->
+    <meta name = "viewport" content = "width=device-width,initial-scale=1.0"/>
+    <title>Physics Demo</title>
+    <style>
+        #mainCanvas
+        {
+            position: absolute;
+            touch-action: none;
+            top: 0;
+            left: 0;
+            width: 98vw;
+            height: 98vh;
+        }
+    </style>
+</head>
+<body>
+<canvas id = "mainCanvas"></canvas>
+<script>"use strict";
+
+const CHARGE_RADIUS = 25;
+const GRID_SCALE = CHARGE_RADIUS * 2;
+const ARROW_SIZE = 0.2;
+const LINE_WIDTH = 2.5;
+const K = 18;
+
+const PAGE_SEP_INDEX = location.href.lastIndexOf("?");
+const PAGE_OPTIONS = PAGE_SEP_INDEX == -1 ? [] : location.href.substring(PAGE_SEP_INDEX + 1).split(";");
+
+function renderArrow(ctx, x, y, dx, dy)
+{
+    // Do nothing if the arrow has zero length.
+    if (dx === 0 && dy === 0)
+    {
+        return;
+    }
+
+    ctx.save();
+    ctx.lineCap = "round";
+
+    ctx.lineWidth = ctx.lineWidth || 1;
+
+    const scale = 150 * Math.sqrt(dx * dx + dy * dy) 
+                / Math.sqrt(ctx.canvas.width * ctx.canvas.width + ctx.canvas.height * ctx.canvas.height);
+
+    if (scale < 1)
+    {
+        ctx.lineWidth *= scale;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + dx, y + dy);
+    ctx.stroke();
+
+    ctx.translate(x + dx, y + dy);
+    ctx.rotate(3 * Math.PI / 4);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ARROW_SIZE * dx, ARROW_SIZE * dy);
+    ctx.stroke();
+
+    ctx.rotate(Math.PI / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(ARROW_SIZE * dx, ARROW_SIZE * dy);
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+function Charge(value, x, y, grid)
+{
+    let mGrid = grid;
+
+    let mValue = value;
+    let initialPos = mGrid.toWorldSpace(x, y);
+    let mX = initialPos.x,
+        mY = initialPos.y;
+
+    let mSelected = false;
+
+    // Explicitly include a "+" before the value.
+    const getValueString = () =>
+    {
+        return mValue > 0 ? "+" + mValue : mValue;
+    };
+
+    this.snapToGrid = () =>
+    {
+        const newPos = mGrid.toWorldSpace(mGrid.toGridSpace(mX, mY));
+        mX = newPos.x;
+        mY = newPos.y;
+    };
+
+    this.getCharge = () => mValue;
+
+    this.distanceSquaredToCoordXY = (x, y) =>
+    {
+        const mGridCoord = mGrid.toGridSpace(mX, mY);
+
+        const result =
+        {
+            x: Math.pow(x - mGridCoord.x, 2),
+            y: Math.pow(y - mGridCoord.y, 2)
+        };
+
+        return result;
+    };
+
+    this.directionToCoordXY = (x, y) =>
+    {
+        const mGridCoord = mGrid.toGridSpace(mX, mY);
+        const dx = x - mGridCoord.x;
+        const dy = y - mGridCoord.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        
+        if (len === 0)
+        {
+            const ZERO = { x: 0, y: 0 };
+           
+            return ZERO;
+        }
+
+        const result = 
+        {
+            x: dx / len,
+            y: dy / len
+        };
+
+        return result;
+    };
+
+    this.render = (ctx) =>
+    {
+        ctx.save();
+
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        ctx.fillText(getValueString(), mX, mY);
+
+        ctx.beginPath();
+        ctx.arc(mX, mY, CHARGE_RADIUS, 0, Math.PI * 2, true);
+        ctx.stroke();
+
+        ctx.restore();
+    };
+
+    this.handleMouseDown = (mouseX, mouseY) =>
+    {
+        const didSelect = Math.pow(mX - mouseX, 2) 
+                          + Math.pow(mY - mouseY, 2) <= CHARGE_RADIUS * CHARGE_RADIUS;
+
+        mSelected = didSelect;
+
+        return didSelect;
+    };
+
+    this.handleMouseMove = (mouseX, mouseY) =>
+    {
+        if (mSelected)
+        {
+            mX = mouseX;
+            mY = mouseY;
+
+            this.snapToGrid();
+        }
+    };
+
+    this.handleMouseUp = () =>
+    {
+        mSelected = false;
+    };
+}
+
+function main()
+{
+    const canvas = document.querySelector("#mainCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let grid;
+    grid = 
+    { 
+        scale: GRID_SCALE,
+        toGridSpace: (x, y) =>
+        {
+            const result = 
+            {
+                x: Math.round(x / grid.scale),
+                y: Math.round(y / grid.scale)
+            };
+
+            return result;
+        },
+        toWorldSpace: (x, y) =>
+        {
+            if (y === undefined)
+            {
+                y = x.y;
+                x = x.x;
+            }
+
+            const result =
+            {
+                x: x * grid.scale,
+                y: y * grid.scale
+            };
+
+            return result;
+        }
+    };
+
+    let charges = [];
+
+    if (PAGE_OPTIONS.length === 0)
+    {
+        charges.push(new Charge(1, 0, 0, grid));
+        charges.push(new Charge(-1, 0, 1, grid));
+        charges.push(new Charge(2, -1, 0, grid));
+    }
+    else
+    {
+        for (const option of PAGE_OPTIONS)
+        {
+            const parts = option.split(",");
+
+            if (parts.length >= 3 && !isNaN(parts[0]) && !isNaN(parts[1])
+                && !isNaN(parts[2]))
+            {
+                // Slopy way of converting to float/integer: Multiplication by 1.
+                charges.push(new Charge(1 * parts[0], 1 * parts[1], 1 * parts[2], grid));
+            }
+        }
+    }
+
+    // x, y are in grid coordinates.
+    const getNetForce = (x, y) =>
+    {
+        let result = { x: 0, y: 0 };
+        const ZERO = { x: 0, y: 0 };
+
+        for (const charge of charges)
+        {
+            const distance2XY = charge.distanceSquaredToCoordXY(x, y);
+            const distance2 = distance2XY.x + distance2XY.y;
+            const direction = charge.directionToCoordXY(x, y);
+
+            if (direction.x === 0 && direction.y === 0)
+            {
+                return ZERO; // Don't draw an arrow if zero.
+            }
+
+            result.x += K * charge.getCharge() / distance2 * direction.x;
+            result.y += K * charge.getCharge() / distance2 * direction.y;
+        }
+
+        return result;
+    };
+
+    const render = () =>
+    {
+        // Resize canvas if necessary (e.g. to fit CSS)...
+        if (canvas.clientWidth != canvas.width || canvas.clientHeight != canvas.height)
+        {
+            canvas.width = canvas.clientWidth;
+            canvas.height = canvas.clientHeight;
+        }
+        
+        const width = canvas.width || 150;
+        const height = canvas.height || 150;
+        const startXY = grid.toWorldSpace(grid.toGridSpace(-width / 2, -height / 2));
+
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        ctx.save();
+        ctx.translate(width / 2, height / 2);
+
+        ctx.lineWidth = LINE_WIDTH;
+        ctx.font = "bold 12pt Sans";
+
+        for (let x = startXY.x; x <= width / 2; x += grid.scale)
+        {
+            for (let y = startXY.y; y <= height / 2; y += grid.scale)
+            {
+                const gridCoord = grid.toGridSpace(x, y);
+                const netForce = getNetForce(gridCoord.x, gridCoord.y);
+
+                renderArrow(ctx, x, y, netForce.x, netForce.y);
+            }
+        }
+
+
+        for (const charge of charges)
+        {
+            charge.render(ctx);
+        }
+
+        ctx.restore();
+
+        requestAnimationFrame(render);
+    };
+
+    canvas.addEventListener("pointerdown", (event) =>
+    {
+        event.preventDefault();
+
+        const x = event.clientX - canvas.width / 2;
+        const y = event.clientY - canvas.height / 2;
+
+        for (const charge of charges)
+        {
+            if(charge.handleMouseDown(x, y))
+            {
+                break; // Selected a charge.
+            }
+        }
+    });
+
+    canvas.addEventListener("pointermove", (event) =>
+    {
+        event.preventDefault();
+
+        const x = event.clientX - canvas.width / 2;
+        const y = event.clientY - canvas.height / 2;
+
+        for (const charge of charges)
+        {
+            charge.handleMouseMove(x, y);
+        }
+
+    });
+
+    canvas.addEventListener("pointerup", (event) =>
+    {
+        event.preventDefault();
+
+        for (const charge of charges)
+        {
+            charge.handleMouseUp();
+        }
+    });
+
+    render();
+}
+
+main();
+</script>
+</body>
+</html>
