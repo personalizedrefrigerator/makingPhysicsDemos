@@ -125,7 +125,6 @@ function JavaHighlightScheme(originalHighlighter)
         "[": "#00ffff",
         "]": "#00ffff",
         "==": "#33aabb",
-        "===": "#33aabb",
         "!": "#33aabb",
         "=": "#33aabb",
         ">": "#33aabb",
@@ -147,9 +146,9 @@ function JavaHighlightScheme(originalHighlighter)
         ":": "#f0aabb",
         "&": "#33aabb",
         "|": "#33aabb",
-        "do": "#ab00cd",
-        "while": "#ab00cd",
-        "for": "#ab00cd",
+        "do": "#cb60cd",
+        "while": "#cb60cd",
+        "for": "#cb60cd",
         "in": "#ab70cd",
         "false": "#abab00",
         "true": "#abab00",
@@ -271,7 +270,6 @@ function JavaHighlightScheme(originalHighlighter)
     this.labelSearchSeparators[":"] = SyntaxHelper.SINGLE_CHAR_SEPARATOR;
     this.labelSearchSeparators["="] = SyntaxHelper.SINGLE_CHAR_SEPARATOR;
     this.labelSearchSeparators["=="] = SyntaxHelper.COMPARISON_SEARCH_SEPARATOR;
-    this.labelSearchSeparators["==="] = SyntaxHelper.COMPARISON_SEARCH_SEPARATOR;
     this.labelSearchSeparators["=>"] = SyntaxHelper.COMPARISON_SEARCH_SEPARATOR;
     this.labelSearchSeparators[">="] = SyntaxHelper.COMPARISON_SEARCH_SEPARATOR;
     this.labelSearchSeparators["<="] = SyntaxHelper.COMPARISON_SEARCH_SEPARATOR;
@@ -390,9 +388,9 @@ function JavaScriptHighlightScheme(originalHighlighter)
         "-": "#70aabb",
         "*": "#70aabb",
         "/": "#70aabb",
-        "do": "#ab00cd",
-        "while": "#ab00cd",
-        "for": "#ab00cd",
+        "do": "#cb60cd",
+        "while": "#cb60cd",
+        "for": "#cb60cd",
         "in": "#ab70cd",
         "of": "#ab70cd",
         "false": "#abab00",
@@ -916,9 +914,9 @@ function PythonHighlightScheme(originalHighlighter)
         "-": "#70aabb",
         "*": "#70aabb",
         "/": "#70aabb",
-        "do": "#ab00cd",
-        "while": "#ab00cd",
-        "for": "#ab00cd",
+        "do": "#cb60cd",
+        "while": "#cb60cd",
+        "for": "#cb60cd",
         "in": "#ab70cd",
         "range": "#fb70fd",
         "str": "#fb70fd",

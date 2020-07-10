@@ -447,7 +447,7 @@ function Drawer2D(onSubmit, options)
             inverseTransform = transformMatrix.getInverse();
             MatHelper.transformPoint(currentPositionArray, inverseTransform);
             
-            changesMade = me.currentTool.handlePointerMove(ctx, imageCtx, currentPositionArray[0], currentPositionArray[1], x - lastX, y - lastY, event.pressure || 0.5) || changesMade;
+            changesMade = me.currentTool.handlePointerMove(ctx, imageCtx, currentPositionArray[0], currentPositionArray[1], x - lastX, y - lastY, (event.pressure || 0) + 0.1) || changesMade;
             
             render();
             
