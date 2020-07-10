@@ -36,6 +36,7 @@
                 <ul class = "toc">
                     <li name = "whatIsHTML">An Introduction to HTML</li>
                     <li name = "introToJS">An Introduction to JavaScript</li>
+                    <li name = "changingHTML">Changing HTML With JavaScript</li>
                     <!-- <li name = "settingUpTheDocument">Setting up the document.</li>
                     <li name = "settingUpTheScripts">Setting up the scripts.</li>
                     <li name = "HTML5Canvas">The HTML5 Canvas</li>
@@ -364,6 +365,107 @@
                 This shorthand is equivalent to writing out <code>aParagraph.textContent = aParagraph.textContent 
                     + " with new text"</code>, but it is easier to read and type.
             </p>
+            <p>
+                Let's see an example!
+            </p>
+            <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>More Setting Text</title>
+    </head>
+    <body>
+        <p>A paragraph...</p>
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.textContent 
+                    += " that now also has this content. ";
+            aParagraph.textContent 
+                    += "This text is added to the end. ";
+            aParagraph.textContent = aParagraph.textContent 
+                    + " This is another way to add text to the"
+                    + " paragraph. "
+                    + "It is a bit more difficult to type, "
+                    + "however.";
+            aParagraph.textContent += ' These strings can be'
+                    + ' in either single or double quotes.';
+        </script>
+    </body>
+</html></textarea>
+            </div>
+            <div id = "changingHTML">
+                <h3>Changing HTML with JavaScript</h3>
+                <p>
+                    Although we can use <code>element.textContent</code>
+                    to change the text of an element, we can't use it to
+                    make new elements.
+                </p>
+                <p>
+                    Let's see what happens when we try!
+                </p>
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Setting Text</title>
+    </head>
+    <body>
+        <p>A paragraph...</p>
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.textContent = "<i>Will this text ";
+            aParagraph.textContent += "be in <b>italics?</b></i>";
+        </script>
+    </body>
+</html></textarea>
+            <p>
+                We can, instead, change the <code>element.innerHTML</code>!
+            </p>
+            <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Setting Text</title>
+    </head>
+    <body>
+        <p>A paragraph...</p>
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.innerHTML = "<i>Will this text ";
+            aParagraph.innerHTML += "be in <b>italics?</b></i>";
+        </script>
+    </body>
+</html></textarea>
+            <p>
+                <b><i>What?!</i></b> Only part of the text was italicized! 
+                Only the text we added with 
+                <code>aParagraph.innerHTML = "&lt;<i>i</i>&gt;Will this text "</code>
+                was put in italics!
+            </p>
+            <p>
+                This is because each time we set <code>element.innerHTML</code>,
+                the browser expects the new <code>innerHTML</code> to only contain
+                complete elements. It updates the page just after you set the HTML 
+                (but it might take some time for you to be able to see it).
+            </p>
+            <p>
+                We can do it like this instead:
+            </p>
+            <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Setting Text</title>
+    </head>
+    <body>
+        <p>A paragraph...</p>
+        <script>
+            let aParagraph = document.querySelector("p");
+            aParagraph.innerHTML = "<i>Will this text " 
+                                 + "be in <b>italics?</b></i>";
+        </script>
+    </body>
+</html></textarea>
             </div>
         </div>
     </body>
