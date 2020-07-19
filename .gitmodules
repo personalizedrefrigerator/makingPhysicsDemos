@@ -1,0 +1,3 @@
+[submodule "LibJS"]
+	path = LibJS
+	url = https://github.com/personalizedrefrigerator/LibJS.git
