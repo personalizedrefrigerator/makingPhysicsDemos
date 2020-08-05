@@ -4,3 +4,14 @@ A (very incomplete) tutorial intended to teach physics students to make HTML5-ba
 https://personalizedrefrigerator.github.io/makingPhysicsDemos/
 
 **This is very much a work in progress! Pull requests are welcome.**
+
+# Cloning
+```sh
+ $ git clone https://github.com/personalizedrefrigerator/makingPhysicsDemos.git
+ $ cd makingPhysicsDemos
+ $ git pull
+ $ git submodule init
+ $ git submodule update
+```
+
+Note that the `git submodule init` and `git submodule update` commands are required for pulling `LibJS`!
