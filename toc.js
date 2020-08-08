@@ -25,7 +25,7 @@ TOCHelper.setupToc = () =>
         }
 
         // Allow the user to select the entry using the tab key.
-        elem.setAttribute("tabindex", "1");
+        elem.setAttribute("tabindex", "0");
 
         const onSelected = () =>
         {

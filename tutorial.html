@@ -471,7 +471,32 @@
 
             <div id = "mathInJS">
                 <h3><span class = "math">\MaTh</span> in JavaScript!</h3>
-                <!--<pre class = "math">\KaTeX</pre>-->
+                <p>
+                    Like a calculator, JavaScript supports arithmetic!
+                    Let's see some examples:
+                </p>
+                <ul>
+                    <li>
+                        <code>(5 + 4) * 23 / 6</code> is equivalent to 
+                        <span class = "math">(5 + 4) \cdot \frac{23}{6}</span>.
+                    </li>
+                    <li>
+                        <code>a % b</code>, where we have defined integers <code>a</code>
+                        and <code>b</code>, is equivalent to <span class = "math">a\mmod b</span>.
+                        <b>In other words,</b> it computes <span class = "math">a - b \cdot k</span>, where
+                        <span class = "math">k = \left\lfloor\frac{a}{b}\right\rfloor</span>.
+                    </li>
+                    <li>
+                        <code>5 % 4</code> is equivalent to <span class = "math">5\mmod 4 = 1</span>.
+                    </li>
+                    <li>
+                        <p>
+                            <code>3^2</code> is <b>not</b> equivalent to <span class = "math">3^2</span>. 
+                            It instead computes the exclusive or (XOR) of the binary data that represents
+                            the numbers 3 and 2. If you aren't familliar with this, I encourage you to look it up!
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
     </body>
