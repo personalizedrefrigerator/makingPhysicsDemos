@@ -10,7 +10,10 @@ function renderMath()
 {
     const mathElements = document.querySelectorAll(".math");
 
-    let macros = {};
+    let macros = 
+    { // Based on KaTeX 12.0's definition of the macro \\KaTeX
+        "\\MaTh": "\\textbf{\\textrm{M\\hspace{-0.2em}\\raisebox{0.2em}{\\scriptstyle A}\\hspace{-0.2em}T\\hspace{-0.2em}\\raisebox{-0.1em}{\\small H}}}"
+    };
 
     for (const elem of mathElements)
     {
