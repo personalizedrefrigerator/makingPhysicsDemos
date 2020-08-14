@@ -492,8 +492,21 @@
                     <li>
                         <p>
                             <code>3^2</code> is <b>not</b> equivalent to <span class = "math">3^2</span>. 
-                            It instead computes the exclusive or (XOR) of the binary data that represents
-                            the numbers 3 and 2. If you aren't familliar with this, I encourage you to look it up!
+                            It instead computes the 
+                            <span class="aside">
+                                <span>exclusive or (XOR)</span>
+                                <span>
+                                    <p></p>
+                                    <p>Let's see what this is through some examples!</p>
+                                    <ul>
+                                        <li><code>(Exclusive Or)</code> Either read this or don't.</li>
+                                        <li><code>(Inclusive Or)</code> Either read this, don't, or do both.</li>
+                                        <li><code>(Exclusive Or)</code> <code>True</code> or <code>false</code>, but not both.</li>
+                                    </ul>
+                                    <p></p>
+                                </span>
+                            </span> of the binary data that represents
+                            the numbers 3 and 2.
                         </p>
                     </li>
                 </ul>
@@ -502,12 +515,12 @@
     </body>
 
     <script src = "LibJS/Libs/Editor.js" encoding = "utf-8"></script>
-    <script src = "toc.js"></script>
-    <script src = "makeEditable.js"></script>
     <script src = "LibJS/Libs/setup.js"></script>
 
     <!-- KaTeX -->
     <link rel = "stylesheet" href = "katex/katex.css"/>
     <script src = "katex/katex.js" encoding = "utf-8"></script>
-    <script src = "showMath.js"></script>
+
+    <!-- Modify elements with selected classes/tagnames -->
+    <script src = "ElementHelper.js" encoding = "utf-8"></script>
 </html>

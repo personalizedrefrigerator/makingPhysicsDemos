@@ -71,6 +71,40 @@ ul.toc li:hover
     filter: hue-rotate(70deg) invert(100%);
 }
 
+.detailsPane.windowContainer
+{
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom-right-radius: 4px;
+}
+
+.detailsPaneTitleBar.windowContainerTitleBar
+{
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+
+    box-shadow: none;
+}
+
+.detailsPaneContent.windowContainerContent
+{
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 4px;
+}
+
+.aside :nth-child(2)
+{
+    display: none;
+}
+
+.aside :nth-child(1)
+{
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 600px)
 {
     .content
