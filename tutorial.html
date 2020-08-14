@@ -347,7 +347,7 @@
                 is equivalent to <code>"some text joined with even more"</code>.
             </p>
             <p>
-                From here, I will call HTML tags and their contents "elements" -- "tag"
+                From here, I will call HTML tags and their contents "elements" &mdash; "tag"
                 is specific to the text between <code>&lt;these brackets&gt;</code>.
             </p>
             <p>
@@ -470,10 +470,6 @@
 </html></textarea>
             </div>
 
-            <div id = "Repetition">
-
-            </div>
-
             <div id = "JSFunctions">
                 <h3><span class = "math">f\left(\textbf{unctions}\right)</span> in JavaScript!</h3>
                 <p>
@@ -503,10 +499,15 @@
             let aParagraph = document.querySelector("p");
             let output = ""; // We'll put our output in this variable.
 
-            for (let time = 0; time < 100; time++)
-            {
-                output += "<p>" + f(time) + "</p>";
-            }
+            output += "<p>" + f(0) + " m</p>";
+            output += "<p>" + f(1) + " m</p>";
+            output += "<p>" + f(2) + " m</p>";
+            output += "<p>" + f(3) + " m</p>";
+            output += "<p>" + f(4) + " m</p>";
+            output += "<p>" + f(5) + " m</p>";
+            output += "<p>" + f(6) + " m</p>";
+            output += "<p>" + f(7) + " m</p>";
+            output += "<p>" + f(8) + " m</p>";
 
             aParagraph.innerHTML = output;
         </script>
@@ -523,7 +524,22 @@
                 <b>How else can we do this?</b>
                 <p>
                     While <code>let f = (t) => -9.81 * t * t</code>-style notation is useful, it only lets us evaluate a single
-                    line of code! 
+                    line of code! If we want <code>f</code> to do more than evaluate a single expression, we can surround its contents
+                    with curly-braces. For example, 
+                    <pre>let f = (t) => 
+{ 
+    let displacementFromAcceleration = -9.81 * t * t;
+    return displacementFromAcceleration; 
+};</pre>
+                    evaluates <code>f</code> with two sub-expressions &mdash; it acts like <code>let f = (t) => -9.81 * t * t</code>,
+                    but allows us to divide <code>f</code> into multiple expressions!
+                </p>
+            </div>
+
+            <div id = "Repetition">
+                <h3>Repeating Things!</h3>
+                <p>
+                    
                 </p>
             </div>
 
