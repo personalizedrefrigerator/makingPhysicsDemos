@@ -38,6 +38,7 @@
                     <li name = "whatIsHTML">An Introduction to HTML</li>
                     <li name = "introToJS">An Introduction to JavaScript</li>
                     <li name = "changingHTML">Changing HTML With JavaScript</li>
+                    <li name = "JSFunctions">Functions in JavaScript</li>
                     <!-- <li name = "settingUpTheDocument">Setting up the document.</li>
                     <li name = "settingUpTheScripts">Setting up the scripts.</li>
                     <li name = "HTML5Canvas">The HTML5 Canvas</li>
@@ -420,7 +421,7 @@
     </body>
 </html></textarea>
             <p>
-                We can, instead, change the <code>element.innerHTML</code>!
+                We can, instead, change <code>element.innerHTML</code>!
             </p>
             <textarea class = "code" autocomplete = "false">
 <!DOCTYPE html>
@@ -469,6 +470,63 @@
 </html></textarea>
             </div>
 
+            <div id = "Repetition">
+
+            </div>
+
+            <div id = "JSFunctions">
+                <h3><span class = "math">f\left(\textbf{unctions}\right)</span> in JavaScript!</h3>
+                <p>
+                    In mathematics, we use functions to organize expressions. In JavaScript, we
+                    do the same!
+                </p>
+                <p>
+                    Let's start by translating the function, 
+                    <span class = "math">f(t) = -9.81 \frac{m}{s^2} \cdot t^2</span>,
+                    into JavaScript. See below!
+                </p>
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Functions</title>
+    </head>
+    <body>
+        <p>The output will go here!</p>
+        <script>
+            // This is our function!
+            let f = (t) => -9.81 * t * t;
+            
+            // Because "=>" looks like an arrow, we call it
+            // an arrow function!
+
+            let aParagraph = document.querySelector("p");
+            let output = ""; // We'll put our output in this variable.
+
+            for (let time = 0; time < 100; time++)
+            {
+                output += "<p>" + f(time) + "</p>";
+            }
+
+            aParagraph.innerHTML = output;
+        </script>
+    </body>
+</html></textarea>
+
+                <p>
+                    <code>let f = (t) => -9.81 * t * t</code> is one of several ways to make a function!
+                    We can evaluate <span class = "math">f(t)</span> at some <span class = "math">t</span>
+                    just by typing something like <code>f(12)</code>. 
+                    <code>f(12)</code> evaluates <span class = "math">f</span> at <span class = "math">t = 12 s</span>.
+                </p>
+
+                <b>How else can we do this?</b>
+                <p>
+                    While <code>let f = (t) => -9.81 * t * t</code>-style notation is useful, it only lets us evaluate a single
+                    line of code! 
+                </p>
+            </div>
+
             <div id = "mathInJS">
                 <h3><span class = "math">\MaTh</span> in JavaScript!</h3>
                 <p>
@@ -505,14 +563,12 @@
 
         <!-- Content of asides. -->
         <div class="asideData xorAside">
-            <p></p>
             <p>Let's see what this is through some examples!</p>
             <ul>
                 <li><code>(Exclusive Or)</code> Either read this or don't.</li>
                 <li><code>(Inclusive Or)</code> Either read this, don't, or do both.</li>
                 <li><code>(Exclusive Or)</code> <code>True</code> or <code>false</code>, but not both.</li>
             </ul>
-            <p></p>
         </div>
     </body>
 
