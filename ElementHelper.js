@@ -106,11 +106,11 @@ ElementHelper.loadEditors = async () =>
  * classlabel into clickable regions, displaying the 
  * contents of the second child of the region.
  * For example,
- *  span class=aside:
- *    | span
- *    |  | Label text.
- *    | span
- *    |  | Display this when "Label text." is clicked.
+ *  span class=aside id=asidecontentid:
+ *    |  Label text.
+ * Elsewhere,
+ *  div class=asideData,asidecontentid
+ *    | Display this when "Label text." is clicked.
  */
 
 ElementHelper.enableDetailsPanes = () =>
@@ -121,17 +121,24 @@ ElementHelper.enableDetailsPanes = () =>
     {
         (function(elem)
         {
-            const label = elem.children[0];
-            const description = elem.children[1];
+            const label = elem;
+            const description = document.querySelector(".asideData." + elem.getAttribute("id"));
+
+            var currentWindow;
 
             description.remove();
+            description.classList.remove("asideData");
 
-            label.classList.add("label");
-            label.style.cursor = "pointer";
+            label.style.display = "inline";
             label.setAttribute("tabindex", 0);
 
-            label.addEventListener("click", () =>
+            label.addEventListener("click", async () =>
             {
+                if (currentWindow)
+                {
+                    await currentWindow.close();
+                }
+
                 const detailsWindow = SubWindowHelper.create
                 (
                     {
@@ -139,11 +146,16 @@ ElementHelper.enableDetailsPanes = () =>
                         className: "detailsPane",
                         unsnappable: true,
                         withPage: true,
-                        noResize: true
+                        noResize: true,
                     }
                 );
 
-                detailsWindow.appendChild(description);
+                currentWindow = detailsWindow;
+
+                const content = document.createElement("div");
+                content.appendChild(description);
+
+                detailsWindow.appendChild(content);
             });
         })(elem);
     }

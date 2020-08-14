@@ -82,6 +82,8 @@ ul.toc li:hover
     background-image: none;
     background-color: rgba(0, 0, 0, 0);
     color: black;
+    cursor: pointer;
+    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 
     box-shadow: none;
 }
@@ -93,16 +95,24 @@ ul.toc li:hover
     padding-top: 4px;
 }
 
-.aside :nth-child(2)
+.asideData
 {
     display: none;
 }
 
-.aside :nth-child(1)
+.aside
 {
+    display: inline;
     text-decoration: underline;
     cursor: pointer;
     font-weight: bold;
+
+    transition: 0.5s ease text-shadow;
+}
+
+.aside:hover
+{
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.6);
 }
 
 @media screen and (max-width: 600px)
