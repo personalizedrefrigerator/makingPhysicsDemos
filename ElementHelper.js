@@ -143,10 +143,12 @@ ElementHelper.enableDetailsPanes = () =>
                 (
                     {
                         title: "Aside: " + label.textContent,
+                        titleHTML: "Aside: <b>" + label.textContent + "</b>",
                         className: "detailsPane",
                         unsnappable: true,
                         withPage: true,
                         noResize: true,
+                        maxWidth: 600 // in px... See doc comment for SubWindowManager
                     }
                 );
 

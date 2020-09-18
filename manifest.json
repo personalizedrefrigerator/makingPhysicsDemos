@@ -1,0 +1,10 @@
+{
+    "name": "JS & Physics",
+    "display": "standalone",
+    "icons":
+    [
+        {
+            "src": "favicon.png"
+        }
+    ]
+}

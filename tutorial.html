@@ -2,7 +2,7 @@
 <html lang = "en">
     <head>
         <meta charset = "utf-8" />
-        <meta name = "viewport" content = "width=device-width,initial-scale=1.0"/>
+        <meta name = "viewport" content = "width=device-width,initial-scale=1.0,user-scalable=no"/>
         <link rel = "shortcut icon" href = "favicon.png" />
         <link rel = "stylesheet" href = "style.css" />
         <title>Physics Demos!</title>
@@ -23,6 +23,13 @@
         <script src = "LibJS/Libs/HighlightSchemes.js" encoding = "utf-8"></script>
         <script src = "LibJS/Libs/SyntaxHelper.js" encoding = "utf-8"></script>
         <script src = "LibJS/Libs/Line.js" encoding = "utf-8"></script>
+
+        <!-- Apple PWA support.
+             See https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html-->
+        <link rel="apple-touch-icon" href="favicon.png"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+        <meta name="apple-mobile-web-app-title" content="JS & Physics"/>
     </head>
     <body>
         <div class = "content">
@@ -534,12 +541,71 @@
                     evaluates <code>f</code> with two sub-expressions &mdash; it acts like <code>let f = (t) => -9.81 * t * t</code>,
                     but allows us to divide <code>f</code> into multiple expressions!
                 </p>
+                <p>
+                    If we didn't use a function to represent <code>f</code>, our program might look like the below: 
+                </p>
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Functions</title>
+    </head>
+    <body>
+        <p>The output will go here!</p>
+        <script>
+            // This is our function!
+            // let f = (t) => -9.81 * t * t; ... but we're not using it
+            //                                   for demonstration purposes.
+            
+            // Because "=>" looks like an arrow, we call it
+            // an arrow function!
+
+            let aParagraph = document.querySelector("p");
+            let output = ""; // We'll put our output in this variable.
+
+            output += "<p>" + -9.81 * 0 * 0 + " m</p>";
+            output += "<p>" + -9.81 * 1 * 1 + " m</p>";
+            output += "<p>" + -9.81 * 2 * 2 + " m</p>";
+            output += "<p>" + -9.81 * 3 * 3 + " m</p>";
+            output += "<p>" + -9.81 * 4 * 4 + " m</p>";
+            output += "<p>" + -9.81 * 5 * 5 + " m</p>";
+            output += "<p>" + -9.81 * 6 * 6 + " m</p>";
+            output += "<p>" + -9.81 * 7 * 7 + " m</p>";
+            output += "<p>" + -9.81 * 8 * 8 + " m</p>";
+
+            aParagraph.innerHTML = output;
+        </script>
+    </body>
+</html></textarea>
+
+                <p>
+                    By moving <code>-9.81 * t * t</code> into a function made our code much easier to read!
+                </p>
             </div>
 
             <div id = "Repetition">
                 <h3>Repeating Things!</h3>
                 <p>
-                    
+                    JavaScript supports running code in loops! There are several ways to write loops. Let's look at two of them!
+                </p>
+                <h4><code>while</code> Loops</h4>
+                <p>
+                    <code>while (true) { </code> repeats code <code> }</code> between the &ldquo;{&rdquo;, &ldquo;}&rdquo; braces <i>while</i> <code>true</code> is true.
+                </p>
+                <p>
+                    Of course, <code>true</code> is always true, 
+                    so this loop repeats the code inside the 
+                    <code>{  }</code> braces 
+                    <span class = "aside" id = "foreverLoopAside">
+                        until we stop running the program.
+                    </span> 
+                    More useful would be to replace <code>true</code> with something else...
+                </p>
+                <p>
+                    We can write, <code>while (false) { x = 7; }</code>. <code>false</code> is not true, so <code>x</code> is never set to <code>7</code>. 
+                </p>                
+                <p>
+                      We wrote <code>output += "&lt;p&gt;" + f(8) + " m&lt;/p&gt;";</code> many more times than we needed to! Let's see how to do
                 </p>
             </div>
 
@@ -578,6 +644,46 @@
         </div>
 
         <!-- Content of asides. -->
+        <div class="asideData foreverLoopAside">
+            <p>When we run JavaScript, we run it in the context of a website. Closing the current tab or the entire browser causes our program to stop running.</p>
+            <p>Say we have the following code:</p>
+            <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Functions</title>
+    </head>
+    <body>
+        <p>The output will go here!</p>
+        <script>
+            // This is our function!
+            // let f = (t) => -9.81 * t * t; ... but we're not using it
+            //                                   for demonstration purposes.
+            
+            // Because "=>" looks like an arrow, we call it
+            // an arrow function!
+
+            let aParagraph = document.querySelector("p");
+            let output = ""; // We'll put our output in this variable.
+
+            while (false)
+            {
+                output += "<p>A line of output.</p>";
+            }
+
+            // false is never true, so output is empty.
+
+            aParagraph.innerHTML = output;
+        </script>
+    </body>
+</html></textarea>
+            <p>
+                If we instead wrote <code>while (true)</code>, 
+                <code>output</code> grows until it causes our script to
+                stop running early! There is a maximum variable size!
+           </p>
+        </div>
+
         <div class="asideData xorAside">
             <p>Let's see what this is through some examples!</p>
             <ul>
