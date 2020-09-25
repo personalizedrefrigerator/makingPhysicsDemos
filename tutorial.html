@@ -37,7 +37,7 @@
             <p>
                 Making physics demos can be fun! Let's learn how to do this.
                 You may already be familliar with much of the content of this
-                document. If so, feel free to skip portions of it!
+                document. If so, feel free to skip or skim large portions of it!
             </p>
             
             <div id = "toc">
@@ -46,6 +46,8 @@
                     <li name = "introToJS">An Introduction to JavaScript</li>
                     <li name = "changingHTML">Changing HTML With JavaScript</li>
                     <li name = "JSFunctions">Functions in JavaScript</li>
+                    <li name = "repetition">Loops</li>
+                    <li name = "mathInJS"><code>Math.</code></li>
                     <!-- <li name = "settingUpTheDocument">Setting up the document.</li>
                     <li name = "settingUpTheScripts">Setting up the scripts.</li>
                     <li name = "HTML5Canvas">The HTML5 Canvas</li>
@@ -55,6 +57,11 @@
                     <li name = "discussionPosting">Including in a Discussion Post</li> -->
                 </ul>
             </div>
+
+            <!-- Put global KaTeX definitions here. -->
+            <span class = "math">
+                \gdef{\Arctan}{\textsf{Arctan}}
+            </span>
 
             <hr/>
 
@@ -583,7 +590,7 @@
                 </p>
             </div>
 
-            <div id = "Repetition">
+            <div id = "repetition">
                 <h3>Repeating Things!</h3>
                 <p>
                     JavaScript supports running code in loops! There are several ways to write loops. Let's look at two of them!
@@ -607,6 +614,78 @@
                 <p>
                       We wrote <code>output += "&lt;p&gt;" + f(8) + " m&lt;/p&gt;";</code> many more times than we needed to! Let's see how to do
                 </p>
+                <hr/>
+                <h4><code>for</code> Loops</h4>
+                <pre>// A for loop 
+for (let x = 0; // Start with x = 0.
+        x < 10; // Loop while x < 10.
+         x++)   // Increase x by one each time we loop!
+{
+    // Do something with x.
+}
+</pre>
+            <p>This is equivalent to:</p>
+            <pre>// A while loop 
+let x = 0;
+
+while (x < 10)
+{
+    // Do something with x.
+    x++; // This line is very easy to forget!
+    // x++ is a more concise way of writing x = x + 1.
+}
+</pre>
+            <p>Let's see how this can simplify our earlier example.</p>
+            <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- <title>Functions</title> -->
+        <title>Loops</title>
+    </head>
+    <body>
+        <p>The output will go here!</p>
+        <script>
+            let f = (t) => -9.81 * t * t;
+
+            let aParagraph = document.querySelector("p");
+            let output = ""; // We'll put our output in this variable.
+            
+            // This is how we did it without loops.
+            output += "<p>" + f(0) + " m</p>";
+            output += "<p>" + f(1) + " m</p>";
+            output += "<p>" + f(2) + " m</p>";
+            output += "<p>" + f(3) + " m</p>";
+            output += "<p>" + f(4) + " m</p>";
+            output += "<p>" + f(5) + " m</p>";
+            output += "<p>" + f(6) + " m</p>";
+            output += "<p>" + f(7) + " m</p>";
+            output += "<p>" + f(8) + " m</p>";
+
+            // With a for loop.
+            for (let t = 0; // We 'let t=0' before the loop starts.
+                    t < 9; // We loop while t < 9.
+                    t++) // And at the end of the loop, we add one to t.
+            {
+                output += "<p>" + f(t) + "</p>";
+            }
+
+            // With a while loop.
+            let t = 0;
+            while (t < 9)
+            {
+                output += "<p>" + f(t) + "</p>";
+
+                t += 1; // <-- Equivalent to t = t + 1;
+                //  The above line is very easy to forget. 
+                // 'for' loops make it harder to forget this.
+            }
+
+            // Display our output!
+            aParagraph.innerHTML = output;
+        </script>
+    </body>
+</html></textarea>
             </div>
 
             <div id = "mathInJS">
@@ -617,8 +696,23 @@
                 </p>
                 <ul>
                     <li>
-                        <code>(5 + 4) * 23 / 6</code> is equivalent to 
+                        <code>(5 + 4) * 23 / 6</code> 
+                        <span class = "aside" id = "precisionAside">
+                            is equivalent to
+                        </span> 
                         <span class = "math">(5 + 4) \cdot \frac{23}{6}</span>.
+                    </li>
+                    <li>
+                        <code>5 == 4</code> 
+                        <span class = "aside" id = "equivAside">is</span>
+                         <code>false</code> &mdash; checks whether 5 is equal to 4.
+                    </li>
+                    <li>
+                        <code>!false</code> is <code>true</code> &mdash; it's equivalent to not <code>false</code>,
+                        or <span class = "math">\neg \textsf{false} \equiv \textsf{true}</span>
+                    </li>
+                    <li>
+                        <code>!true</code> is <code>true</code> 
                     </li>
                     <li>
                         <code>a % b</code>, where we have defined integers <code>a</code>
@@ -640,10 +734,88 @@
                         </p>
                     </li>
                 </ul>
+
+                <h4>Mathematical Constants</h4>
+                <p>
+                    Several mathemtaical constants can be accessed in JavaScript 
+                    through the <code>Math</code> variable. Like <code>document</code>,
+                    we can write <code>Math.something</code> to get some entity associated
+                    with <code>Math</code>.
+                </p>
+                <ul>
+                    <li>
+                        <code>Math.PI</code> is a pre-defined variable roughly
+                        equivalent to <span class="math">\pi</span>.
+                    </li>
+                    <li>
+                        <code>Math.E</code> <span class = "math">\approx e = 2.718281828459045...</span>
+                    </li>
+                    <li>
+                        <code>Math.LN10</code> <span class = "math">\approx \log_e(10) = 2.302585092994046...</span>
+                    </li>
+                    <li>
+                        <code>Infinity</code> and <code>-Infinity</code> are constants (not prefixed with <code>Math.</code>)
+                        that appear when we attempt to divide by zero (or negative zero). JavaScript also has
+                        <code>NaN</code> to represent the concept of a value that is &ldquo;not a number&rdquo;.
+                        For example, <code>"some text!" * 3</code> evaluates to <code>NaN</code>.
+                    </li>
+                </ul>
+
+                <h4>Trigonometry</h4>
+                <p>
+                    Trigonometric functions accept radians in JavaScript and
+                    can be accessed via <code>Math.functionNameHere(amount)</code>.
+                    For example,
+                </p>
+                <ul>
+                    <li><code>Math.sin(3.14)</code> computes the sine of <code>3.14 radians</code>.</li>
+                    <li><code>Math.sin(45 * Math.PI / 180)</code> computes the sine of
+                        <span class = "math">\Big(45^\circ \cdot {\large\frac{\pi \cdot \text{radians}}{180^\circ}}\Big)</span>
+                        &mdash; it computes the sine of 45 degrees!
+                    </li>
+                    <li><code>Math.cos(Math.PI)</code><span class = "math">\approx \cos(\pi) = -1</span></li>
+                    <li><code>Math.tan(0)</code><span class = "math">\approx \tan(0) = 0</span></li>
+                    <li><code>Math.atan(1)</code><span class = "math">\approx \Arctan(1) = \large\frac{\pi}{4}</span></li>
+                    <li><code>Math.atan2(1, 2) == Math.atan(1/2)</code><span class = "math">\approx \Arctan(1/2)</span></li>
+                    <li><code>Math.atan2(1, 0)</code><span class = "math">\approx {\large \frac{\pi}{2}}</span> to make it easy 
+                        to avoid division by zero!</li>
+                </ul>
             </div>
         </div>
 
         <!-- Content of asides. -->
+        <div class="asideData equivAside">
+            <p>
+                You caught my <strike>mistake</strike>! I should be writing 
+                &ldquo;evaluates to&rdquo; or &ldquo;is equivalent to&rdquo; here
+                instead of &ldquo;is&rdquo;. While the expression <code>!false</code>
+                (read &ldquo;not false&rdquo;) is <i>equivalent to</i> <code>true</code>,
+                it is not the same expression.
+            </p>
+        </div>
+        <div class="asideData precisionAside">
+            <p>
+                When I say &ldquo;equivalent to&rdquo;,
+                I mean &ldquo;approximately equivalent to&rdquo;.
+                Please read 
+                <!-- 
+                    Should I use 
+                    https://web.archive.org/web/20190605024548/https://modernweb.com/what-every-javascript-developer-should-know-about-floating-points/
+                    instead?
+                -->
+                <a 
+                    title="An article from modernweb.com discussing floating-point format in JavaScript."
+                    href="https://modernweb.com/what-every-javascript-developer-should-know-about-floating-points/">
+                this article.
+                </a>
+                <!--or
+                <a
+                    href="https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html#680">
+                    this article
+                </a>
+                for an in-depth discussion of how JavaScript represents numbers.-->
+            </p>
+        </div>
         <div class="asideData foreverLoopAside">
             <p>When we run JavaScript, we run it in the context of a website. Closing the current tab or the entire browser causes our program to stop running.</p>
             <p>Say we have the following code:</p>
@@ -690,6 +862,13 @@
                 <li><code>(Exclusive Or)</code> Either read this or don't.</li>
                 <li><code>(Inclusive Or)</code> Either read this, don't, or do both.</li>
                 <li><code>(Exclusive Or)</code> <code>True</code> or <code>false</code>, but not both.</li>
+                <li><code>(Exclusive Or)</code> 
+                    <code>0b1 ^ 0b0 is 0b1</code> where <code>0b...</code> states that
+                the following number will be in binary (e.g. <code>0b10 === 2.</code></li>
+                <li><code>(Exclusive Or)</code> <code>0b1 ^ 0b1 is 0b0</code></li>
+                <li><code>(Exclusive Or)</code> <code>0b10 ^ 0b01 is 0b11</code> because each bit is 
+                    compared with the corresponding bit in the other number.</li>
+                <li><code>(Exclusive Or)</code> <code>0b11 ^ 0b01 is 0b10</code>.</li>
             </ul>
         </div>
     </body>
