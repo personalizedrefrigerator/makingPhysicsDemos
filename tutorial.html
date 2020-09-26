@@ -30,6 +30,11 @@
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
         <meta name="apple-mobile-web-app-title" content="JS & Physics"/>
+
+        <!-- Constants used by inline script blocks... -->
+        <script>
+            const LOADED_EDITOR = "LOADED_EDITOR"; // Used for events. E.g. await JSHelper.Notifier.waitFor(LOADED_EDITOR + "#" + idOfEditor);
+        </script>
     </head>
     <body>
         <div class = "content">
@@ -814,6 +819,17 @@ let F = false;
                     <li><code>T && T</code> evaluates to <code>true</code> because
                         <code>T</code> and <code>T</code> are both <code>true</code>.</li>
                 </ul>
+
+                <h4>Practice!</h4>
+                <p>Try these concepts out in the editor below!</p>
+                <pre class = "interactive consoleMode linePerCmd" autocomplete = "false">
+let F = false;
+let T = true;
+F == false
+true == false
+F != true
+Math.sin(Math.PI)</pre>
+                <p></p>
             </div>
         </div>
 

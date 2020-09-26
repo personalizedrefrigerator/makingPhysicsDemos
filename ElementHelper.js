@@ -1,6 +1,10 @@
 "use strict";
 
 const ElementHelper = {};
+// LOADED_EDITOR is a constant that may be used to register
+// events before this script is loaded. Re-declare it.
+self.LOADED_EDITOR = "LOADED_EDITOR";
+const CONSOLE_MODE_CLASS_NS = "consoleMode";
 
 /*
   Turn elements in the table of contents into links!
@@ -89,15 +93,67 @@ ElementHelper.renderMath = async () =>
  */
 ElementHelper.loadEditors = async () =>
 {
+    // Convert 'pre's to textareas if marked 'interactive'.
+    const toConvert = document.querySelectorAll("pre.interactive");
+
+    for (const pre of toConvert)
+    {
+        const textarea = document.createElement("textarea");
+        textarea.classList.add("code");
+        textarea.value = pre.innerHTML;
+
+        for (const classNS of pre.classList)
+        {
+            textarea.classList.add(classNS);
+        }
+
+        pre.replaceWith(textarea);
+    }
+
+    await JSHelper.nextAnimationFrame();
+
+    // All textareas marked 'code'.
     const editables = document.querySelectorAll("textarea.code");
 
     for (const textarea of editables)
     {
-        EditorHelper.replaceWithEditor(textarea, 
+        let content = textarea.value;
+
+        let editor = EditorHelper.replaceWithEditor(textarea, 
         { 
             height: 300, 
-            font: "11pt courier, calibri, monospace" 
+            font: "bold 11pt courier, calibri, monospace" 
         });
+
+        if (textarea.getAttribute("id"))
+        {
+            JSHelper.Notifier.notify(LOADED_EDITOR + "#" + textarea.getAttribute("id"), editor);
+        }
+
+        if (textarea.classList.contains(CONSOLE_MODE_CLASS_NS))
+        {
+            if (!textarea.classList.contains("linePerCmd"))
+            {
+                editor.openInteractiveConsole(content, 
+                {
+                    hideExitLine: true,
+                });
+            }
+            else
+            {
+                const console = await editor.openInteractiveConsole(undefined,
+                {
+                    hideExitLine: true,
+                });
+                
+                const lines = content.trim().split(/\s*[\n]+\s*/g);
+
+                for (const line of lines)
+                {
+                    await console.run(line);
+                }
+            }
+        }
     }
 };
 
