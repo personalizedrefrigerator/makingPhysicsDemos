@@ -777,8 +777,42 @@ while (x < 10)
                     <li><code>Math.tan(0)</code><span class = "math">\approx \tan(0) = 0</span></li>
                     <li><code>Math.atan(1)</code><span class = "math">\approx \Arctan(1) = \large\frac{\pi}{4}</span></li>
                     <li><code>Math.atan2(1, 2) == Math.atan(1/2)</code><span class = "math">\approx \Arctan(1/2)</span></li>
+                    <li><code>Math.atan2(a, b) == Math.atan(a/b)</code><span class = "math">\approx \Arctan(a/b)\qquad \forall\;\; b \not= 0</span></li>
                     <li><code>Math.atan2(1, 0)</code><span class = "math">\approx {\large \frac{\pi}{2}}</span> to make it easy 
                         to avoid division by zero!</li>
+                </ul>
+
+                <h4>Operations With Booleans</h4>
+                <p>
+                    Booleans are represented by <code>true</code> and <code>false</code> in JavaScript.
+                    This type of variable is useful for determining which pieces of code should run when.
+                </p>
+                <pre>
+// Say we have defined,
+let T = true;
+let F = false;
+</pre>
+                <ul>
+                    <li><code>T == true</code> evaluates to <code>true</code>.</li>
+                    <li><code>F == true</code> evaluates to <code>false</code>.</li>
+                    <li><code>T == F</code> evaluates to <code>false</code>.</li>
+                    <li>
+                        <code>T != F</code> evaluates to <code>true</code>, becuase it is true that 
+                        <span class = "math">\textsf{T} \not= \textsf{F}</span>.
+                    </li>
+                    <li>
+                        <code>true || false</code> is read &ldquo;true or false&rdquo;.
+                        This example evaluates to <code>true</code>. In general, though,
+                        <code>a || b</code> for some <code>a, b</code>, <code>a || b</code>
+                        is true if either <code>a, b,</code> or both are <code>true</code>.
+                    </li>
+                    <li><code>F || F</code> evaluates to <code>false</code>.</li>
+                    <li><code>T || T</code> evaluates to <code>true</code>.</li>
+                    <li><code>T && F</code> is read &ldquo;true and false&rdquo;
+                         and evaluates to <code>false</code> because it is not the case that
+                         <code>F == true</code>.</li>
+                    <li><code>T && T</code> evaluates to <code>true</code> because
+                        <code>T</code> and <code>T</code> are both <code>true</code>.</li>
                 </ul>
             </div>
         </div>
