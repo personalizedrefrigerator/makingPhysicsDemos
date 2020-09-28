@@ -101,6 +101,7 @@ ElementHelper.loadEditors = async () =>
         const textarea = document.createElement("textarea");
         textarea.classList.add("code");
         textarea.value = pre.innerHTML;
+        textarea.setAttribute("spellcheck", false);
 
         for (const classNS of pre.classList)
         {
