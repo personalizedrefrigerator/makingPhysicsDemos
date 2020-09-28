@@ -118,11 +118,14 @@ ElementHelper.loadEditors = async () =>
     for (const textarea of editables)
     {
         let content = textarea.value;
+        const isConsoleMode = textarea.classList.contains(CONSOLE_MODE_CLASS_NS);
 
         let editor = EditorHelper.replaceWithEditor(textarea, 
         { 
             height: 300, 
-            font: "bold 11pt courier, calibri, monospace" 
+            font: "bold 11pt courier, calibri, monospace",
+            noPreview: isConsoleMode,
+            syncTextbox: isConsoleMode,
         });
 
         if (textarea.getAttribute("id"))
@@ -130,7 +133,7 @@ ElementHelper.loadEditors = async () =>
             JSHelper.Notifier.notify(LOADED_EDITOR + "#" + textarea.getAttribute("id"), editor);
         }
 
-        if (textarea.classList.contains(CONSOLE_MODE_CLASS_NS))
+        if (isConsoleMode)
         {
             if (!textarea.classList.contains("linePerCmd"))
             {
