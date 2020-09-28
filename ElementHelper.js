@@ -12,7 +12,7 @@ const CONSOLE_MODE_CLASS_NS = "consoleMode";
   with id matching the name of each item.
  */
 
-ElementHelper.setupToc = () =>
+ElementHelper.setupToc = async () =>
 {
     // Find the table of contents.
     const toc = document.querySelectorAll("ul.toc li");
@@ -169,7 +169,7 @@ ElementHelper.loadEditors = async () =>
  *    | Display this when "Label text." is clicked.
  */
 
-ElementHelper.enableDetailsPanes = () =>
+ElementHelper.enableDetailsPanes = async () =>
 {
     const toConvert = document.querySelectorAll(".aside");
     
@@ -220,8 +220,10 @@ ElementHelper.enableDetailsPanes = () =>
 };
 
 
-
-ElementHelper.setupToc();
-ElementHelper.renderMath();
-ElementHelper.loadEditors();
-ElementHelper.enableDetailsPanes();
+(async () =>
+{
+    await ElementHelper.setupToc();
+    await ElementHelper.renderMath();
+    await ElementHelper.loadEditors();
+    await ElementHelper.enableDetailsPanes();
+})();
