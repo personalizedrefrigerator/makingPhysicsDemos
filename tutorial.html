@@ -995,6 +995,66 @@ div
 }
 &lt;/style&gt;
                 </pre>
+                
+                <p> To see it, let's give it a border. </p>
+
+                <pre>
+&lt;style&gt;
+div
+{
+    width: 100vw;
+    height: 100vh;
+
+    border: 1px solid black;
+    /*
+            ^     ^       ^
+            .     |_____  |
+        The border is   | . The border will be black!
+        1-pixel thick.  .
+                It will be a solid
+                line (as opposed to
+                dashed or dotted).
+    */
+}
+&lt;/style&gt;
+                </pre>
+
+                <p>All together,</p>
+                <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A Large Div!</title>
+</head>
+<body>
+    <div>This is the <b><i>div</i></b>.</div>
+    <style>
+
+div
+{
+    width: 100vw; /*
+        ^
+        |   What happens if you
+        |   comment this line out?
+    */
+    height: 100vh;
+
+    border: 1px solid black;
+    /* or */
+    /* border: 4px dotted red; */
+    /* or */
+    /* border: 8px dashed purple; */
+    /* ^
+       |
+        Try uncommenting these!
+        What happens?
+    */
+}
+
+    </style>
+</body>
+</html>
+</textarea>
             </div>
         </div>
 
