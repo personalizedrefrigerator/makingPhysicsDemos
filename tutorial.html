@@ -789,6 +789,10 @@ while (x < 10)
 
                 <h4>Operations With Booleans</h4>
                 <p>
+                    Named after someone, Booleans are values that are
+                    either true or false.
+                </p>
+                <p>
                     Booleans are represented by <code>true</code> and <code>false</code> in JavaScript.
                     This type of variable is useful for determining which pieces of code should run when.
                 </p>
@@ -829,7 +833,168 @@ F == false
 true == false
 F != true
 Math.sin(Math.PI)</pre>
-                <p></p>
+                <p>
+                    What is the result of running <code>F == 0</code>?
+                    What if happens if you run <code>F === 0</code>?
+                    What about <code>true == 1</code>? What is the
+                    difference between <code>==</code> and <code>===</code>?
+                </p>
+            </div>
+            <div id = "CSS">
+                <h2>CSS &mdash; Cascading Style Sheets</h2>
+                <p>
+                    CSS lets us change how parts of our demo will look. 
+                </p>
+                <p>
+                    Just as JavaScript is run when within a <code>&lt;script&gt;</code>
+                    <code>&lt;/script&gt;</code> block, we write CSS within a 
+                    <code>&lt;style&gt; &lt;/style&gt;</code> block. Let's see
+                    an example!
+                </p>
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Styling Text</title>
+</head>
+<body>
+    <p>This text is in a paragraph element.</p>
+    <div>This text is in a div!</div>
+    <p>This text is also in a paragraph.</p>
+
+    <style>
+        /* 
+          This is a CSS comment! 
+          CSS does not support "// comment here"-style
+          comments, as JavaScript does.
+        */
+
+        /* Select paragraphs. */
+        p
+        {
+            /* Apply this to each paragraph. */
+            color: red; /* Make its text red. */
+            transform: rotate(32deg); /* Rotate it 32 degrees. */
+        }
+    </style>
+</body>
+</html>
+</textarea>
+                <p>
+                    Okay! Now, let's just make one of the paragraphs red by using an <code>id</code>!
+                </p>
+
+                <textarea class = "code" autocomplete = "false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Styling Text</title>
+</head>
+<body>
+    <!-- 
+        Give the first paragraph an ID. Note that IDs must be one
+        word, just like variable names in JavaScript.
+    -->
+    <p id="styleThisOne">This text is in a paragraph element.</p>
+    <div>This text is in a div!</div>
+    <p>This text is also in a paragraph.</p>
+
+    <style>
+        /* 
+          This is a CSS comment! 
+        */
+
+        /* Select paragraphs. */
+        p
+        {
+            /* Apply this to both paragraphs. */
+            transform: rotate(32deg) translate(0px, -10px); 
+            /* ^
+               | Rotate the paragraphs 32 degrees clockwise.
+             THEN translate 0px right and 10px down.*/
+            /*
+                Above, 'px' stands for 'pixels'. Notice that we
+                put 'rotate(32deg)' before 'translate(0px, -10px)'.
+                What happens when we switch the order?
+            */
+
+            /* transform: scale(2, 2); */
+            /*
+                ^
+                |
+            Try uncommenting this! What happens?
+            What happens if you write */
+            /* transform: scale(2, 2) rotate(32deg) translate(0px, -10px); */
+            /* instead?
+            */
+        }
+
+        /* Select just the paragraph we gave an ID to. */
+        #styleThisOne
+        {
+            color: red; /* Only the paragraph with 
+                            ID="styleThisOne" will be turned red! */
+            /*
+                Try uncommenting this line:
+            */
+            /* transform: scale(2, 1); */
+            /*
+                What happens?
+            */
+        }
+    </style>
+
+    <script>
+        // You can also select elements by their
+        //ID in JavaScript!
+        let paragraph = 
+            document.querySelector("#styleThisOne");
+
+        // We use a '#' symbol to tell JavaScript 
+        // (and, further above, to tell CSS) that
+        // we want the element with the ID following
+        // the '#' symbol, rather than an element 
+        // with tag-name, "styleThisOne" 
+        // (e.g. <styleThisOne></styleThisOne>).
+
+        paragraph.textContent = "I have been changed!";
+
+        // We can access the div's content like this, too:
+        // document.querySelector gives us the first element
+        // matching the query-selector that we give it.
+        // Above, the query selector is 
+        // #styleThisOne. Here, it is div.
+        let divElement = document.querySelector("div");
+        divElement.textContent = "I am a div.";
+    </script>
+</body>
+</html>
+</textarea>
+                <p>
+                    Notice that we used <code>document.querySelector</code> to access 
+                    the paragraph by its ID in a way similar to that done in CSS:
+                    <code>#styleThisOne</code>.
+                </p>
+
+                <hr/>
+                <h3>Filling the Screen!</h3>
+                <p>
+                    Now, let's see how to fill the screen with an element.
+                    Say, a <code>&lt;div&gt;&lt;/div&gt;</code>.
+                </p>
+                
+                <p>
+                    We'll want to set its width and height:
+                </p>
+                <pre>
+&lt;style&gt;
+div
+{
+    width: 100vw; /* 100% of the screen's width (vw). */
+    height: 100vh; /* 100% of the screen's height (vh). */
+}
+&lt;/style&gt;
+                </pre>
             </div>
         </div>
 
