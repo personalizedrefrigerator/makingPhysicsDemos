@@ -1642,10 +1642,24 @@ requestAnimationFrame(f);
                     || canvas.clientHeight != canvas.height;
             
             // Make the drawing surface the correct size.
+            // ... but only if it needs to be updated!
             if (needResize)
             {
                 canvas.width = canvas.clientWidth;
                 canvas.height = canvas.clientHeight;
+                /* ^
+                   | 
+                When we set canvas.width or
+                canvas.height to a value,
+                the browser clears and resizes
+                the drawing context. This even
+                happens if this won't change
+                the size of the context
+                (e.g. canvas.width = canvas.width;).
+
+                As such, we only do this 
+                if (needResize).
+                 */
             }
 
             // Get the time:
@@ -1677,9 +1691,11 @@ requestAnimationFrame(f);
                 Notice that, above, we only update <code>canvas.width</code>
                 and <code>canvas.height</code> <b><code>if</code></b> the
                 drawing surface and the canvas' sizes are different. This
-                is because changing <code>canvas.width</code>
+                is because setting <code>canvas.width</code>
                 and <code>canvas.height</code> 
-                <a href="https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-clear-canvas">has side-effects.</a>
+                <a href="https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-clear-canvas">has side-effects,</a>
+                most notably, clearing the screen 
+                (I find it makes much more sense to clear the screen using <code>ctx.clearRect</code>).
             </p>
             <p>
                 Note that we clear the canvas with <code>ctx.clearRect</code>. Notice how similar this is to
