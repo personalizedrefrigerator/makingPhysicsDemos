@@ -1448,6 +1448,109 @@ canvas.height = canvas.clientHeight;
                     or, we can trace it with <code>ctx.stroke()</code>.
                 </li>
             </ol>
+
+            <b>For example,</b>
+            <pre>
+let ctx = canvas.getContext("2d");
+ctx.beginPath();
+ctx.moveTo(0, 0);
+ctx.lineTo(50, 50);
+ctx.lineTo(50, 0);
+ctx.stroke();
+            </pre>
+
+            <textarea class = "code">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Paths</title>
+</head>
+<body>
+    <canvas></canvas>
+    <style>
+        canvas
+        {
+            /*
+                Fill the screen.
+            */
+            width: 100vw;
+            height: 100vh;
+
+            border: 4px inset red;
+
+            /* 
+                Don't make the canvas wider when adding the border: 
+                (Put the border inside the box).
+            */
+            box-sizing: border-box; 
+            display: block;
+        }
+
+        html, body
+        {
+            margin: 0px;
+        }
+    </style>
+
+    <script>
+        let canvas = document.querySelector("canvas");
+        
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+
+        let ctx = canvas.getContext("2d");
+        
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(100, 100);
+        ctx.stroke();
+
+
+
+        // ==================================
+        //  Settings:
+        // ==================================
+        // We can also do something like this:
+        
+        // Save any settings (e.g. rotations,
+        // colors, etc.)
+        ctx.save();
+
+        // Set some settings.
+        ctx.translate(-50, -50); // Move new things we draw,
+        ctx.scale(2, 2); // double their size,
+        ctx.rotate(Math.PI / 4); // and rotate them 45 degrees!
+
+        // Draw something.
+        ctx.beginPath();
+        ctx.rect(50, 50, 100, 100);
+        ctx.stroke();
+
+        // Get our settings back.
+        ctx.restore();
+
+        // This rectangle isn't rotated!
+        ctx.fillRect(0, 0, 25, 25);
+
+        ctx.fillStyle = "red"; // A red rectangle!
+        ctx.fillRect(25,25, 50, 50);
+    </script>
+</body>
+</html>
+            </textarea>
+            <p>
+                Notice that, above, we also included 
+                code to set drawing settings (e.g. rotation,
+                scaling, translation), and <code>ctx.restore</code>
+                them!
+            </p>
+            <p>
+                For a full tutorial on the HTML5 Canvas, 
+                try 
+                <a target="blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
+                this tutorial on MDN</a>. If the link is broken, 
+                search for <code>MDN HTML5 Canvas Tutorial</code>.
+            </p>
             </div>
             <div id = "example">
                 <h2>Creating a Demo</h2>
