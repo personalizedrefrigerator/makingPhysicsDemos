@@ -1915,7 +1915,332 @@ requestAnimationFrame(f);
                 </ol>
 
                 <h4>Making the Tutorial</h4>
-                <p>To-do</p>
+                <p>
+                    To start, let's replace the contents of <code>&lt;body&gt;...&lt;/body&gt;</code>
+                    in <code>tutorial.html</code> with a <code>canvas</code> and make
+                    it fill the screen.
+                </p>
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block; /* Block display so we can use borer-box. */
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <p>
+                    We'll probably want the waves to move,
+                    so we'll add animation as we did above 
+                    &mdash; with <code>requestAnimationFrame</code>
+                    and a function.
+                </p>
+
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block; /* Block display so we can use borer-box. */
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+let drawWaves = () =>
+{
+    // Draw the waves here?
+};
+
+let draw = () =>
+{
+    // Is the drawing surface a different size
+    // than the size of the canvas on the screen?
+    let needToResize = 
+        (canvas.clientWidth != canvas.width
+        || canvas.clientHeight != canvas.height);
+    
+    if (needToResize)
+    {
+        // If so, then make it fit!
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    // Clear everything.
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawWaves(); // A function that does nothing.
+
+    // Draw after the browser has had
+    // a chance to render any changes.
+    requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <p>
+                    This is very similar to what we did before!
+                    The biggest difference is the <code>drawWaves</code>
+                    function.
+                </p>
+
+                <p>
+                    It seems easiest to graph waves with
+                    <code>x</code> and <code>y</code>
+                    in a fixed range. 
+                    Say, from negative one to one.
+                </p>
+
+                <p>
+                    To do this, we'll want to change our 
+                    drawing settings. To keep our old settings
+                    (which draw things normally, without 
+                    scaling, rotating, etc.), we use
+                    <code>ctx.save()</code>.
+                </p>
+
+                <p>
+                    We restore the saved settings with 
+                    <code>ctx.restore()</code>. We've
+                    seen this before!
+                </p>
+
+                <p>
+                    To do this transformation, we first want
+                    to center everything &mdash; we translate
+                    by <code>(canvas.width / 2, canvas.height / 2)</code>.
+                    This causes an object that would be drawn at
+                    <span class="math">(0, 0)</span> to be drawn 
+                    at 
+                    <span class="math">(\frac{1}{2} \cdot \texttt{canvas.width}, \frac{1}{2} \cdot \texttt{canvas.height})</span>.
+                </p>
+
+                <p>
+                    Now, <span class="math">(0, 0)</span> is at the center
+                    of the screen! Let's make <span class="math">(1, 1)</span>
+                    be at the top-right of the screen!
+                </p>
+
+                <p>
+                    How, then should we scale it? Here are some of our options:
+                </p>
+
+                <ul>
+                    <li><code>ctx.scale(1/canvas.width, 1/canvas.height);</code></li>
+                    <li><code>ctx.scale(canvas.width, canvas.height);</code></li>
+                    <li><code>ctx.scale(canvas.width / 2, -canvas.height / 2);</code></li>
+                    <li><code>ctx.scale(canvas.width / 2, canvas.height / 2);</code></li>
+                </ul>
+
+                <p>Looking at these, we can see:</p>
+
+                <ul>
+                    <li>
+                        <code>ctx.scale(1/canvas.width, 1/canvas.height)</code>
+                        won't work because it would cause a point, 
+                        <span class="math">P = (1, 1)</span>, to be drawn at
+                        <span class="math">P' = (1 / \texttt{canvas.width}, 1 / \texttt{canvas.height})</span>.
+                        <br/>
+                        By default, <code>canvas.width</code> and <code>canvas.height</code> are in 
+                        the hundreds of pixels. This makes <code>1/canvas.width</code> and <code>1/canvas.height</code>
+                        very small. As such, this does not achieve our goal of
+                        mapping <span class="math">(1, 1)</span> to the top-right corner
+                        of the screen.
+                    </li>
+                    <li>
+                        <code>ctx.scale(canvas.width, canvas.height)</code> maps the point
+                        <span class="math">(1, 1)</span> to the point 
+                        <span class="math">(\texttt{canvas.width}, \texttt{canvas.height})</span>.
+                        <br/>
+                        This might seem like it would work, but remember that we have
+                        shifted the point <span class="math">(0, 0)</span> to the center
+                        of the screen!
+                        <br/>
+                        The points 
+                        <span class="math">(\texttt{canvas.width} / 2, \texttt{canvas.height} / 2)</span>,
+                        <span class="math">(0, 0)</span>, and
+                        <span class="math">(-\texttt{canvas.width} / 2, -\texttt{canvas.height} / 2)</span>
+                        may be on the screen before scaling, but 
+                        <span class="math">(\texttt{canvas.width}, \texttt{canvas.height})</span> isn't!
+                        <br/>
+                        Because <span class="math">(1, 1)</span> maps to
+                        <span class="math">(\texttt{canvas.width}, \texttt{canvas.height})</span>,
+                        we know <span class="math">(1, 1)</span> will be off-screen. We need to 
+                        map it to <span class="math">(\pm\texttt{canvas.width} / 2, \pm\texttt{canvas.height} / 2)</span>
+                        instead!
+                    </li>
+                </ul>
+
+                <p>
+                    <code>ctx.scale(canvas.width / 2, canvas.height / 2)</code> might
+                    seem like it should work. Unfortunately, this causes 
+                    <span class="math">(1, 1)</span> to be in the bottom-right
+                    corner of the screen.
+                </p>
+
+                <textarea class="code initialPreview">
+<!-- 
+    You don't have to type this.
+    This code just shows where we would
+    put (1, 1) if we don't sclae(1, -1),
+    thereby flipping the y-axis.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block; /* Block display so we can use borer-box. */
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+let drawExample = () =>
+{
+    ctx.save();
+
+    // *** Try changing this! ***
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+
+    // Draw axes.
+    ctx.beginPath();
+    ctx.moveTo(-canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, 0);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(0, -canvas.height / 2);
+    ctx.lineTo(0, canvas.height / 2);
+    ctx.stroke();
+
+    // Draw corner point.
+
+    // *** Try changing this scale! ***
+    ctx.scale(canvas.width / 2, canvas.height / 2);
+
+    ctx.beginPath();
+    ctx.arc(1, 1, // (x, y)
+         0.05, // radius = 0.05
+          0, Math.PI * 2, // (startAngle, endAngle)
+          false); // Anti-clockwise=false.
+    ctx.fill();
+
+    ctx.restore();
+
+    // Label the point.
+    let textX = canvas.width - 50;
+    let textY = canvas.height - 25;
+    ctx.font = "12pt Serif";
+
+    ctx.fillText("(1, 1)", textX, textY);
+};
+
+
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+drawExample();
+
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <p>
+                    This is because, without scaling/translation, 
+                    (0, 0) is at the top-left corner of an HTML5 canvas!
+                </p>
+
+                <p>
+                    While this doesn't match our conventional 
+                    placement of the origin
+                    when graphing functions, it does match how we 
+                    write English &mdash; starting at the top-left
+                    of a page and moving to the right and sometimes down.
+                </p>
+
+                <p>
+                    To make (1, 1) be at the top-right of
+                    the display, we need to reflect over the y-axis!
+                    In other words, we need to <code>ctx.scale(1, -1)</code>.
+                </p>
+
+                <p>
+                    <code>ctx.scale(canvas.width / 2, -canvas.height / 2)</code>
+                    both stretches and reflects &mdash; it maps (1, 1) to the
+                    top-right corner of the screen, as desired.
+                </p>
 
                 <!-- Enable example buttons. -->
                 <script>
@@ -1934,6 +2259,24 @@ requestAnimationFrame(f);
                         }
                     });
                 </script>
+
+                <p>
+                    To summarize, we first <code>ctx.translate</code>
+                    by <code>(canvas.width / 2, canvas.height / 2)</code>
+                    to move <code>(0, 0)</code> to the center of the screen.
+                </p>
+                <p>
+                    We then <code>ctx.scale(ctx.canvas.width / 2, -ctx.canvas.height / 2</code>.
+                </p>
+
+                <p>
+                    Don't forget to <button class="mockGithubCommit">Commit</button>
+                    your changes! After doing this, re-open the file and start editing 
+                    again.
+                </p>
+
+                <h3>Drawing the Waves</h3>
+                <p>This part of the tutorial hasn't been finished yet. :(</p>
             </div>
             <div id = "embeddingInADiscussion">
                 <h2>Embedding a Demo in a Discussion</h2>

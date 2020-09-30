@@ -5,6 +5,7 @@ const ElementHelper = {};
 // events before this script is loaded. Re-declare it.
 self.LOADED_EDITOR = "LOADED_EDITOR";
 const CONSOLE_MODE_CLASS_NS = "consoleMode";
+const SHOW_PREVIEW_INITIALLY = "initialPreview";
 
 /*
   Turn elements in the table of contents into links!
@@ -120,6 +121,7 @@ ElementHelper.loadEditors = async () =>
     {
         let content = textarea.value;
         const isConsoleMode = textarea.classList.contains(CONSOLE_MODE_CLASS_NS);
+        const selectPreviewTab = textarea.classList.contains(SHOW_PREVIEW_INITIALLY);
 
         let editor = EditorHelper.replaceWithEditor(textarea, 
         { 
@@ -127,6 +129,7 @@ ElementHelper.loadEditors = async () =>
             font: "bold 11pt courier, calibri, monospace",
             noPreview: isConsoleMode,
             syncTextbox: isConsoleMode,
+            defaultTab: selectPreviewTab ? "Preview" : undefined, // undefined => auto
         });
 
         if (textarea.getAttribute("id"))
