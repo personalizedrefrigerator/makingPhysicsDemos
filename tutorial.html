@@ -918,13 +918,13 @@ Math.sin(Math.PI)</pre>
         p
         {
             /* Apply this to both paragraphs. */
-            transform: rotate(32deg) translate(0px, -10px); 
+            transform: rotate(32deg) translate(0px, 50px); 
             /* ^
                | Rotate the paragraphs 32 degrees clockwise.
-             THEN translate 0px right and 10px down.*/
+             THEN translate 0px right and 50px down.*/
             /*
                 Above, 'px' stands for 'pixels'. Notice that we
-                put 'rotate(32deg)' before 'translate(0px, -10px)'.
+                put 'rotate(32deg)' before 'translate(0px, 50px)'.
                 What happens when we switch the order?
             */
 
@@ -934,7 +934,7 @@ Math.sin(Math.PI)</pre>
                 |
             Try uncommenting this! What happens?
             What happens if you write */
-            /* transform: scale(2, 2) rotate(32deg) translate(0px, -10px); */
+            /* transform: scale(2, 2) rotate(32deg) translate(0px, 50px); */
             /* instead?
             */
         }
@@ -1250,8 +1250,8 @@ div:hover
         // Define some constants.
         let x = 0;
         let y = 0;
-        let width = 50;
-        let height = 50;
+        let width = 50; // 50 pixels
+        let height = 50; // by 50 pixels.
 
         // Draw a rectangle!
         ctx.fillRect(x, y, width, height);
@@ -1293,7 +1293,10 @@ div:hover
                 the border, don't grow it! 
             */
 
-            width: 100vw;
+            width: 100vw; 
+
+            /* Try changing this. What happens
+            to the rectangle? */
             height: 100vh;
         }
 
@@ -1317,9 +1320,134 @@ div:hover
 </body>
 </html>
 </textarea>
-            <hr/>
-            <h4>Drawing with <code>ctx</code></h4>
+            <b>Changing the Number of Pixels</b>
+            <p>
+                At present, as the screen shrinks and grows, 
+                our square is stretched into a rectangle!
+            </p>
+            <p>
+                We want to make the <b>drawing surface</b>
+                the same size as the <code>&lt;canvas&gt;
+                &lt;/canvas&gt;</code>.
+            </p>
+            <p>
+                We can use the following to get a
+                canvas' display size and its drawing surface size:
+            </p>
+            <ul>
+                <li>
+                    <code>canvas.clientWidth</code> is the current width of
+                    the canvas <b>on the screen</b> in pixels (<code>px</code>).
+                </li>
+                <li>
+                    <code>canvas.clientHeight</code> is the current height of
+                    the canvas <b>on the screen</b> in pixels (<code>px</code>).
+                </li>
+                <li>
+                    <code>canvas.width</code> is the width of the
+                    canvas' <b>drawing surface</b> in pixels. 
+                    <b>It won't change unless we change it.</b>
+                </li>
+                <li>
+                    <code>canvas.height</code> is the height of the
+                    canvas' <b>drawing surface</b> in pixels. 
+                    <b>It, too, won't change unless we change it.</b>
+                </li>
+            </ul>
+            <p>
+                Setting <code>canvas.width</code> and 
+                <code>canvas.height</code> set the size of the
+                drawing surface!
+            </p>
+            <p>
+                To make the drawing surface fit the canvas, 
+                we can do this:
+            </p>
+            <pre>
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+</pre>
+            <p>
+                Let's see an example:
+            </p>
+            <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing on a Canvas</title>
+</head>
+<body>
+    <canvas></canvas>
 
+    <style>
+        canvas
+        {
+            border: 1px solid black;
+            
+            display: block; 
+            box-sizing: border-box; 
+
+            width: 100vw; 
+            height: 100vh;
+        }
+
+        html, body
+        {
+            margin: 0px;
+        }
+    </style>
+
+    <script>
+        let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
+
+        // We want the drawing surface
+        // to have the same width and height
+        // as the canvas. 
+        // 
+        // Note that canvas.width and 
+        // canvas.height are really the
+        // SIZE OF THE DRAWING SURFACE.
+        //
+        // canvas.clientWidth and canvas.clientHeight
+        // give us the current display-size of the
+        // canvas.
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+        
+
+        let x = 0;
+        let y = 0;
+        let width = 50;
+        let height = 50;
+
+        ctx.fillRect(x, y, width, height);
+    </script>
+</body>
+</html>
+</textarea>
+            <hr/>
+            <h4>Drawing with a <code>ctx</code></h4>
+            <p>
+                To draw shapes on a canvas, in general,
+            </p>
+            <ol>
+                <li>
+                    We start a path. This can be done 
+                    through <code>ctx.beginPath()</code>.
+                </li>
+                <li>
+                    We add onto the path. This can be done
+                    through <code>ctx.lineTo(x, y)</code>,
+                    <code>ctx.rect(x, y, width, height)</code>,
+                    and more!
+                </li>
+                <li>
+                    We do something with the path.
+                    To fill it, we can use <code>ctx.fill()</code>,
+                    or, we can trace it with <code>ctx.stroke()</code>.
+                </li>
+            </ol>
             </div>
             <div id = "example">
                 <h2>Creating a Demo</h2>
