@@ -125,6 +125,38 @@ ul.toc li:hover
     text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.6);
 }
 
+.dropdown
+{
+    display: inline-block;
+}
+
+.dropdown > :nth-child(2)
+{
+    position: absolute;
+    display: block;
+
+    background-color: white;
+    padding: 10px;
+
+    box-shadow: none;
+    
+    opacity: 0;
+    transform: scale(1, 0.01);
+    transform-origin: top;
+
+    max-width: 350px;
+
+    transition: 0.5s ease all;
+}
+
+.dropdown:hover > :nth-child(2), .dropdown:focus > :nth-child(2)
+{
+    opacity: 1;
+    box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.5);
+
+    transform: scale(1, 1);
+}
+
 @media screen and (max-width: 600px)
 {
     .content

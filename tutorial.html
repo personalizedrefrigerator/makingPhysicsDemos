@@ -1730,7 +1730,8 @@ requestAnimationFrame(f);
                         <li>
                             This can be either public or private &mdash; 
                             it can be changed later under the &ldquo;Settings&rdquo;
-                            tab of your project.
+                            tab of your project. <code><b>Note:</b> This has
+                            only been tested with a public repository.</code>
                         </li>
                     </ul>
                     <li>
@@ -1761,7 +1762,24 @@ requestAnimationFrame(f);
                         Scroll down. Making sure 
                         <code>commit directly ...</code> is selected,
                         click 
-                        <button class="mockGithubCommit">Commit new file</button>
+                        <button class="mockGithubCommit">Commit new file</button>.
+                    </li>
+                    <li>
+                        Select the settings tab (it may be hidden within the
+                        overflow menu, 
+
+                        <div class = "dropdown">
+                            <button>...</button>
+                            <div>
+                                The overflow menu should look something like this.
+                                <hr/>
+                                Settings, if not one of the tabs,
+                                should be one of the options in the
+                                overflow menu on GitHub.
+                            </div>
+                        </div>
+
+                        ).
                     </li>
                 </ol>
 
