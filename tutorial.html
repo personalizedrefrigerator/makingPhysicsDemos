@@ -2243,6 +2243,17 @@ drawExample();
                     top-right corner of the screen, as desired.
                 </p>
 
+                <pre>
+// To summarize,
+ctx.translate(canvas.width / 2, canvas.height / 2);
+ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+// moves the origin (0, 0) to the center of the canvas
+// and treats the distance from the origin to the top
+// of the canvas be 1 (and to the right of the screen
+// and to the left, ...).
+</pre>
+
                 <!-- Enable example buttons. -->
                 <script>
                     // Set up .mockGithubCommit buttons.
@@ -2267,7 +2278,7 @@ drawExample();
                     to move <code>(0, 0)</code> to the center of the screen.
                 </p>
                 <p>
-                    We then <code>ctx.scale(ctx.canvas.width / 2, -ctx.canvas.height / 2</code>.
+                    We then <code>ctx.scale(canvas.width / 2, -canvas.height / 2</code>.
                 </p>
 
                 <p>
@@ -2277,7 +2288,370 @@ drawExample();
                 </p>
 
                 <h3>Drawing the Waves</h3>
-                <p>This part of the tutorial hasn't been written yet. :(</p>
+                <p>Let's start drawing!</p>
+                <hr/>
+                <p>As a quick review:</p>
+                <ul>
+                    <li><code>(new Date()).getTime()</code> gives us the current time in milliseconds since
+                         <a href="https://en.wikipedia.org/wiki/Epoch_(computing)">some fixed point in time.</a></li>
+                    <li><b>Paths</b></li>
+                    <ul>
+                        <li><code>ctx.beginPath()</code> starts a path. </li>
+                        <li> <code>ctx.moveTo(x, y)</code> adds a point to the path.</li>
+                        <li><code>ctx.lineTo(x, y)</code> draws a line from the previous point on the path to (x, y)</li>
+                        <li><code>ctx.stroke()</code> draws/outlines the path on the screen.</li>
+                        <li><code>ctx.fill()</code> fills the region that the path contains. The color of this fill is
+                        set through <code>ctx.fillStyle</code>.</li>
+                    </ul>
+                    <li>
+                        <code>ctx.strokeStyle="red";</code> sets the color of the line drawn with <code>stroke()</code> to red.
+                    </li>
+                    <li>
+                        <code>ctx.lineWidth=5;</code> sets the width of the stroked line to <code>5</code> pixel-units.
+                    </li>
+                    <li>
+                        <code>ctx.save()</code> saves all drawing settings.
+                    </li>
+                    <li>
+                        <code>ctx.restore()</code> restores all drawing settings.
+                    </li>
+                    <li>
+                        We set <code>canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight;</code> to 
+                        make the size of the drawing-region match the size of where it will be displayed.
+                    </li>
+                </ul>
+                <hr/>
+                
+                <p style = "box-shadow: inset -2px 3px 4px rgba(0, 0, 0, 0.6);">
+                    <b>Debugging Tip!</b> Most browsers can provide a summary of detected errors in JavaScript code.
+                    Often, this list can be accessed by pressing the <code>F12</code> key, then clicking on the
+                    <code>Console</code> tab in the window that appears.
+                </p>
+
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block;
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+// ** NEW **
+// Our wave's function, let t be in seconds.
+let f = (t) =>
+{
+    let amplitude = Math.sin(t) * Math.cos(t / 2);
+
+    return amplitude;
+};
+
+let drawWaves = () =>
+{
+    // ** NEW **
+    ctx.save();
+    
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+    // We can draw the wave on an axis from -1 to one
+    // because of the above translation.
+
+    let currentTime = (new Date()).getTime();
+    let currentTimeMilliseconds = currentTime / 1000;
+
+    ctx.beginPath();
+
+    for (let x = -1; // Start at -1
+        x <= 1; // Repeat until x > 1
+            x += 0.01 // Update x.
+            )
+    {
+        let t = currentTimeMilliseconds;
+        t += x; // Translate the graph.
+
+        let wave1Amplitude = f(t);
+        let wave2Amplitude = f(t + 0.5);
+
+        ctx.lineTo(x, wave1Amplitude + wave2Amplitude);
+    }
+
+    ctx.stroke();
+
+    ctx.restore();
+    // *********
+};
+
+let draw = () =>
+{
+    let needToResize = 
+        (canvas.clientWidth != canvas.width
+        || canvas.clientHeight != canvas.height);
+    
+    if (needToResize)
+    {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawWaves();
+
+    requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+// ... or we could just 
+// draw();
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <p><b>Why is the line so thick?</b></p>
+                <p>
+                    By <code>scal</code>ing the canvas, we changed the size of the line!
+                </p>
+                <p>
+                    We can fix this by moving <code>ctx.stroke()</code> to just after we restore
+                    the canvas' settings. The width of the line is relative to the (transformed) size of the canvas.
+                    As such, restoring before drawing makes the line a more-reasonable width.
+                </p>
+
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block;
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+let f = (t) =>
+{
+    let amplitude = Math.sin(t); // The amplitude at the CURRENT INSTANT.
+
+    return amplitude;
+};
+
+let drawWaves = () =>
+{
+    ctx.save();
+    
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+    let currentTime = (new Date()).getTime();
+    let currentTimeMilliseconds = currentTime / 1000;
+
+    ctx.beginPath();
+
+    for (let x = -1; // Start at -1
+        x <= 1; // Repeat until x > 1
+            x += 0.01 // Update x.
+            )
+    {
+        let t = currentTimeMilliseconds;
+        t += x; // Translate the graph.
+
+        let wave1Amplitude = f(t);
+        let wave2Amplitude = f(t + 0.5);
+
+        ctx.lineTo(x, wave1Amplitude + wave2Amplitude);
+    }
+
+    ctx.restore();
+
+    ctx.stroke();
+};
+
+let draw = () =>
+{
+    let needToResize = 
+        (canvas.clientWidth != canvas.width
+        || canvas.clientHeight != canvas.height);
+    
+    if (needToResize)
+    {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawWaves();
+
+    requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+// ... or we could just 
+// draw();
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <p>
+                    Okay. The demo works. Somewhat.
+                </p>
+                <p>
+                    We probably want to choose different functions.
+                    While the sine function is a good model for a wave,
+                    pulses do a better job of demonstrating the principle of
+                    superposition.
+                </p>
+                <p>
+                    Let's change our function!
+                </p>
+                <p>
+                    One option is to make <span class="math">f(t)</span> graph
+                    similar to that of a 
+                    <a target="blank" href="https://en.wikipedia.org/wiki/Normal_distribution"><b>normal distribution</b></a>:
+                </p>
+                <div class = "math">
+                    f(t) = e^{-x^2}
+                </div>
+                <p>
+                    <span class="math">f(t)</span>'s graph then looks like this:
+                    <textarea class="code initialPreview">
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- 
+            This code is provided so you can modify it.
+            It currently just graphs f(t).
+         -->
+        <title>Graph of f(t)</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block;
+    box-sizing: border-box;
+
+    border: 1px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+let f = (t) => Math.exp(-t*t);
+
+let drawGraph = () =>
+{
+    ctx.save();
+    
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+    ctx.beginPath();
+
+    for (let x = -1; x < 1; x += 0.01)
+    {
+        ctx.lineTo(x, f(x * 4));
+    }
+
+    ctx.restore();
+    ctx.stroke();
+
+    // Draw axes.
+
+    // ****
+    // Can this code be made simpler through 
+    // a scale/translate?
+    // Try it!
+    ctx.beginPath();
+    ctx.moveTo(0, ctx.canvas.height / 2);
+    ctx.lineTo(ctx.canvas.width, ctx.canvas.height / 2);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(ctx.canvas.width / 2, 0);
+    ctx.lineTo(ctx.canvas.width / 2, ctx.canvas.height);
+    ctx.stroke();
+    // ****
+
+    // Label axes.
+    ctx.font = "12pt serif"; // Try changing this!
+    ctx.fillText("+4", ctx.canvas.width - 30, ctx.canvas.height / 2 - 5); // X-axis
+
+    ctx.fillText("+1", ctx.canvas.width / 2, 30); // Y-axis
+};
+
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+
+drawGraph();
+        </script>
+    </body>
+</html>
+                </textarea>
+                </p>
+
+                <p>Changing this...</p>
+
+                <b><i>
+                    At present, this article is unfinished! This part of the article has yet to be written!
+                </i></b>
             </div>
             <div id = "embeddingInADiscussion">
                 <h2>Embedding a Demo in a Discussion</h2>
