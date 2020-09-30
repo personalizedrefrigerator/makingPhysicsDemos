@@ -603,6 +603,10 @@
                 <p>
                     By moving <code>-9.81 * t * t</code> into a function made our code much easier to read!
                 </p>
+                <p>
+                    <b>Note: </b> Writing <code>f(something)</code> is referred to as 
+                    &ldquo;calling the function, <code>f</code>&rdquo;. (I don't know why...)
+                </p>
             </div>
 
             <div id = "repetition">
@@ -1476,7 +1480,7 @@ ctx.stroke();
             width: 100vw;
             height: 100vh;
 
-            border: 4px inset red;
+            border: 4px solid red;
 
             /* 
                 Don't make the canvas wider when adding the border: 
@@ -1517,6 +1521,7 @@ ctx.stroke();
         ctx.save();
 
         // Set some settings.
+        // (Try changing these!)
         ctx.translate(-50, -50); // Move new things we draw,
         ctx.scale(2, 2); // double their size,
         ctx.rotate(Math.PI / 4); // and rotate them 45 degrees!
@@ -1529,11 +1534,17 @@ ctx.stroke();
         // Get our settings back.
         ctx.restore();
 
-        // This rectangle isn't rotated!
+        // This rectangle isn't rotated
+        // because we have restored
+        // our drawing settings.
         ctx.fillRect(0, 0, 25, 25);
 
         ctx.fillStyle = "red"; // A red rectangle!
         ctx.fillRect(25,25, 50, 50);
+
+        // What happens if you uncomment this line?
+        // ctx.strokeStyle = "orange";
+        ctx.strokeRect(25, 25, 60, 60); // An outlined rectangle.
     </script>
 </body>
 </html>
@@ -1549,7 +1560,130 @@ ctx.stroke();
                 try 
                 <a target="blank" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">
                 this tutorial on MDN</a>. If the link is broken, 
-                search for <code>MDN HTML5 Canvas Tutorial</code>.
+                search for the <code>MDN HTML5 Canvas Tutorial</code>.
+            </p>
+            <hr/>
+
+            <h4>Animations!</h4>
+            <p>
+                If we use a <code>while</code> loop to do this, the browser will
+                wait indefinitely for our script to stop running before showing
+                any changes we've made to the canvas.
+            </p>
+            <p>
+                Instead, we use <code>requestAnimationFrame</code> to
+                tell the browser to call a function after it has had
+                time to update the contents of the page.
+            </p>
+            <pre>
+let f = () => // f is a function of nothing.
+{
+    // Move things.
+    ctx.translate(1, 1);
+
+    // Draw things.
+    ctx.fillRect(0, 0, 100, 100);
+
+    // Draw again!
+    requestAnimationFrame(f);
+};
+
+requestAnimationFrame(f);
+            </pre>
+            <p>
+                <b>Note</b> that we can get the current
+                time in milliseconds (relative to some
+                time years in the past) with 
+                <code>(new Date()).getTime()</code>.
+            </p>
+            <p>
+                <code>(new Date())</code> accesses
+                the current time. <code>getTime</code>
+                gives us this time in milliseconds.
+            </p>
+            <p>
+                Using this, we can make something like this:
+            </p>
+            <textarea class = "code">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animation</title>
+</head>
+<body>
+    <canvas></canvas>
+    <style>
+        canvas
+        {
+            width: 100vw;
+            height: 100vh;
+
+            border: 4px solid gray;
+
+            box-sizing: border-box; 
+            display: block;
+        }
+
+        html, body
+        {
+            margin: 0px;
+        }
+    </style>
+
+    <script>
+        let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
+
+        let draw = () =>
+        {
+
+            let needResize = 
+                canvas.clientWidth != canvas.width 
+                    || canvas.clientHeight != canvas.height;
+            
+            // Make the drawing surface the correct size.
+            if (needResize)
+            {
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+            }
+
+            // Get the time:
+            let milliseconds = (new Date()).getTime();
+            let seconds = milliseconds / 1000;
+
+            // Make some x and y from the current time!
+            // (Try changing these).
+            let x = 25 * Math.sin(seconds * 2 * Math.PI) + 50;
+            let y = 25 * Math.cos(seconds * 2 * Math.PI) + 50;
+
+            // Try commenting this line out.
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.strokeRect(x, y, 50, 50);
+
+            // Repeat!
+            requestAnimationFrame(draw);
+        };
+
+        requestAnimationFrame(draw);
+        
+    </script>
+</body>
+</html>
+            </textarea>
+
+            <p>
+                Notice that, above, we only update <code>canvas.width</code>
+                and <code>canvas.height</code> <b><code>if</code></b> the
+                drawing surface and the canvas' sizes are different. This
+                is because changing <code>canvas.width</code>
+                and <code>canvas.height</code> 
+                <a href="https://www.html5rocks.com/en/tutorials/canvas/performance/#toc-clear-canvas">has side-effects.</a>
+            </p>
+            <p>
+                Note that we clear the canvas with <code>ctx.clearRect</code>. Notice how similar this is to
+                our use of <code>ctx.fillRect</code> and <code>ctx.strokeRect</code>!
             </p>
             </div>
             <div id = "example">
