@@ -1,0 +1,28 @@
+
+button.mockGithubCommit
+{
+    color: white;
+    background-color: #339933;
+    background-image: none;
+
+    padding: 6px 8px 6px 8px;
+
+    border: 0px solid white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+    cursor: not-allowed;
+
+    font-family: sans-serif;
+
+    transition: 0.5s ease all;
+}
+
+button.mockGithubCommit:hover, 
+    button.mockGithubCommit:focus
+{
+    background: #337722;
+    background-image: none;
+    background-color: #337722;
+
+    transform: scale(1, 1);
+}

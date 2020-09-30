@@ -5,6 +5,7 @@
         <meta name = "viewport" content = "width=device-width,initial-scale=1.0,user-scalable=no"/>
         <link rel = "shortcut icon" href = "favicon.png" />
         <link rel = "stylesheet" href = "style.css" />
+        <link rel = "stylesheet" href = "demoElemStyles.css" />
         <title>Physics Demos!</title>
 
         <!-- Include libraries. -->
@@ -15,6 +16,10 @@
         <script src = "LibJS/Libs/Transition.js"></script>
         <script src = "LibJS/Libs/SubWindowManager.js"></script>
         <script src = "LibJS/Libs/DraggableElement.js"></script>
+
+        <script src = "LibJS/Libs/SerializationHelper.js"></script>
+        <script src = "LibJS/Libs/StorageHelper.js"></script>
+        <script src = "LibJS/Libs/DefaultSpellcheckWords.js"></script>
 
         <!-- Editor-specific libraries... -->
         <script src = "LibJS/Libs/Keyboard.js" encoding = "utf-8"></script>
@@ -1707,8 +1712,76 @@ requestAnimationFrame(f);
             <div id = "example">
                 <h2>Creating a Wave-Superposition Demo!</h2>
                 <p>
-                    To-do
+                    Let's make a physics demo that demonstrates wave superposition!
                 </p>
+                <p>
+                    This example will walk you through the process of creating and sharing
+                    a demo! We will be using GitHub for hosting. If you don't have
+                    a GitHub account, please <a href="https://github.com/join" target="blank">create one now.</a>
+                </p>
+
+                <h3>Setting up GitHub Hosting</h3>
+                <ol>
+                    <li>
+                        Create a new GitHub repository by 
+                        clicking the <a href="https://github.com/new" target="blank">&ldquo;new&rdquo;</a> button (on GitHub).
+                    </li>
+                    <ul>
+                        <li>
+                            This can be either public or private &mdash; 
+                            it can be changed later under the &ldquo;Settings&rdquo;
+                            tab of your project.
+                        </li>
+                    </ul>
+                    <li>
+                        Select <code>Add file</code>, then <code>Create new file</code>.
+                    </li>
+                    <li>
+                        Name the file <code>tutorial.html</code>.
+                    </li>
+                    <li>
+                        As demonstrated below (and above, and in almost all examples provided
+                        in this document), set up the HTML document.
+                    </li>
+                    <ul>
+                        <li>Your document should now look somewhat like this:</li>
+                        <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition Demo?</title>
+    </head>
+    <body>
+        <p>We will put things here later.</p>
+    </body>
+</html>
+</textarea>
+                    </ul>
+                    <li>
+                        Scroll down. Making sure 
+                        <code>commit directly ...</code> is selected,
+                        click 
+                        <button class="mockGithubCommit">Commit new file</button>
+                    </li>
+                </ol>
+
+                <!-- Enable example buttons. -->
+                <script>
+                    // Set up .mockGithubCommit buttons.
+                    requestAnimationFrame(() =>
+                    {
+                        let buttons = document.querySelectorAll(".mockGithubCommit");
+
+                        for (const button of buttons)
+                        {
+                            button.addEventListener("click", () =>
+                            {
+                                SubWindowHelper.alert("Commit", 
+                                    "Don't do this here! Do this in GitHub!");
+                            });
+                        }
+                    });
+                </script>
             </div>
             <div id = "embeddingInADiscussion">
                 <h2>Embedding a Demo in a Discussion</h2>
