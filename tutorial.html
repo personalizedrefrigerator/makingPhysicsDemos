@@ -1956,6 +1956,121 @@ requestAnimationFrame(f);
                 <p>
                     Set its <code>src</code> attribute to the URL for your demo.
                 </p>
+                <p><b>For example,</b></p>
+                <p>
+                    In the below editor, you might click 
+                    <button title="Edit Source" disabled>&lt;/&gt;</button> 
+                    and add <code>&lt;iframe src="https://your-username.github.io/your-repository-name/tutorial.html"&gt;
+                    &lt;/iframe&gt;</code> to your post.
+                </p>
+                <div class="fakeCommentDiv">
+                    <div class="header">
+                        <button title="Bold" disabled><b>B</b></button>
+                        <button title="Italicize" disabled><i>I</i></button>
+                        <button title="Underline" disabled><u>U</u></button>
+                        <button title="Symbols" disabled>ΩΘ</button>
+                        <button title="Edit Source" id = "toggle">&lt;/&gt;</button>
+                    </div>
+                    <div class = "content1">
+                        <p>Some information here.</p>
+                        <p>Add the demo here?</p>
+                    </div>
+
+                    <div class = "content2" style="display: none;">
+                        <code>
+                            <div>
+                                &lt;p&gt;Some information here.&lt;/p&gt;
+                            </div>
+                <div class="growInOut">&lt;iframe src="https://your-username.github.io/your-repository-name/tutorial.html" style="box-sizing: border-box; width: 100%; height: 500px;"&gt;&lt;/iframe&gt;</div>
+                            <div>
+                                &lt;p&gt;Add the demo here?&lt;/p&gt;
+                            </div>
+                        </code>
+                    </div>
+
+                    <script>
+                        let toggle = document.querySelector(".fakeCommentDiv > .header > #toggle");
+                        let pane1 = document.querySelector(".fakeCommentDiv > div.content1");
+                        let pane2 = document.querySelector(".fakeCommentDiv > div.content2");
+                        let inOut = document.querySelector(".fakeCommentDiv > .content2 .growInOut");
+                        let inOutText = inOut.textContent;
+                        let transitioning = false;
+
+                        inOut.style.transition = "0.5s ease all";
+
+                        const transitIn = async () =>
+                        {
+                            inOut.textContent = "";
+                            inOut.style.transform = "scale(1, 1)";
+
+                            while (inOut.textContent.length < inOutText.length)
+                            {
+                                inOut.textContent += inOutText.charAt(inOut.textContent.length);
+
+                                await JSHelper.waitFor(10 + Math.random() * Math.random() * 100); // 60 ms + or - 50 ms, but generally closer to 10 ms.
+                            }
+                        };
+
+                        const transitOut = async () =>
+                        {
+                            inOut.style.transform = "scale(1, 0)";
+
+                            await JSHelper.waitFor(600); // Wait 500 milliseconds.
+                        };
+
+                        toggle.addEventListener("click", async () =>
+                        {
+                            if (transitioning)
+                            {
+                                return;
+                            }
+
+                            transitioning = true;
+                            if (pane1.style.display !== "none")
+                            {
+                                pane1.style.display = "none";
+                                pane2.style.display = "block";
+
+                                await transitIn();
+                            }
+                            else
+                            {
+                                await transitOut();
+
+                                pane1.style.display = "block";
+                                pane2.style.display = "none";
+                            }
+
+                            transitioning = false;
+                        });
+                    </script>
+                </div>
+                
+                <p>Above, notice that I added <code>style="box-sizing: border-box; width: 100%; height: 500px;"</code></p>
+                <p>
+                    Although generally considered bad programming style, setting styles through attributes can be done.
+                </p>
+                <p>
+                    Here, it is especially useful because many discussion-post editors <b>do not allow <code>&lt;style&gt;&lt;/style&gt;</code> blocks</b>!
+                    As such, we need to make any stylistic changes in-line!
+                </p>
+                <p>
+                    The default size of an <code>&lt;iframe src="..."&gt;&lt;/iframe&gt;</code> is rather small:
+                </p>
+                <iframe style="border: 2px solid black; display: block; margin-left: auto; margin-right: auto;"></iframe>
+                <p>
+                    As such, we set the <code>iframe</code>'s width to as large as its parent (<code>100%</code>),
+                    and height to a fixed amount (<code>500 px</code>). <code>&lt;iframe&gt;</code>s are often given
+                    borders, so we also set its <code>box-sizing</code> to <code>border-box</code> to prevent the
+                    <code>iframe</code>'s box from being larger than its container!
+                </p>
+                <p>
+                    Our resized <code>iframe</code> looks more like this:
+                </p>
+                <iframe style="border: 2px solid black; box-sizing: border-box; width: 100%; height: 500px;"></iframe>
+                <p>
+                    This <code>iframe</code> should be large enough to fit our
+                </p>
             </div>
         </div>
 

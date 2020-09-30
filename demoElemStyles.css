@@ -26,3 +26,30 @@ button.mockGithubCommit:hover,
 
     transform: scale(1, 1);
 }
+
+div.fakeCommentDiv
+{
+    border: 1px solid black;
+    box-sizing: border-box;
+
+    border-bottom-width: 4px;
+}
+
+div.fakeCommentDiv > .header
+{
+    border-bottom: 1px solid black;
+}
+
+div.fakeCommentDiv > .content1, div.fakeCommentDiv > .content2
+{
+    height: 250px;
+    overflow-y: auto;
+    box-shadow: inset -3px 3px 2px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+}
+
+div.fakeCommentDiv .content2 > code
+{
+    display: block;
+    box-sizing: border-box;
+}
