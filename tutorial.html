@@ -44,6 +44,14 @@
                 You may already be familliar with much of the content of this
                 document. If so, feel free to skip or skim large portions of it!
             </p>
+
+            <p>
+                <i><b>If you find yourself confused, this document can probably be improved!</b></i>
+                Ask questions, suggest improvements,
+                or point out a confusing part of the document
+                <a target="blank" href="https://github.com/personalizedrefrigerator/makingPhysicsDemos/issues/new">here</a>.
+                Thank you for reading!
+            </p>
             
             <div id = "toc">
                 <ul class = "toc">
@@ -53,8 +61,8 @@
                     <li name = "JSFunctions">Functions in JavaScript</li>
                     <li name = "repetition">Loops</li>
                     <li name = "mathInJS"><code>Math.</code></li>
-                    <!-- <li name = "settingUpTheDocument">Setting up the document.</li>
-                    <li name = "settingUpTheScripts">Setting up the scripts.</li>
+                    <li name = "CSSIntro"><code>CSS</code></li>
+                    <!-- 
                     <li name = "HTML5Canvas">The HTML5 Canvas</li>
                     <li name = "addingAnimation">Animation!</li>
                     <li name = "finishingTouches">Finishing Touches</li>
@@ -840,7 +848,7 @@ Math.sin(Math.PI)</pre>
                     difference between <code>==</code> and <code>===</code>?
                 </p>
             </div>
-            <div id = "CSS">
+            <div id = "CSSIntro">
                 <h2>CSS &mdash; Cascading Style Sheets</h2>
                 <p>
                     CSS lets us change how parts of our demo will look. 
@@ -1055,6 +1063,248 @@ div
 </body>
 </html>
 </textarea>
+            <p>
+                <b>Oh no!</b> The <code>&lt;div&gt;&lt;/div&gt;</code>
+                is big enough, but it isn't at the top-left of the screen.
+                Let's remove the extra space:
+            </p>
+
+            <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A Large Div!</title>
+</head>
+<body>
+    <div>This is the <b><i>div</i></b>.</div>
+    <style>
+
+div
+{
+    width: 100vw;
+    height: 100vh;
+
+    border: 1px solid black;
+}
+
+/* BOTH <body>...</body> and <html>...</html>. */
+body,html
+{
+    margin: 0px; /* Make the margin zero pixels on all sides. */
+}
+
+    </style>
+</body>
+</html>
+</textarea>
+            <p>
+                Notice that we selected both <code>body</code> and <code>html</code> with
+                <code>body,html</code> and used this to set their margin to zero.
+            </p>
+            <p>
+                We still, however, have a scrollbar. This is because, currently, 
+                the border adds padding to the <b>outside</b> of the <code>&lt;div&gt;</code>.
+                Let's fix that:
+            </p>
+            <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>A Large Div!</title>
+</head>
+<body>
+    <div>This is the <b><i>div</i></b>.</div>
+    <style>
+
+div
+{
+    width: 100vw;
+    height: 100vh;
+
+    border: 1px solid black;
+    box-sizing: border-box; /* Put the border INSIDE the box. */
+}
+
+/* BOTH <body>...</body> and <html>...</html>. */
+body,html
+{
+    margin: 0px; /* Make the margin zero pixels on all sides. */
+}
+
+    </style>
+</body>
+</html>
+</textarea>
+            <p>
+                It works! By adding <code>box-sizing: border-box</code>, we moved the
+                moved the div's border inside the <strike>box</strike> div.
+            </p>
+
+            <hr/>
+            <h4>A Fun Example!</h4>
+            <p>
+                You can skip this. The below example demonstrates some of the 
+                fun things that can be done with just CSS!
+            </p>
+            <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Fun</title>
+</head>
+<body>
+    <div>
+        This is the <b><i>div</i></b>.
+
+        Try moving your mouse over me!
+    </div>
+
+    <style>
+
+div
+{
+    width: 100vw;
+    height: 100vh;
+
+    border: 1px solid black;
+    box-sizing: border-box;
+
+    /* Transition between: */
+    transform: scale(1, 1) rotate(0deg);
+    /* ...and any other transformations applied (see below). */
+    transition: 1s ease transform; /* Try changing "ease" to "linear"! */
+}
+
+body,html
+{
+    margin: 0px;
+
+    /* 
+    Here, we hide the scrollbars.
+    Content can still "overflow"
+    the <body>...</body> and 
+    <html>...</html>, but this
+    won't make scrollbars appear.
+    */
+    overflow: hidden; /* Hide the scrollbars. */
+}
+
+/* Hovering over the div? */
+div:hover
+{
+    /* Apply an effect! */
+    transform: scale(0.5, 0.5) rotate(30deg); /* Shrink & spin */
+}
+    </style>
+</body>
+</html>
+</textarea>
+            </div>
+            <div id = "HTML5Canvas">
+                <h2>Drawing!</h2>
+                <p>
+
+                </p>
+                <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing on a Canvas</title>
+</head>
+<body>
+    <canvas></canvas>
+
+    <style>
+        canvas
+        {
+            border: 1px solid black;
+            /*  ^
+                |
+            We want to be able to see where the canvas
+            is!
+            */
+        }
+    </style>
+
+    <script>
+        let canvas = document.querySelector("canvas");
+
+        // This part is new:
+        //   ctx is short for drawing context.
+        //     We can call functions that are
+        //   a part of ctx to do things like draw
+        //   rectangles, lines, and more!
+        let ctx = canvas.getContext("2d"); // Let's draw in 2D.
+        
+        // Define some constants.
+        let x = 0;
+        let y = 0;
+        let width = 50;
+        let height = 50;
+
+        // Draw a rectangle!
+        ctx.fillRect(x, y, width, height);
+    </script>
+</body>
+</html>
+</textarea>
+
+        <textarea class = "code" autocomplete="false">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drawing on a Canvas</title>
+</head>
+<body>
+    <canvas></canvas>
+
+    <style>
+        canvas
+        {
+            border: 1px solid black;
+            
+            /* 
+                The canvas gets its own line.
+                Doing this causes the canvas
+                to be formatted more like a
+                <div></div> or a <p></p>
+                than a <span></span>.
+            */
+            display: block; 
+            box-sizing: border-box; 
+            /* 
+                ^ 
+                | Shrink the canvas' contents due to 
+                the border, don't grow it! 
+            */
+        }
+    </style>
+
+    <script>
+        let canvas = document.querySelector("canvas");
+
+        // This part is new:
+        //   ctx is short for drawing context.
+        //     We can call functions that are
+        //   a part of ctx to do things like draw
+        //   rectangles, lines, and more!
+        let ctx = canvas.getContext("2d"); // Let's draw in 2D.
+        
+        // Define some constants.
+        let x = 0;
+        let y = 0;
+        let width = 50;
+        let height = 50;
+
+        // Draw a rectangle!
+        ctx.fillRect(x, y, width, height);
+    </script>
+</body>
+</html>
+</textarea>
+            </div>
+            <div id = "embeddingInADiscussion">
+                <h2>Embedding a Demo in a Discussion</h2>
             </div>
         </div>
 
