@@ -1783,9 +1783,12 @@ requestAnimationFrame(f);
                     </li>
                     <li>
                         Scroll down to
-                        <code>
-                            <h4>GitHub Pages</h4>
-                            <hr/>
+                        <code style="display: block;">
+                            ...
+                            <h4 style="font-family: sans-serif;">GitHub Pages</h4>
+                            <p>Some text telling you to select a branch and save
+                            will be here.</p>
+                            ...
                         </code>
                     </li>
                     <li>
@@ -1795,7 +1798,124 @@ requestAnimationFrame(f);
                     <li>
                         Click <button disabled="true">save</button>.
                     </li>
+                    <li>
+                        Select the <code>Code</code> tab at the top of the screen.
+                    </li>
+                    <li>
+                        Click on the <b>github-pages</b> link under <b>Environments</b>
+                        (open this in a new tab).
+                    </li>
+                    <li>
+                        Click <button disabled>View Deployment</button>.
+                    </li>
+                    <li>
+                        You should see a <code>404 Error</code> page! By default, 
+                        requests for <code>https://your-username.github.io/your-repository-name/</code>
+                        are re-directed to <code>https://your-username.github.io/your-repository-name/index.html</code>.
+                        We haven't made that page yet.
+                    </li>
+                    <li>
+                        On the main page for your project (the page you used to add <code>tutorial.html</code>),
+                        select <code>Add File</code>, then <code>New File</code>.
+                    </li>
+                    <li>
+                        Name the file <code>index.html</code> so that <code>https://your-username.github.io/your-repository-name/index.html</code>
+                        displays a page.
+                    </li>
+                    <li>
+                        Set its contents to something similar to this (note the link included to tutorial.html!):
+                        <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            My Physics Demos
+        </title>
+    </head>
+    <body>
+        <p>View the demo I made from a tutorial:</p>
+        <!-- 
+            An <a></a> element is a link!
+            The href attribute tells your browser
+            what the link should point to.
+
+            We named our example demo `tutorial.html`,
+            so we set href to that.
+         -->
+        <a href="tutorial.html">Click here!</a>
+
+        <!-- Add styles to make the link look different. -->
+        <!-- Optional, but fun. -->
+        <style>
+            a
+            {
+                /* Change its font: */
+                /* First try 'Courier New'. If the user doesn't
+                   have that font, then try Courier, then monospace.
+                   */
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 16pt; /* 16-point font. */
+
+                /* Change the color of the text. */
+                color: red;
+
+                /* Rotate it. */
+                transform: rotate(2deg);
+                transform-origin: left;
+
+                /* 
+                    Inline-block-display so we can rotate it. 
+                    We could also use block.
+                    By default links have display set
+                    to inline so that they can be included
+                    IN a LINE of text. 
+
+                    Unfortunately, inline doesn't let us
+                    use transform because inline text is
+                    wrapped when it reaches the end of a line.
+
+                    Inline-block text is not wrapped, so
+                    it can be scaled, rotated, stretched, etc.
+                */
+                display: inline-block;
+
+                /* Take one second to transition to any new
+                   styles we apply to it. */
+                transition: 1s ease all;
+            }
+
+            a:hover
+            {
+                /* Stretch the link! */
+                transform: scale(2, 1);
+            }
+        </style>
+    </body>
+</html>
+                        </textarea>
+                    </li>
+                    <li>
+                        <button class="mockGithubCommit">Commit</button>
+                        this new file directly to the main branch of your repository.
+                    </li>
+                    <li>
+                        Click <b>github-pages</b> under environments and test the link!
+                    </li>
+                    <li>
+                        Back on the main page of your project (where you created 
+                        <code>index.html</code> and <code>tutorial.html</code>),
+                        click <code>tutorial.html</code>, then click the edit (<code>✎</code>)
+                        button.
+                    </li>
+                    <ul>
+                        <li>
+                            This is where we will be creating the tutorial!
+                        </li>
+                    </ul>
                 </ol>
+
+                <h4>Making the Tutorial</h4>
+                <p>To-do</p>
 
                 <!-- Enable example buttons. -->
                 <script>
@@ -1835,14 +1955,6 @@ requestAnimationFrame(f);
                 </p>
                 <p>
                     Set its <code>src</code> attribute to the URL for your demo.
-                </p>
-
-                <h3>An Example</h3>
-                <p>
-                    Say I want to publish the 
-                </p>
-                <p>
-                    To-do
                 </p>
             </div>
         </div>
