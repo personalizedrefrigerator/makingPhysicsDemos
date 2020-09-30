@@ -1205,7 +1205,16 @@ div:hover
             <div id = "HTML5Canvas">
                 <h2>Drawing!</h2>
                 <p>
+                    We can draw on a <code>&lt;canvas&gt;&lt;/canvas&gt;</code> element 
+                    with JavaScript. Let's see how.
+                </p>
 
+                <h4>Setting it Up</h4>
+                <p>
+                    Like other elements, we can access a canvas element using
+                    <code>document.querySelector</code>. Unlike other elements,
+                    we will be using <code>getContext</code> to get a variable
+                    we can use to draw on the canvas. Here's an example:
                 </p>
                 <textarea class = "code" autocomplete="false">
 <!DOCTYPE html>
@@ -1250,7 +1259,11 @@ div:hover
 </body>
 </html>
 </textarea>
-
+        <p>
+            As we see above, the canvas, by default, does not fill the entire screen.
+            As we saw earlier, we can resize elements. Let's make the canvas' size fit
+            that of the screen!
+        </p>
         <textarea class = "code" autocomplete="false">
 <!DOCTYPE html>
 <html>
@@ -1292,29 +1305,57 @@ div:hover
 
     <script>
         let canvas = document.querySelector("canvas");
-
-        // This part is new:
-        //   ctx is short for drawing context.
-        //     We can call functions that are
-        //   a part of ctx to do things like draw
-        //   rectangles, lines, and more!
-        let ctx = canvas.getContext("2d"); // Let's draw in 2D.
+        let ctx = canvas.getContext("2d");
         
-        // Define some constants.
         let x = 0;
         let y = 0;
         let width = 50;
         let height = 50;
 
-        // Draw a rectangle!
         ctx.fillRect(x, y, width, height);
     </script>
 </body>
 </html>
 </textarea>
+            <hr/>
+            <h4>Drawing with <code>ctx</code></h4>
+
+            </div>
+            <div id = "example">
+                <h2>Creating a Demo</h2>
+                <p>
+                    To-do
+                </p>
             </div>
             <div id = "embeddingInADiscussion">
                 <h2>Embedding a Demo in a Discussion</h2>
+                <p>
+                    To embed a demo in a discussion, you'll want 
+                    a link to the demo. 
+                </p>
+                <p>
+                    One option is to use GitHub. See 
+                    <a href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/creating-a-github-pages-site">
+                        GitHub's documentation
+                    </a>
+                    for more information.
+                </p>
+                <p>
+                    After you have a link to the demo, create an <code>&lt;iframe&gt;&lt;/iframe&gt;</code>
+                    element in your discussion post. Many platforms include a &ldquo;edit as HTML&rdquo;
+                    button that allows you to do this.
+                </p>
+                <p>
+                    Set its <code>src</code> attribute to the URL for your demo.
+                </p>
+
+                <h3>An Example</h3>
+                <p>
+                    Say I want to publish the 
+                </p>
+                <p>
+                    To-do
+                </p>
             </div>
         </div>
 
