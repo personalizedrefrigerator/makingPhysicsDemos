@@ -1915,7 +1915,7 @@ requestAnimationFrame(f);
                     </ul>
                 </ol>
 
-                <h4>Making the Tutorial</h4>
+                <h4>Making the Demo</h4>
                 <p>
                     To start, let's replace the contents of <code>&lt;body&gt;...&lt;/body&gt;</code>
                     in <code>tutorial.html</code> with a <code>canvas</code> and make
@@ -2380,7 +2380,7 @@ let drawWaves = () =>
     // because of the above translation.
 
     let currentTime = (new Date()).getTime();
-    let currentTimeMilliseconds = currentTime / 1000;
+    let currentTimeSeconds = currentTime / 1000;
 
     ctx.beginPath();
 
@@ -2389,7 +2389,7 @@ let drawWaves = () =>
             x += 0.01 // Update x.
             )
     {
-        let t = currentTimeMilliseconds;
+        let t = currentTimeSeconds;
         t += x; // Translate the graph.
 
         let wave1Amplitude = f(t);
@@ -2487,7 +2487,7 @@ let drawWaves = () =>
     ctx.scale(canvas.width / 2, -canvas.height / 2);
 
     let currentTime = (new Date()).getTime();
-    let currentTimeMilliseconds = currentTime / 1000;
+    let currentTimeSeconds = currentTime / 1000;
 
     ctx.beginPath();
 
@@ -2496,7 +2496,7 @@ let drawWaves = () =>
             x += 0.01 // Update x.
             )
     {
-        let t = currentTimeMilliseconds;
+        let t = currentTimeSeconds;
         t += x; // Translate the graph.
 
         let wave1Amplitude = f(t);
@@ -2551,7 +2551,7 @@ requestAnimationFrame(draw);
                 </p>
                 <p>
                     One option is to make <span class="math">f(t)</span> have a graph
-                    similar to that of a 
+                    <b>similar</b> to that of a 
                     <a target="blank" href="https://en.wikipedia.org/wiki/Normal_distribution"><b>normal distribution</b></a>:
                 </p>
                 <div class = "math">
@@ -2647,11 +2647,101 @@ drawGraph();
                 </textarea>
                 </p>
 
-                <p>Changing this and scaling <span class="math">f</span> appropriately (e.g. 
-                graphing <span class="math">f(6t)</span> instead of <span class="math">f(t)</span> 
-                to make the pulse fit on the
-                screen)...</p>
+                <p>Graphing <code>f</code> as a function of a sine wave (so that we have repeated pulses)...</p>
 
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block;
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+// 1/2 f(t) written in JavaScript. 
+let f = (t) => Math.pow(Math.E, -Math.pow(t, 2)) / 2;
+
+let drawWaves = () =>
+{
+    ctx.save();
+    
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+    let currentTime = (new Date()).getTime();
+    let currentTimeSeconds = currentTime / 1000;
+
+    ctx.beginPath();
+
+    for (let x = -1; // Start at -1
+        x <= 1; // Repeat until x > 1
+            x += 0.01 // Update x.
+            )
+    {
+        let t1 = Math.sin(currentTimeSeconds + x) * 4; // Make t1 & t2 periodic.
+        let t2 = Math.sin(currentTimeSeconds - x) * 4; // * 4 makes it fit nicely on the screen.
+
+        let wave1Amplitude = f(t1);
+        let wave2Amplitude = f(t2);
+
+        ctx.lineTo(x, wave1Amplitude + wave2Amplitude);
+    }
+
+    ctx.restore();
+
+    ctx.stroke();
+};
+
+let draw = () =>
+{
+    let needToResize = 
+        (canvas.clientWidth != canvas.width
+        || canvas.clientHeight != canvas.height);
+    
+    if (needToResize)
+    {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawWaves();
+
+    requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+// ... or we could just 
+// draw();
+        </script>
+    </body>
+</html>
+                </textarea>
+
+                <h4>Making it Better!</h4>
                 <b><i>
                     At present, this article is unfinished! This part of the article has yet to be written!
                 </i></b>
