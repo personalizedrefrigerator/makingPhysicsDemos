@@ -2704,7 +2704,8 @@ let drawWaves = () =>
         let t2 = Math.sin(currentTimeSeconds - x) * 4; // * 4 makes it fit nicely on the screen.
 
         let wave1Amplitude = f(t1);
-        let wave2Amplitude = f(t2);
+        // What if we replace this with -f(t2)? What if we replace it with zero?
+        let wave2Amplitude = f(t2); 
 
         ctx.lineTo(x, wave1Amplitude + wave2Amplitude);
     }
@@ -2742,6 +2743,17 @@ requestAnimationFrame(draw);
                 </textarea>
 
                 <h4>Making it Better!</h4>
+                <p><b>Now that it works,</b> let's make it better!</p>
+                <p>Let's add a checkbox that hides/shows <code>f(t2)</code>!</p>
+                <p>
+                    We can create a checkbox using the <code>&lt;input type="checkbox"&gt;&lt;/input&gt;</code>
+                    HTML element, which can also be written as <code>&lt;input type="checkbox"/&gt;</code>
+                    because we won't be putting anything inside of it.
+                </p>
+                <p>
+                    After we store the input in a variable, say <code>checkbox</code>, we
+                    can determine whether it is checked by accessing <code>checkbox.checked</code>!
+                </p>
                 <b><i>
                     At present, this article is unfinished! This part of the article has yet to be written!
                 </i></b>
