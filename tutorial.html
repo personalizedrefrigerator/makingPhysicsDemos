@@ -641,7 +641,8 @@
                 </p>                
                 <p>
                       <b>Let's see another type of loop!</b>
-                      Above, we wrote <code>output += "&lt;p&gt;" + f(8) + " m&lt;/p&gt;";</code> many more times than we needed to! Let's see how to do
+                      Above, we wrote <code>output += "&lt;p&gt;" + f(8) + " m&lt;/p&gt;";</code> many more times than we needed to! Let's see how to 
+                      simplify this!
                 </p>
                 <hr/>
                 <h4><code>for</code> Loops</h4>
@@ -759,7 +760,8 @@ while (x < 10)
                             <span class="aside" id="xorAside">
                                 exclusive or (XOR)
                             </span> of the binary data that represents
-                            the numbers 3 and 2.
+                            the numbers 3 and 2. If we want to compute <span class = "math">3^2</span>,
+                            we write <code>Math.pow(3, 2)</code>, thereby raising 3 <b>to the power of</b> 2.
                         </p>
                     </li>
                 </ul>
@@ -2915,6 +2917,7 @@ requestAnimationFrame(draw);
             <p>
                 When I say &ldquo;equivalent to&rdquo;,
                 I mean &ldquo;approximately equivalent to&rdquo;.
+                This is because of how JavaScript stores numbers.
                 Please read 
                 <!-- 
                     Should I use 
