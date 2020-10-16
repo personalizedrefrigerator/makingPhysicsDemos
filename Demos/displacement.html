@@ -205,18 +205,18 @@ displacementCanvas.addEventListener("pointerdown", (event) =>
     event.preventDefault();
 
     redraw();
-});
+}, true);
 
 displacementCanvas.addEventListener("pointerleave", (event) =>
 {
     pointerDown = false;
-});
+}, true);
 
 displacementCanvas.addEventListener("pointerup", (event) =>
 {
     pointerDown = false;
     event.preventDefault();
-});
+}, true);
 
 
 displacementCanvas.addEventListener("pointermove", (event) =>
@@ -257,7 +257,7 @@ displacementCanvas.addEventListener("pointermove", (event) =>
 
         redraw();
     }
-});
+}, true);
 
 const animate = () =>
 {
