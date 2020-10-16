@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Displacement</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+        <meta charset="utf-8"/>
+
+<style>
+    * 
+    {
+        box-sizing: border-box !important;
+    }
+
+    body, html
+    {
+        margin: 0;
+        overflow: hidden;
+    }
+
+    main
+    {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    main > canvas
+    {
+        display: inline-block;
+        flex-grow: 1;
+        flex-shrink: 1;
+        width: calc(100% - 5px);
+        height: 0px;
+    }
+
+    main > canvas#displacement
+    {
+        border-bottom: 3px solid black;
+        flex-shrink: 2;
+        flex-grow: 0.5;
+    }
+</style>
+    </head>
+    <body>
+        <noscript>For this to work, JavaScript is required. :(</noscript>
+        <main>
+            <canvas id="displacement">Use a browser that supports the HTML5 Canvas!!!!!</canvas>
+            <canvas id="wave">Try a modern browser like Firefox 70+.</canvas>
+        </main>
+    <script>"use strict";
+const POINT_X_INCR = 10; // 1 point / 10 pixels.
+const POINT_Y_INCR = 10;
+const POINT_RADIUS = 3;
+
+const displacementCanvas = document.querySelector("canvas#displacement");
+const waveCanvas = document.querySelector("canvas#wave");
+
+const displacementCtx = displacementCanvas.getContext("2d");
+const waveCtx = waveCanvas.getContext("2d");
+
+let res = 2;
+
+let displacementBuffer = [];
+let lastDisplacements = [];
+
+const resizeCanvases = () =>
+{
+    if (displacementCanvas.clientWidth < 700)
+    {
+        res = 1;
+    }
+    else
+    {
+        res = 2;
+    }
+
+    if (displacementCanvas.width !== Math.floor(displacementCanvas.clientWidth / res)
+        || displacementCanvas.height !== Math.floor(displacementCanvas.clientHeight / res))
+    {
+        displacementCanvas.width = Math.floor(displacementCanvas.clientWidth / res);
+        displacementCanvas.height = Math.floor(displacementCanvas.clientHeight / res);
+    }
+
+    if (waveCanvas.width !== Math.floor(waveCanvas.clientWidth / res)
+        || waveCanvas.height !== Math.floor(waveCanvas.clientHeight / res))
+    {
+        waveCanvas.width = Math.floor(waveCanvas.clientWidth / res);
+        waveCanvas.height = Math.floor(waveCanvas.clientHeight / res);
+    }
+};
+
+const redraw = () =>
+{
+    resizeCanvases();
+
+    displacementCtx.clearRect(0, 0, displacementCanvas.width, displacementCanvas.height);
+    waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+
+    // Labels
+    displacementCtx.save();
+    displacementCtx.textAlign="right";
+    displacementCtx.textBaseline="top";
+    displacementCtx.rotate(-Math.PI / 2);
+    displacementCtx.font = "8pt Serif";
+    displacementCtx.fillText("Displacement → ", 0, 0);
+    displacementCtx.restore();
+
+    displacementCtx.beginPath();
+    displacementCtx.moveTo(0, displacementCanvas.height / 2);
+    displacementCtx.lineTo(displacementCanvas.width, displacementCanvas.height / 2);
+    displacementCtx.stroke();
+
+    displacementCtx.save();
+
+    displacementCtx.font = "10pt Serif";
+    displacementCtx.textAlign = "right";
+    displacementCtx.fillText("x → ", displacementCanvas.width, displacementCanvas.height - 8);
+
+    displacementCtx.restore();
+
+    // Displacement display!
+    displacementCtx.beginPath();
+
+    for (let x = 0; x < displacementBuffer.length; x++)
+    {
+        let y = -displacementBuffer[x] + displacementCanvas.height / 2;
+        displacementCtx.lineTo(x, y);
+    }
+
+    displacementCtx.save();
+    displacementCtx.lineWidth = 2;
+    displacementCtx.lineJoin = "round";
+    displacementCtx.stroke();
+    displacementCtx.restore();
+
+    // Point display.
+    for (let x = 0; x < displacementBuffer.length; x += POINT_X_INCR)
+    {
+        lastDisplacements[x] = Math.floor(displacementBuffer[x] * 0.05 + lastDisplacements[x] * 0.95);
+
+        let dx = lastDisplacements[x] * waveCanvas.width / 4 / displacementCanvas.height;
+
+        for (let y = 0; y < waveCanvas.height; y += POINT_Y_INCR)
+        {
+            let dy = Math.floor(Math.sin(y + x / 12) * POINT_Y_INCR);
+
+            waveCtx.beginPath();
+            waveCtx.arc(x + dx, y + dy, POINT_RADIUS, 0, Math.PI * 2, true);
+            waveCtx.fill();
+        }
+    }
+};
+
+const fillDisplacementBuffer = () =>
+{
+    resizeCanvases();
+
+    let needsUpdate = false;
+
+    while (displacementBuffer.length < displacementCanvas.width)
+    {
+        needsUpdate = true;
+
+        let y = Math.sin(displacementBuffer.length / 100) * displacementCanvas.height / 4;
+        displacementBuffer.push(y);
+        lastDisplacements.push(y);
+    }
+    
+    while (displacementBuffer.length > displacementCanvas.width)
+    {
+        needsUpdate = true;
+
+        displacementBuffer.pop();
+        lastDisplacements.pop();
+    }
+
+    if (needsUpdate)
+    {
+        redraw();
+    }
+};
+
+let pointerDown = false;
+
+let lastX, lastY;
+
+displacementCanvas.addEventListener("pointerdown", (event) =>
+{
+    pointerDown = true;
+
+    let bbox = displacementCanvas.getBoundingClientRect();
+    let x = event.clientX - bbox.left;
+    let y = event.clientY - bbox.top;
+
+    resizeCanvases();
+    lastY = Math.floor(-y / res + displacementCanvas.height/2);
+    lastX = Math.floor(x / res);
+
+    redraw();
+});
+
+displacementCanvas.addEventListener("pointerleave", (event) =>
+{
+    pointerDown = false;
+});
+
+displacementCanvas.addEventListener("pointerup", (event) =>
+{
+    pointerDown = false;
+});
+
+
+displacementCanvas.addEventListener("pointermove", (event) =>
+{
+    let bbox = displacementCanvas.getBoundingClientRect();
+    let x = event.clientX - bbox.left;
+    let y = event.clientY - bbox.top;
+
+    if (pointerDown)
+    {
+        resizeCanvases();
+        fillDisplacementBuffer();
+
+        y = Math.floor(-y / res + displacementCanvas.height / 2);
+        x = Math.floor(x / res);
+
+        const range = x - lastX !== 0 ? Math.abs(x - lastX) : 1;
+        const minX = Math.min(x, lastX + 1);
+        const maxX = Math.max(x, lastX + 1);
+
+        let initialY = y;
+        let finalY = lastY;
+
+        if (minX == lastX + 1)
+        {
+            initialY = lastY;
+            finalY = y;
+        }
+
+        for (let i = minX; i <= maxX; i++)
+        {
+            displacementBuffer[i] = finalY * (i - minX) / range + initialY * (range - i + minX) / range;
+        }
+
+        lastX = x;
+        lastY = y;
+
+        redraw();
+    }
+});
+
+const animate = () =>
+{
+    redraw();
+
+    requestAnimationFrame(animate);
+};
+
+fillDisplacementBuffer();
+animate();
+    </script>
+    </body>
+</html>
