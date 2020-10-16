@@ -44,6 +44,7 @@
         border-bottom: 3px solid black;
         flex-shrink: 2;
         flex-grow: 0.5;
+        touch-action: none;
     }
 </style>
     </head>
@@ -201,6 +202,7 @@ displacementCanvas.addEventListener("pointerdown", (event) =>
     resizeCanvases();
     lastY = Math.floor(-y / res + displacementCanvas.height/2);
     lastX = Math.floor(x / res);
+    event.preventDefault();
 
     redraw();
 });
@@ -213,6 +215,7 @@ displacementCanvas.addEventListener("pointerleave", (event) =>
 displacementCanvas.addEventListener("pointerup", (event) =>
 {
     pointerDown = false;
+    event.preventDefault();
 });
 
 
@@ -224,6 +227,7 @@ displacementCanvas.addEventListener("pointermove", (event) =>
 
     if (pointerDown)
     {
+        event.preventDefault();
         resizeCanvases();
         fillDisplacementBuffer();
 
