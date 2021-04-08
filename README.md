@@ -3,8 +3,6 @@ A (very incomplete) tutorial intended to teach physics students to make HTML5-ba
 
 https://personalizedrefrigerator.github.io/makingPhysicsDemos/
 
-**This is very much a work in progress! Pull requests are welcome.**
-
 # Cloning
 ```sh
  $ git clone https://github.com/personalizedrefrigerator/makingPhysicsDemos.git
