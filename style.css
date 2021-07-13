@@ -4,16 +4,55 @@
     100% { opacity: 1; }
 }
 
+body.darkTheme
+{
+    --foreground-color: white;
+    --background-color: rgba(50, 50, 50, 1.0);
+    --shadow-color: rgba(200, 200, 200, 0.5);
+
+    background-color: black;
+}
+
+body.lightTheme
+{
+    --foreground-color: black;
+    --background-color: white;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+
+    background-color: white;
+}
+
+.themeSwitcher
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: 2px;
+
+    border: none;
+    border-radius: 100%;
+    box-shadow: 0px 0px 3px var(--shadow-color);
+
+    filter: invert(0) saturate(0);
+    transition: 0.25s ease all;
+}
+
+body.darkTheme .themeSwitcher
+{
+    filter: invert(100%) saturate(0);
+}
+
 .content
 {
     margin-left: auto;
     margin-right: auto;
     max-width: 600px;
-    background-color: white;
-
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-
     padding: 15px 30px 30px 30px;
+
+    color: var(--foreground-color);
+    background-color: var(--background-color);
+    box-shadow: 0 0 5px var(--shadow-color);
 }
 
 .content p
@@ -23,7 +62,18 @@
 
 h1, h2, h3, h4, h5, h6
 {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--foreground-color);
+}
+
+body pre, body code
+{
+    border-radius: 8px;
+
+    background-image: radial-gradient(rgba(255, 255, 255, 0.15), rgba(0, 0, 0, 0.10));
+    background-size: 3px 3px;
+
+    background-color: var(--background-color);
+    color: var(--foreground-color);
 }
 
 .math
@@ -34,9 +84,15 @@ h1, h2, h3, h4, h5, h6
 a
 {
     color: rgba(0, 50, 200, 0.9);
-    text-shadow: 0px 0px 3px rgba(0, 0, 0, 0.6);
+    text-shadow: 0px 0px 3px var(--shadow-color);
     transition: 0.5s ease all;
 }
+
+body.darkTheme a
+{
+    color: rgba(200, 200, 50, 0.9);
+}
+
 
 a:hover
 {
@@ -51,7 +107,7 @@ a.buttonLink
     background-image: radial-gradient(rgba(100, 250, 200, 0.9),
             rgba(255, 255, 255, 0.7));
     background-size: 4px 4px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 4px var(--shadow-color);
 
     border-radius: 4px;
     padding: 4px 30px 4px 10px;
@@ -82,20 +138,24 @@ ul.toc li:hover
     text-decoration: underline;
 }
 
-.codeEditor
+body.lightTheme .codeEditor
 {
-    background-color: white;
     filter: invert(100%) hue-rotate(-70deg);
 }
 
-.codeEditor button
+body.darkTheme .codeEditor
+{
+    background-color: black;
+}
+
+body.lightTheme .codeEditor button
 {
     filter: hue-rotate(70deg) invert(100%);
 }
 
 .detailsPane.windowContainer
 {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--background-color);
     border-bottom-right-radius: 4px;
 }
 
@@ -103,7 +163,7 @@ ul.toc li:hover
 {
     background-image: none;
     background-color: rgba(0, 0, 0, 0);
-    color: black;
+    color: var(--foreground-color);
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
 
     box-shadow: none;
@@ -114,6 +174,7 @@ ul.toc li:hover
     padding-left: 16px;
     padding-right: 16px;
     padding-top: 4px;
+    color: var(--foreground-color);
 }
 
 .asideData
@@ -128,11 +189,13 @@ ul.toc li:hover
     cursor: pointer;
     font-weight: bold;
     transition: 0.5s ease text-shadow;
+
+    color: var(--foreground-color);
 }
 
 .aside:hover
 {
-    text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.6);
+    text-shadow: 0px 0px 1px var(--shadow-color);
 }
 
 .dropdown
@@ -145,11 +208,11 @@ ul.toc li:hover
     position: absolute;
     display: block;
 
-    background-color: white;
+    background-color: var(--background-color);
     padding: 10px;
 
     box-shadow: none;
-    
+
     opacity: 0;
     transform: scale(1, 0.01);
     transform-origin: top;
@@ -162,7 +225,7 @@ ul.toc li:hover
 .dropdown:hover > :nth-child(2), .dropdown:active > :nth-child(2)
 {
     opacity: 1;
-    box-shadow: 2px 1px 4px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 1px 4px var(--shadow-color);
 
     transform: scale(1, 1);
 }
@@ -177,6 +240,13 @@ ul.toc li:hover
 
 @media print
 {
+    /* Override theming */
+    body.darkTheme
+    {
+        --background-color: none;
+        --foreground-color: white;
+    }
+
     .content
     {
         box-shadow: none;

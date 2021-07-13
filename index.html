@@ -5,6 +5,15 @@
         <meta name = "viewport" content = "width=device-width,initial-scale=1.0"/>
         <link rel = "shortcut icon" href = "favicon.png" />
         <link rel = "stylesheet" href = "style.css" />
+
+        <!-- Libraries -->
+        <script> window.onerror = (e) => alert(e); </script>
+        <script src = "LibJS/Libs/MathHelper.js"></script>
+        <script src = "LibJS/Libs/SerializationHelper.js"></script>
+        <script src = "LibJS/Libs/StorageHelper.js"></script>
+
+        <script src = "ThemeSwitcher.js" encoding = "utf-8"></script>
+
         <title>Physics Demos!</title>
     </head>
     <body>
@@ -21,4 +30,9 @@
             <a class = "buttonLink" href = "tutorial.html">Tutorial (Work in Progress)</a>
         </div>
     </body>
+
+    <!-- Enable the theme switcher -->
+    <script>
+        new ThemeSwitcher(document.body);
+    </script>
 </html>
