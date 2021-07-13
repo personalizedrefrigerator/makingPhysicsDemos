@@ -14,7 +14,7 @@ function ThemeSwitcher(target, options)
     options = options || {};
     options.themes = options.themes
         || { "light": "lightTheme", "dark": "darkTheme" };
-    options.defaultTheme = "lightTheme";
+    options.defaultTheme = "light";
 
     const themeToClassNameMap = options.themes;
     let currentTheme = StorageHelper.get(PAGE_THEME_STORAGE_KEY)
