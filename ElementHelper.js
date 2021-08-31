@@ -9,7 +9,7 @@ const SHOW_PREVIEW_INITIALLY = "initialPreview";
 
 /*
   Turn elements in the table of contents into links!
-  When clicked, the document scrolls to the content 
+  When clicked, the document scrolls to the content
   with id matching the name of each item.
  */
 
@@ -67,11 +67,11 @@ ElementHelper.renderMath = async () =>
     const mathElements = document.querySelectorAll(".math");
 
     // Make all custom macro definitions here.
-    let macros = 
-    { 
+    let macros =
+    {
         // Based on KaTeX 12.0's definition of the macro \\KaTeX
         "\\MaTh": "\\textbf{\\textrm{M\\hspace{-0.2em}\\raisebox{0.2em}{\\scriptstyle A}\\hspace{-0.2em}T\\hspace{-0.2em}\\raisebox{-0.1em}{\\small H}}}",
-        
+
         // A centered mod operator.
         "\\mmod": "\\textrm{ mod }"
     };
@@ -123,9 +123,9 @@ ElementHelper.loadEditors = async () =>
         const isConsoleMode = textarea.classList.contains(CONSOLE_MODE_CLASS_NS);
         const selectPreviewTab = textarea.classList.contains(SHOW_PREVIEW_INITIALLY);
 
-        let editor = EditorHelper.replaceWithEditor(textarea, 
-        { 
-            height: 300, 
+        let editor = EditorHelper.replaceWithEditor(textarea,
+        {
+            height: 300,
             font: "bold 11pt courier, calibri, monospace",
             noPreview: isConsoleMode,
             syncTextbox: isConsoleMode,
@@ -141,7 +141,7 @@ ElementHelper.loadEditors = async () =>
         {
             if (!textarea.classList.contains("linePerCmd"))
             {
-                editor.openInteractiveConsole(content, 
+                editor.openInteractiveConsole(content,
                 {
                     hideExitLine: true,
                 });
@@ -152,7 +152,7 @@ ElementHelper.loadEditors = async () =>
                 {
                     hideExitLine: true,
                 });
-                
+
                 const lines = content.trim().split(/\s*[\n]+\s*/g);
 
                 for (const line of lines)
@@ -166,7 +166,7 @@ ElementHelper.loadEditors = async () =>
 
 /**
  * Convert regions of text given the "aside"
- * classlabel into clickable regions, displaying the 
+ * classlabel into clickable regions, displaying the
  * contents of the second child of the region.
  * For example,
  *  span class=aside id=asidecontentid:
@@ -179,7 +179,7 @@ ElementHelper.loadEditors = async () =>
 ElementHelper.enableDetailsPanes = async () =>
 {
     const toConvert = document.querySelectorAll(".aside");
-    
+
     for (const elem of toConvert)
     {
         (function(elem)
@@ -234,3 +234,4 @@ ElementHelper.enableDetailsPanes = async () =>
     await ElementHelper.loadEditors();
     await ElementHelper.enableDetailsPanes();
 })();
+

@@ -22,16 +22,16 @@ body.lightTheme
     background-color: white;
 }
 
-.themeSwitcher
+button.themeSwitcher
 {
     position: absolute;
     top: 0;
     right: 0;
 
-    padding: 2px;
+    padding: 4px;
 
-    border: none;
-    border-radius: 100%;
+    background: white;
+    border-radius: 2px;
     box-shadow: 0px 0px 3px var(--shadow-color);
     cursor: pointer;
 
@@ -39,7 +39,7 @@ body.lightTheme
     transition: 0.25s ease all;
 }
 
-body.darkTheme .themeSwitcher
+body.darkTheme button.themeSwitcher
 {
     filter: invert(100%) saturate(0);
 }

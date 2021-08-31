@@ -22,7 +22,7 @@ function ThemeSwitcher(target, options)
 
     let switcherElem = document.createElement("button");
     switcherElem.classList.add("themeSwitcher");
-    switcherElem.innerHTML = "☀️";
+    switcherElem.innerHTML = "Switch Theme";
 
     let themes = [];
     let themeIdx = 0;
@@ -57,6 +57,11 @@ function ThemeSwitcher(target, options)
         currentTheme = themeName;
         themeIdx = themeNameToIdx(currentTheme);
         StorageHelper.put(PAGE_THEME_STORAGE_KEY, themeName);
+
+        let nextThemeName = themes[(themeIdx + 1) % themes.length];
+        nextThemeName = nextThemeName.substring(0, 1).toUpperCase() + nextThemeName.substring(1);
+
+        switcherElem.innerHTML = `${nextThemeName} Theme`;
     };
 
     const nextTheme = () =>
