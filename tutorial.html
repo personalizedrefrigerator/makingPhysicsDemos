@@ -2769,6 +2769,130 @@ requestAnimationFrame(draw);
                     After we store the input in a variable, say <code>checkbox</code>, we
                     can determine whether it is checked by accessing <code>checkbox.checked</code>!
                 </p>
+                <textarea class="code">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wave Superposition</title>
+    </head>
+    <body>
+        <!-- Add a checkbox above the canvas! -->
+        <p id="controls">
+            <label for="checkbox">Show f2</label>
+            <input id="checkbox" type="checkbox"/>
+        </p>
+        
+        <canvas></canvas>
+
+        <style>
+canvas
+{
+    width: 100vw;
+    height: 100vh;
+
+    display: block;
+    box-sizing: border-box;
+
+    border: 4px solid black;
+}
+
+/* Style the thing with id="controls" (that's what
+   the '#' means).
+  */
+#controls
+{
+    /* Position ABSOLUTELY: Ignore the
+       position of the canvas.
+       
+       What happens if you comment this line out?
+     */
+    position: absolute;
+}
+
+html, body
+{
+    margin: 0px;
+}
+        </style>
+
+        <script>
+// Get the checkbox using its ID (checkbox)
+let checkbox = document.querySelector("#checkbox");
+
+// Get and initialize the Canvas
+let canvas = document.querySelector("canvas");
+let ctx = canvas.getContext('2d');
+
+// 1/2 f(t) written in JavaScript.
+let f = (t) => Math.pow(Math.E, -Math.pow(t, 2)) / 2;
+
+let drawWaves = () =>
+{
+    ctx.save();
+
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.scale(canvas.width / 2, -canvas.height / 2);
+
+    let currentTime = (new Date()).getTime();
+    let currentTimeSeconds = currentTime / 1000;
+
+    ctx.beginPath();
+
+    for (let x = -1; // Start at -1
+        x <= 1; // Repeat until x > 1
+            x += 0.01 // Update x.
+            )
+    {
+        let t1 = Math.sin(currentTimeSeconds + x) * 4; // Make t1 & t2 periodic.
+        let t2 = Math.sin(currentTimeSeconds - x) * 4; // * 4 makes it fit nicely on the screen.
+
+        let wave1Amplitude = f(t1);
+        // What if we replace this with -f(t2)? What if we replace it with zero?
+        let wave2Amplitude = f(t2);
+        
+        let totalAmplitude = wave1Amplitude;
+
+        // Use the checkbox we got at the beginning of this
+        // script:
+        if (checkbox.checked)
+        {
+            totalAmplitude += wave2Amplitude;
+        }
+
+        ctx.lineTo(x, totalAmplitude);
+    }
+
+    ctx.restore();
+
+    ctx.stroke();
+};
+
+let draw = () =>
+{
+    let needToResize =
+        (canvas.clientWidth != canvas.width
+        || canvas.clientHeight != canvas.height);
+
+    if (needToResize)
+    {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawWaves();
+
+    requestAnimationFrame(draw);
+};
+
+requestAnimationFrame(draw);
+// ... or we could just
+// draw();
+        </script>
+    </body>
+</html>
+                </textarea>
                 <b><i>
                     At present, this article is unfinished! This part of the article has yet to be written!
                 </i></b>
@@ -2776,7 +2900,7 @@ requestAnimationFrame(draw);
             <div id = "embeddingInADiscussion">
                 <h2>Embedding a Demo in a Discussion</h2>
                 <p>
-                    To embed a demo in a discussion, you'll want
+                    For course discussion services like Canvas, to embed a demo in a discussion, you'll want
                     a link to the demo.
                 </p>
                 <p>
